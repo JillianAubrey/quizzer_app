@@ -8,20 +8,28 @@ nav {
   top: 0;
   left: 0;
   z-index: 10;
-  padding: 0 1em;
+  padding: 0 2em;
   ul {
     display: flex;
     flex-flow: row;
     justify-content: space-between;
+    align-items: flex-start;
+    margin: 0;
     padding: 0;
+
     li {
       list-style-type: none;
       background-color: base.$mainThemeColour;
       padding: 1.5em;
+      margin-top: 1.5em;
+      border-radius: 10px;
     }
 
     .logo {
       font-size: 2em;
+      border-top-left-radius: 0px;
+      border-top-right-radius: 0px;
+      margin-top: 0em;
     }
 
     a {
