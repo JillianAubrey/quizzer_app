@@ -1,18 +1,10 @@
 
 const express = require('express');
 const router  = express.Router();
-const userQueries = require('../db/queries/users');
+const getQuizzes = require('../db/queries/api');
 
 router.get('/', (req, res) => {
-  userQueries.getUsers()
-    .then(users => {
-      res.json({ users });
-    })
-    .catch(err => {
-      res
-        .status(500)
-        .json({ error: err.message });
-    });
+  getQuizzes({public : true}).then(data => res.json(data));
 });
 
 module.exports = router;
