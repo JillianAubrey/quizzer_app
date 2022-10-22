@@ -1,9 +1,17 @@
 
 const express = require('express');
 const router  = express.Router();
+const { getUsers, getUserById } = require('../db/queries/users');
 
 router.get('/', (req, res) => {
-  res.render('users');
+
+  //user_id == req.session.user_id
+  const user_id = 2;
+
+  getUserById(user_id).then(user => {
+    const templateVars = {userName: user.name};
+    res.render('index', templateVars);
+  });
 });
 
 module.exports = router;
