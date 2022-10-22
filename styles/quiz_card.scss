@@ -1,0 +1,47 @@
+@use 'base';
+
+.quiz_card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 6px;
+    width: 95%;
+    margin: 0 auto 1rem;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 3px 3px 6px #c9cae2;
+    overflow-wrap: break-word;
+    background-color: white;
+
+
+    header, footer {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 1em 0.5em;
+      align-items: center;
+    }
+
+    header {
+      background-color: base.$mainThemeColour;
+      color: white;
+      border-radius: inherit;
+      border-bottom-left-radius: 0px;
+      border-bottom-right-radius: 0px;
+    }
+
+    a {
+      text-decoration: none !important;
+      color: inherit !important;
+      width: 100%;
+      border-radius: inherit;
+    }
+
+    .quiz_description {
+      padding: 1em 2em;
+    }
+}
+
+.quiz_card:hover {
+    box-shadow: 5px 5px 5px base.$secondaryThemeColour;
+}

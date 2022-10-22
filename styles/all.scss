@@ -6,6 +6,10 @@ html {
   background: base.$bgColour;
 }
 
-* {
-  border: 1px solid black;
+// * {
+//   border: 1px solid black;
+// }
+
+h2, p {
+  margin: 0;
 }
