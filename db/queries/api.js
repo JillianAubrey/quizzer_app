@@ -4,7 +4,7 @@ const db = require('../connection'); //connect to DB
 
 
 
-const getQuizzes = (options) => {
+const getQuizzes = function(options) {
   let query = `
   SELECT quizzes.*, COUNT(questions.*) as question_count
   FROM quizzes
