@@ -1,12 +1,27 @@
 @use 'base';
 
 nav {
+  width: 100vw;
+  background-color: transparent;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  padding: 0 1em;
   ul {
     display: flex;
     flex-flow: row;
     justify-content: space-between;
+    padding: 0;
     li {
       list-style-type: none;
+      background-color: base.$mainThemeColour;
+      padding: 1.5em;
+    }
+
+    .logo {
+      font-size: 2em;
     }
 
     a {
@@ -17,13 +32,4 @@ nav {
     //   text-decoration: none;
     // }
   }
-  width: 100vw;
-  background-color:  base.$mainThemeColour;
-  color: white;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 10;
-  font-size: 2em;
-  padding: 0 1.5em;
 }
