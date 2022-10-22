@@ -8,8 +8,8 @@ nav {
   top: 0;
   left: 0;
   z-index: 10;
-  padding: 0 2em;
-  height: base.$navHeight + 2em;
+  padding: 0 2.5em;
+  height: base.$navHeight;
   ul {
     display: flex;
     flex-flow: row;
@@ -32,6 +32,10 @@ nav {
       border-top-right-radius: 0px;
       margin-top: 0em;
       padding: auto, inherit;
+    }
+
+    .logo:hover {
+      cursor: pointer;
     }
 
     a {
