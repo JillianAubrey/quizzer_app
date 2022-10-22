@@ -1,7 +1,7 @@
 @use 'base';
-body {
-  min-width: 100%;
-  min-height: 100vh;
 
-  background: base.$bgColour;
+main {
+  margin: base.$navHeight auto 0;
+  height: calc(100vh - base.$navHeight - base.$footHeight);
+  padding: 1em;
 }

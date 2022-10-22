@@ -1,0 +1,8 @@
+@use 'base';
+
+.quiz_container {
+  display: flex;
+  flex-flow: column;
+  width: 80%;
+  overflow: auto;
+}

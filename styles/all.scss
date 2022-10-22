@@ -1,6 +1,11 @@
-// See: https://sass-lang.com/
+@use 'base';
 
 body,
 html {
   margin: 0;
+  background: base.$bgColour;
+}
+
+* {
+  border: 1px solid black;
 }
