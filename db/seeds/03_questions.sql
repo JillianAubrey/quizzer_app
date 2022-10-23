@@ -5,7 +5,7 @@ VALUES (1, 'What''s the capital of Quebec?', 2);
 INSERT INTO questions (quiz_id, text, sequence)
 VALUES (1, 'What''s the capital of Alberta?', 3);
 INSERT INTO questions (quiz_id, text, sequence)
-VALUES (1, 'What''s the capital of New Brunswick?', 5);
+VALUES (1, 'What''s the capital of New Brunswick?', 4);
 INSERT INTO questions (quiz_id, text, sequence)
 VALUES (2, 'What''s the command for adding a row to a table?', 2);
 INSERT INTO questions (quiz_id, text, sequence)
