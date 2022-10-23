@@ -1,15 +1,20 @@
 (($) => {
 
 $(() => {
-  $('#quiz_form').on('submit', submitQuiz)
 
-  $('.add_answer').on('click', addAnswer)
+  addQuestion();
+  addQuestion();
+  addQuestion();
 
-  $('.delete_answer').on('click', deleteAnswer)
+  $('#quiz_form').on('submit', submitQuiz);
 
-  $('.delete_question').on('click', deleteQuestion)
+  $(document).on('click', '.add_answer', addAnswer);
 
-  $('.add_question').on('click', addQuestion)
+  $(document).on('click', '.delete_answer', deleteAnswer);
+
+  $(document).on('click', '.delete_question', deleteQuestion);
+
+  $(document).on('click', '.add_question', addQuestion);
 })
 
 
@@ -21,7 +26,10 @@ const submitQuiz = function(event) {
 }
 
 const addAnswer = function(event) {
-  event.preventDefault();
+  if (event) {
+    event.preventDefault();
+  }
+
   let currAnsID = $(this).prevAll('.answer_container').find('label').last().attr('for')
   currAnsID = currAnsID.split("-");
   const question = Number(currAnsID[0]);
@@ -42,16 +50,55 @@ const deleteAnswer = function(event) {
   const $answer = $(this).prevAll('.answer_container').children('.answer').last();
 
   if($answer.prev('.answer').length) {
+
     $answer.slideUp( 400, () => $answer.remove())
-    //$answer.remove();
+
   }
+}
+
+const addQuestion = function(event) {
+  if (event) {
+    event.preventDefault();
+  }
+  const questionNum = Number($('#quiz_form').find('.question').last().attr('id')) + 1 || 1;
+
+  const $newQuestion = $(`
+    <fieldset class="question_form">
+    <legend>Question ${questionNum}</legend>
+    <textarea class="question" name="${questionNum}" id="${questionNum}" placeholder="Your question here..."></textarea>
+    <div class="answer_container">
+
+      <div class="answer">
+        <label for="${questionNum}-1">Answer 1</label>
+        <input type="text" name="${questionNum}-1" id="${questionNum}-1">
+        <input type="radio" name="${questionNum}-a" value="${questionNum}-1">
+      </div>
+      <div class="answer">
+        <label for="${questionNum}-2">Answer 2</label>
+        <input type="text" name="${questionNum}-2" id="${questionNum}-2">
+        <input type="radio" name="${questionNum}-a" value="${questionNum}-2">
+      </div>
+      <div class="answer">
+        <label for="${questionNum}-1">Answer 3</label>
+        <input type="text" name="${questionNum}-3" id="${questionNum}-3">
+        <input type="radio" name="${questionNum}-a" value="${questionNum}-3">
+      </div>
+    </div>
+    <button class="add_answer">Add Answer</button>
+    <button class="delete_answer">Delete Answer</button>
+    <button class="delete_question">Delete Question</button>
+    </fieldset>`)
+
+    $newQuestion.insertBefore('#form_foot');
+
+    $(`#${questionNum}`).closest(`.question_form`).hide().show(400);
+
 }
 
 const deleteQuestion = function(event) {
   event.preventDefault();
-  const question = $(this).closest('.question');
-
-  
+  const $question = $(this).closest('.question_form')
+  $question.slideUp(400, () => $question.remove())
 }
 
 })(jQuery);
