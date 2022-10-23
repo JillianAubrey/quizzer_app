@@ -30,7 +30,7 @@ const addAnswer = function(event) {
     event.preventDefault();
   }
 
-  let currAnsID = $(this).prevAll('.answer_container').find('label').last().attr('for')
+  let currAnsID = $(this).prevAll('.answer_container').find('label').last().attr('for');
   currAnsID = currAnsID.split("-");
 
   const question = Number(currAnsID[0]);
