@@ -32,6 +32,7 @@ const addAnswer = function(event) {
 
   let currAnsID = $(this).prevAll('.answer_container').find('label').last().attr('for')
   currAnsID = currAnsID.split("-");
+
   const question = Number(currAnsID[0]);
   const answer = Number(currAnsID[1]) + 1;
 
@@ -79,7 +80,7 @@ const addQuestion = function(event) {
         <input type="radio" name="${questionNum}-a" value="${questionNum}-2">
       </div>
       <div class="answer">
-        <label for="${questionNum}-1">Answer 3</label>
+        <label for="${questionNum}-3">Answer 3</label>
         <input type="text" name="${questionNum}-3" id="${questionNum}-3">
         <input type="radio" name="${questionNum}-a" value="${questionNum}-3">
       </div>
