@@ -28,8 +28,69 @@
 <body>
   <%- include('partials/__header') %>
   <main>
+    <h1>Your New Quiz</h1>
     <form action="/api" method="POST">
+      <fieldset class="quiz_details">
+        <legend>Your Quiz Details</legend>
 
+        <label for="quiz_title">Your Quiz Title</label>
+        <input type="text" name="quiz_title" id="quiz_title"/>
+
+        <label for="quiz_description">Quiz Description</label>
+        <textarea name="quiz_description" id="quiz_description"></textarea>
+
+      </fieldset>
+
+      <fieldset>
+        <legend>Question 1</legend>
+        <textarea name="1" id="1" placeholder="Your question here..."></textarea>
+
+        <label for="11">Answer 1</label>
+        <input type="text" name="11" id="11">
+        <input type="radio" name="1_a" value="11">
+
+        <label for="12">Answer 2</label>
+        <input type="text" name="12" id="12">
+        <input type="radio" name="1_a" value="12">
+
+        <label for="13">Answer 3</label>
+        <input type="text" name="13" id="13">
+        <input type="radio" name="1_a" value="13">
+
+        <label for="14">Answer 4</label>
+        <input type="text" name="14" id="14">
+        <input type="radio" name="1_a" value="14">
+
+        <button>Add Another Question</button>
+
+      </fieldset>
+
+      <fieldset>
+        <legend>Question 2</legend>
+        <textarea name="2" id="2" placeholder="Your question here..."></textarea>
+
+        <label for="21">Answer 1</label>
+        <input type="text" name="21" id="21">
+        <input type="radio" name="2_a" value="21">
+
+
+        <label for="22">Answer 2</label>
+        <input type="text" name="22" id="22">
+        <input type="radio" name="2_a" value="22">
+
+        <label for="13">Answer 3</label>
+        <input type="text" name="23" id="23">
+        <input type="radio" name="2_a" value="23">
+
+        <label for="24">Answer 4</label>
+        <input type="text" name="24" id="24">
+        <input type="radio" name="2_a" value="24">
+
+        <button>Add Another Question</button>
+
+      </fieldset>
+
+      <button type="submit">Create Quiz!</button>
 
     </form>
 
