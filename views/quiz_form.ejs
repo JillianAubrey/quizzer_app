@@ -42,58 +42,44 @@
 
       </fieldset>
 
-      <fieldset>
+      <fieldset class="question">
         <legend>Question 1</legend>
         <textarea name="1" id="1" placeholder="Your question here..."></textarea>
+        <div class="answer_container">
 
-        <label for="1-1">Answer 1</label>
-        <input type="text" name="1-1" id="1-1">
-        <input type="radio" name="1-a" value="1-1">
+          <div class="answer">
+            <label for="1-1">Answer 1</label>
+            <input type="text" name="1-1" id="1-1">
+            <input type="radio" name="1-a" value="1-1">
+          </div>
 
-        <label for="1-2">Answer 2</label>
-        <input type="text" name="1-2" id="1-2">
-        <input type="radio" name="1-a" value="1-2">
+          <div class="answer">
+            <label for="1-2">Answer 2</label>
+            <input type="text" name="1-2" id="1-2">
+            <input type="radio" name="1-a" value="1-2">
+          </div>
 
-        <label for="1-3">Answer 3</label>
-        <input type="text" name="1-3" id="1-3">
-        <input type="radio" name="1-a" value="1-3">
+          <div class="answer">
+            <label for="1-3">Answer 3</label>
+            <input type="text" name="1-3" id="1-3">
+            <input type="radio" name="1-a" value="1-3">
+          </div>
 
-        <label for="1_4">Answer 4</label>
-        <input type="text" name="1-4" id="1-4">
-        <input type="radio" name="1-a" value="1-4">
-
-        <button>Add Another Answer</button>
-
-      </fieldset>
-
-      <fieldset>
-        <legend>Question 2</legend>
-        <textarea name="2" id="2" placeholder="Your question here..."></textarea>
-
-        <label for="2-1">Answer 1</label>
-        <input type="text" name="2-1" id="2-1">
-        <input type="radio" name="2-a" value="2-1">
-
-
-        <label for="2-2">Answer 2</label>
-        <input type="text" name="2-2" id="2-2">
-        <input type="radio" name="2-a" value="2-2">
-
-        <label for="2-3">Answer 3</label>
-        <input type="text" name="2-3" id="2-3">
-        <input type="radio" name="2-a" value="2-3">
-
-        <label for="2-4">Answer 4</label>
-        <input type="text" name="2-4" id="2-4">
-        <input type="radio" name="2-a" value="2-4">
-
-        <button>Add Another Answer</button>
+          <div class="answer">
+            <label for="1-4">Answer 4</label>
+            <input type="text" name="1-4" id="1-4">
+            <input type="radio" name="1-a" value="1-4">
+          </div>
+        </div>
+        <button class="add_answer">Add Answer</button>
+        <button class="delete_answer">Delete Answer</button>
+        <button class="delete_question">Delete Question</button>
 
       </fieldset>
 
-      <button>Add Another Question</button>
+      <button class="add_question">Add Another Question</button>
 
-      <button type="submit">Create Quiz!</button>
+      <button type="submit" id="submit">Create Quiz!</button>
 
     </form>
 
