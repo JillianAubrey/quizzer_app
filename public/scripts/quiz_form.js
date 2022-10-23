@@ -43,7 +43,7 @@ const addAnswer = function(event) {
       <input type="radio" name="${question}-a" value="${question}-${answer}">
     </div>`)
 
-  $(this).prev('.answer_container').children().last().hide().slideDown(400);
+  $(this).prevAll('.answer_container').children().last().hide().slideDown(400);
 }
 
 const deleteAnswer = function(event) {
