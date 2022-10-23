@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="/styles/all.css" />
     <link rel="stylesheet" href="/styles/header.css" />
     <link rel="stylesheet" href="/styles/footer.css" />
+    <link rel="stylesheet" href="/styles/quiz_container.css" />
     <link rel="stylesheet" href="/styles/quiz.css" />
 
     <!-- SCRIPTS-->
@@ -30,7 +31,22 @@
   <%- include('partials/__header') %>
 
   <main>
-    <%= quiz %>
+    <h1><%= quiz.title %></h1>
+    <p><%= quiz.description %></p>
+    <div class="quiz_container">
+      <% for (question in quiz.questions) { %>
+        <article class = question_card>
+          <header>
+            <p><%=question%>. <%= quiz.questions[question].text %></p>
+          </header>
+          <ul>
+            <% for (answer of quiz.questions[question].answers) { %>
+              <li><%= answer %></li>
+            <% } %>
+          </ul>
+        </article>
+      <% } %>
+    </div>
   </main>
 
 </body>

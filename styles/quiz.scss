@@ -1,0 +1,42 @@
+@use 'base';
+
+main {
+  width: 80%;
+  margin: base.$navHeight auto 0;
+  height: calc(100vh - base.$navHeight - base.$footHeight);
+  padding: 1em;
+}
+
+.quiz_container {
+  width: 100%;
+}
+
+.question_card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-around;
+  border-radius: 6px;
+  width: 95%;
+  margin: 0 auto 1rem;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 3px 3px 6px #c9cae2;
+  overflow-wrap: break-word;
+  background-color: white;
+
+  header {
+    padding: 1em 0.5em;
+    width: 100%;
+
+    background-color: base.$mainThemeColour;
+    color: white;
+    border-radius: inherit;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+
+  li {
+    padding: 0.25em 2em;
+    margin: 0 auto 0 0;
+  }
+}
