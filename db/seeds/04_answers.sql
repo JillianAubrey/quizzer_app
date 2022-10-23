@@ -39,10 +39,10 @@ VALUES (7, 'WHERE condition', FALSE);
 INSERT INTO answers (question_id, text, is_correct)
 VALUES (7, 'WITH condition', FALSE);
 INSERT INTO answers (question_id, text, is_correct)
-VALUES (3, 'Dawson', FALSE);
+VALUES (8, 'Dawson', FALSE);
 INSERT INTO answers (question_id, text, is_correct)
-VALUES (3, 'Koshu', TRUE);
+VALUES (8, 'Koshu', TRUE);
 INSERT INTO answers (question_id, text, is_correct)
-VALUES (4, 'Dawson', TRUE);
+VALUES (9, 'Dawson', TRUE);
 INSERT INTO answers (question_id, text, is_correct)
-VALUES (4, 'Koshu', FALSE);
+VALUES (9, 'Koshu', FALSE);
