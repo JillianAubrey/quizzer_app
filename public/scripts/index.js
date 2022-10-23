@@ -1,6 +1,9 @@
 $(() => {
   refreshIndexQuizzes();
-  $('.logo').on('click', () => refreshIndexQuizzes());
+  $('.logo').on('click', (event) => {
+    event.preventDefault();
+    refreshIndexQuizzes();
+  });
 });
 
 const refreshIndexQuizzes = () => {
