@@ -53,25 +53,28 @@ const getQuiz = function({url, id}) {
   `
   return db.query(query, [url || id])
   .then(data => {
+    const {id, title, description, author} = data.rows[0]
     const quiz = {
-      id: data.rows[0].id,
-      title: data.rows[0].title,
-      description: data.rows[0].description,
-      author: data.rows[0].author,
+      id,
+      title,
+      description,
+      author,
       questions: {}
     };
 
+    const questions = quiz.questions;
     let question;
     data.rows.forEach(row => {
-      if (!quiz.questions[row.question_num]) {
-        quiz.questions[row.question_num] = {
-          num: row.question_num,
+      const { question_num, answer_id, answer } = row;
+      if (!questions[question_num]) {
+        questions[question_num] = {
+          num: question_num,
           text: row.question,
           answers: []
         }
-        question = quiz.questions[row.question_num];
+        question = questions[question_num];
       }
-      question.answers.push({id: row.answer_id, text: row.answer});
+      question.answers.push({id: answer_id, text: answer});
     });
     console.log(quiz);
     return quiz;
@@ -95,8 +98,23 @@ const getAttempt = function({url, id}) {
   `
   return db.query(query, [url || id])
   .then(data => {
-    console.log(data.rows)
-    return data.rows;
+    const {quiz_id, user_id, attempter} = data.rows[0];
+    const attempt = {
+      quiz_id,
+      user_id,
+      attempter,
+      answers:{}
+    }
+    const answers = attempt.answers;
+    data.rows.forEach(row => {
+      const { answer_id, is_correct} = row
+      const answer = {
+        id: answer_id,
+        is_correct
+      }
+      answers[answer_id] = answer
+    })
+    return attempt;
   })
 }
 
