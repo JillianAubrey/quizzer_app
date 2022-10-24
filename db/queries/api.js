@@ -77,7 +77,6 @@ const getQuiz = function({url, id}) {
       }
       question.answers.push({id: answer_id, text: answer});
     });
-    console.log(quiz);
     return quiz;
   })
 };
@@ -170,9 +169,7 @@ const postAttempt = function(submission, user_id) {
       ($1, $${queryAnswersParams.length}),`
   });
 
-  console.log(queryAnswers);
   queryAnswers = queryAnswers.slice(0,-1) + ';';
-  console.log(queryAnswers);
 
   return db.query(queryAttempt, attemptParams)
   .then(data => {

@@ -28,7 +28,5 @@ const submitQuiz = ($quizContainer) => {
     answerIds
   }
 
-  console.log(submission);
-
   $.post('/api/quiz', submission);
 };
