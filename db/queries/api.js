@@ -109,7 +109,6 @@ const addQuiz = function(userId, content) {
   return db.query(quizzesQuery, [userId, quizTitle, quizDescription, url, resultsUrl, quizPrivate])
     .then((quizData) => addQuestions(quizData.rows[0].id, content))
     .then((questionData) => addAnswers(questionData, content))
-    .then((answerData) => console.log(answerData.rows))
     .catch(error => console.log(error));
 }
 
@@ -177,7 +176,7 @@ const addAnswers = function(questions, content) {
   })
 
   ansQuery = ansQuery.slice(0, -1);
-  ansQuery += 'RETURNING *;';
+  ansQuery += 'RETURNING*;';
 
   return db.query(ansQuery, queryParams);
 

@@ -15,6 +15,8 @@ router.post('/', (req, res) => {
 
   resContent = addQuiz(user_id, req.body);
 
+  console.log(resContent);
+
   res.json(resContent)
 })
 
