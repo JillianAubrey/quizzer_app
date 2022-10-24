@@ -29,5 +29,6 @@ const submitQuiz = ($quizContainer) => {
   }
 
   console.log(submission);
-  // Once route exists, add code here to post the answerIds
+
+  $.post('/api/quiz', submission);
 };

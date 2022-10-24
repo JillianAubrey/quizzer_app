@@ -152,4 +152,36 @@ const getAttemptScore = function({url, id}) {
   })
 };
 
-module.exports = { getQuizzes, getQuiz, getAttempt, getAttemptScore };
+const postAttempt = function(submission, user_id) {
+  const url = Math.round(Math.random() * 1e10); //replace later with random string generation
+  const queryAttempt = `
+    INSERT INTO attempts (quiz_id, user_id, url)
+    VALUES ($1, $2, $3)
+    RETURNING id;
+  `
+  const attemptParams = [submission.quiz_id, user_id, url];
+
+  let queryAnswers = 'INSERT INTO attempt_answers (attempt_id, answer_id) VALUES';
+  const queryAnswersParams = [null]; //null will be replaced with attempt_id
+
+  submission.answerIds.forEach( id => {
+    queryAnswersParams.push(id)
+    queryAnswers += `
+      ($1, $${queryAnswersParams.length}),`
+  });
+
+  console.log(queryAnswers);
+  queryAnswers = queryAnswers.slice(0,-1) + ';';
+  console.log(queryAnswers);
+
+  return db.query(queryAttempt, attemptParams)
+  .then(data => {
+    queryAnswersParams[0] = data.rows[0].id;
+    return db.query(queryAnswers, queryAnswersParams);
+  })
+  .then(() => {
+    return url;
+  })
+}
+
+module.exports = { getQuizzes, getQuiz, getAttempt, getAttemptScore, postAttempt };
