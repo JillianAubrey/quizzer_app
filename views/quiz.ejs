@@ -32,7 +32,8 @@
 
   <main>
     <h1><%= quiz.title %></h1>
-    <p><%= quiz.description %></p>
+    <p class="author">By <%= quiz.author%></p>
+    <p class ="description"><%= quiz.description %></p>
     <div class="quiz_container">
       <% for (question in quiz.questions) { %>
         <article class = question_card>
@@ -50,6 +51,7 @@
         </article>
       <% } %>
     </div>
+    <button id="quiz_submit">Submit</button>
   </main>
 
 </body>

@@ -7,8 +7,34 @@ main {
   padding: 1em;
 }
 
+h1 {
+  margin: 0;
+  color: base.$mainThemeColour;
+}
+
+.description, .author {
+  margin: 0 1em 1em;
+}
+
+button {
+  border: none;
+  border-radius: 6px;
+  color: white;
+  background-color: base.$mainThemeColour;
+  margin: 1em auto;
+  padding: 1em;
+}
+
+button:hover, li:hover {
+  cursor: pointer;
+  background-color: base.$secondaryThemeColour;
+}
+
 .quiz_container {
   width: 100%;
+  height: calc(100% - 6em);
+  border-top: 4px solid base.$mainThemeColour;
+  border-bottom: 4px solid base.$mainThemeColour;
 }
 
 .question_card {
@@ -39,5 +65,6 @@ main {
     padding: 0.25em 2em;
     margin: 0 auto 0 0;
     list-style-type: none;
+    border-radius: 6px;
   }
 }
