@@ -1,6 +1,6 @@
 
 const express = require('express');
-const { getQuiz } = require('../db/queries/api');
+const { getQuiz, getAttempt } = require('../db/queries/api');
 const router  = express.Router();
 const { getUsers, getUserById } = require('../db/queries/users');
 
@@ -29,6 +29,19 @@ router.get('/quiz/:url',  (req, res) => {
       quiz
     };
     res.render('quiz', templateVars);
+  });
+})
+
+router.get('/attempt/:url',  (req, res) => {
+  //user_id == req.session.user_id
+  const user_id = 2;
+
+  Promise.all([
+    getUserById(user_id),
+    getAttempt({ url: req.params.url })
+  ])
+  .then(([user, attempt]) => {
+    res.json(attempt);
   });
 })
 

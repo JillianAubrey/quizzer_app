@@ -78,5 +78,27 @@ const getQuiz = function({url, id}) {
   })
 };
 
+const getAttempt = function({url, id}) {
+  const query =`
+    SELECT quiz_id, user_id,
+      users.name AS attempter,
+      attempt_answers.answer_id,
+      is_correct
+    FROM attempts
+    LEFT JOIN users
+      ON users.id = user_id
+    JOIN attempt_answers
+      ON attempts.id = attempt_id
+    JOIN answers
+      ON answers.id = answer_id
+    WHERE ${url ? 'url' : 'attempts.id'} = $1;
+  `
+  return db.query(query, [url || id])
+  .then(data => {
+    console.log(data.rows)
+    return data.rows;
+  })
+}
 
-module.exports = { getQuizzes, getQuiz };
+
+module.exports = { getQuizzes, getQuiz, getAttempt };
