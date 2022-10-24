@@ -116,12 +116,15 @@ textarea::placeholder {
 }
 
 .answer {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 0.5em;
   width: 45%;
 }
 
 
 .answer input[type="text"]{
-  width: 62%;
+  width: 65%;
 }
 
 .question_form_foot {
