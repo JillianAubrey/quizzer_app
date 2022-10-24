@@ -20,7 +20,7 @@ router.post('/quiz',  (req, res) => {
   postAttempt(submission, user_id)
   .then(url => {
     console.log(url);
-    res.redirect(`/quizapp/attempt/${url}`);
+    res.send(`/quizapp/attempt/${url}`);
   });
 })
 
