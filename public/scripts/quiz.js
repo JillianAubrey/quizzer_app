@@ -15,9 +15,17 @@ const selectChildRadioButton = ($element) => {
 
 const submitQuiz = ($quizContainer) => {
   const answerIds = [];
+
   $.each($quizContainer.find('input:checked'), (index, value) => {
     const id = Number($(value).attr('data-id'));
     answerIds.push(id);
   })
+
+  const submission = {
+    quiz_id: $quizContainer.attr('data-id'),
+    answerIds
+  }
+
+  console.log(submission);
   // Once route exists, add code here to post the answerIds
 };
