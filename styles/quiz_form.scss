@@ -177,6 +177,21 @@ button:hover {
   background-color: #59deb26f;
 }
 
+.error_message {
+  border-radius: 6px;
+  background-color: #E09732;
+  width: 80%;
+  margin: 10px auto;
+  padding: 0.5em;
+  box-shadow: 2px 2px 4px #31313b7f;
+
+  p {
+    text-align: center;
+    color: white;
+  }
+}
+
+
 // <button class="add_answer">Add Answer</button>
 //     <button class="delete_answer">Delete Answer</button>
 //     <button class="delete_question">Delete Question</button>

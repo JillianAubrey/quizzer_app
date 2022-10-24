@@ -37,7 +37,6 @@ const addAnswer = function(event) {
   }
 
   let currAnsID = $(this).closest('.question_form').find('.answer').last().find('label').attr('for');
-  console.log(currAnsID);
   currAnsID = currAnsID.split("-");
 
   const question = Number(currAnsID[0]);
@@ -121,7 +120,6 @@ const showCorrect = function(event) {
 };
 
 const validateData = function(valData) {
-  console.log(valData);
   let countQ = 0;
   let countA = 0;
       for (let item of valData) {
@@ -141,12 +139,13 @@ const validateData = function(valData) {
             }
           if (item.name.length === 3) {
             $('.error_message').remove();
-            $(`<div class="error_message"><p>Please ensure that no answer fields are left empty.</p></div>`).insertBefore('#form_foot');
+            $(`<div class="error_message"><p>Please ensure that no answer fields are left empty</p></div>`).insertBefore('#form_foot');
             return false;
           }
           if (item.name.length > 3) {
             $('.error_message').remove();
-            $(`<div class="error_message"><p>Please enter a title and description for your quiz.</p></div>`).insertBefore('#form_foot');
+            $(`<div class="error_message"><p>Please enter a title and description for your quiz</p></div>`).insertBefore('#form_foot');
+            $('.error_message').hide().slideDown(200);
             return false;
           }
         }
@@ -154,7 +153,7 @@ const validateData = function(valData) {
 
       if (countQ !== countA) {
         $('.error_message').remove();
-        $(`<div class="error_message"><p>Please select a correct answer for each question.</p></div>`).insertBefore('#form_foot');
+        $(`<div class="error_message"><p>Please select a correct answer for each question</p></div>`).insertBefore('#form_foot');
         return false;
       }
 
