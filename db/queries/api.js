@@ -35,7 +35,7 @@ const getQuizzes = function(options) {
 
 const getQuiz = function({url, id}) {
   const query = `
-    SELECT quizzes.id, title, description,
+    SELECT quizzes.id, url, title, description,
       users.name AS author,
       questions.text AS question,
       questions.sequence AS question_num,
@@ -53,9 +53,10 @@ const getQuiz = function({url, id}) {
   `
   return db.query(query, [url || id])
   .then(data => {
-    const {id, title, description, author} = data.rows[0]
+    const {id, url, title, description, author} = data.rows[0]
     const quiz = {
       id,
+      url,
       title,
       description,
       author,
