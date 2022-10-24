@@ -119,5 +119,37 @@ const getAttempt = function({url, id}) {
   })
 }
 
+const getAttemptScore = function({url, id}) {
+  queryCorrect = `
+    SELECT COUNT(*) filter (where "is_correct") AS correct
+    FROM attempts
+    JOIN attempt_answers
+      ON attempts.id = attempt_id
+    JOIN answers
+      ON answers.id = answer_id
+    WHERE ${url ? 'url' : 'attempts.id'} = $1;
+  `
+  queryTotal = `
+    SELECT COUNT(questions.*) AS total
+    FROM attempts
+    JOIN quizzes
+      ON quizzes.id = attempts.quiz_id
+    JOIN questions
+      ON quizzes.id = questions.quiz_id
+    WHERE ${url ? 'url' : 'attempts.id'} = $1;
+  `
 
-module.exports = { getQuizzes, getQuiz, getAttempt };
+  return Promise.all([
+    db.query(queryCorrect, [url || id]),
+    db.query(queryTotal, [url || id]),
+  ])
+  .then(([correct, total]) => {
+    const score = {
+      correct: correct.rows[0].correct,
+      total: total.rows[0].total
+    }
+    return score;
+  })
+};
+
+module.exports = { getQuizzes, getQuiz, getAttempt, getAttemptScore };
