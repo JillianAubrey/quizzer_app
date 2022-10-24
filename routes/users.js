@@ -1,6 +1,6 @@
 
 const express = require('express');
-const { getQuiz, getAttempt } = require('../db/queries/api');
+const { getQuiz, getAttempt, getAttemptScore } = require('../db/queries/api');
 const router  = express.Router();
 const { getUsers, getUserById } = require('../db/queries/users');
 
@@ -35,15 +35,18 @@ router.get('/quiz/:url',  (req, res) => {
 router.get('/attempt/:url',  (req, res) => {
   //user_id == req.session.user_id
   const user_id = 2;
+  const url = req.params.url;
   const templateVars = {};
 
   Promise.all([
     getUserById(user_id),
-    getAttempt({ url: req.params.url })
+    getAttempt({ url }),
+    getAttemptScore({ url })
   ])
-  .then(([user, attempt]) => {
+  .then(([user, attempt, score]) => {
     templateVars.userName = user.name;
     templateVars.attempt = attempt;
+    templateVars.score = score;
     return getQuiz({id: attempt.quiz_id});
   })
   .then(quiz => {

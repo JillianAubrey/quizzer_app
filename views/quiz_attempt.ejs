@@ -35,8 +35,9 @@
   <main>
     <h1><%= quiz.title %></h1>
     <p class="author">By <%= quiz.author%></p>
-    <p class="attempter">Attempt by <%= attempt.attempter || 'anonymous' %></p>
     <p class ="description"><%= quiz.description %></p>
+    <p class="attempter">Attempt by <%= attempt.attempter || 'anonymous' %></p>
+    <p class="score">Score: <%= score.correct %>/<%= score.total %></p>
     <div class="quiz_container">
       <% for (question in quiz.questions) { %>
         <article class = question_card>

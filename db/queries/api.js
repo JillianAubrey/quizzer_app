@@ -136,7 +136,7 @@ const getAttemptScore = function({url, id}) {
       ON quizzes.id = attempts.quiz_id
     JOIN questions
       ON quizzes.id = questions.quiz_id
-    WHERE ${url ? 'url' : 'attempts.id'} = $1;
+    WHERE ${url ? 'attempts.url' : 'attempts.id'} = $1;
   `
 
   return Promise.all([

@@ -14,7 +14,7 @@ h1 {
   color: base.$mainThemeColour;
 }
 
-.description, .author, .attempter {
+.description, .author {
   margin: 0 1em 1em;
 }
 
@@ -29,7 +29,7 @@ button {
 
 .quiz_container {
   width: 100%;
-  height: calc(100% - 8em);
+  height: calc(100% - 10em);
   border-top: 4px solid base.$mainThemeColour;
   border-bottom: 4px solid base.$mainThemeColour;
   padding: 1em;
