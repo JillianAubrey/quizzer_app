@@ -17,6 +17,8 @@ $(() => {
   $(document).on('click', '.add_question', addQuestion);
 
   $(document).on('click', 'input[type="radio"]', showCorrect)
+
+  $(document).on('click', 'input[type="text"], textarea', removeError)
 })
 
 
@@ -27,7 +29,9 @@ const submitQuiz = function(event) {
   const valData = $(this).serializeArray();
 
   if(validateData(valData)) {
-    $.post('/api', data)
+    $.post('/api', data).then((res) => {
+      console.log(res);
+    });
   }
 };
 
@@ -122,6 +126,14 @@ const showCorrect = function(event) {
 const validateData = function(valData) {
   let countQ = 0;
   let countA = 0;
+  let pubPriv = 0;
+
+      if(valData.length <= 3) {
+        $('.error_message').remove();
+        $(`<div class="error_message"><p>You must have at least one question</p></div>`).insertBefore('#form_foot');
+        return false;
+      }
+
       for (let item of valData) {
 
         if (item.name.length === 1) {
@@ -131,21 +143,37 @@ const validateData = function(valData) {
           countA++;
         }
 
+        if (item.name === 'quiz_private') {
+          pubPriv = 1;
+        }
+
+        if (item.name === 'quiz_description' || item.name === 'quiz_title') {
+          if (item.value.length > 255) {
+            $('.error_message').remove();
+            $(`<div class="error_message"><p>Title and description should be 255 characters or less</p></div>`).insertBefore('#form_foot');
+            $(`#${item.name}`).addClass('invalid');
+            return false;
+          }
+        }
+
         if (!item.value.length) {
           if (item.name.length === 1) {
             $('.error_message').remove();
             $(`<div class="error_message"><p>Please fill out all the questions!</p></div>`).insertBefore('#form_foot');
+            $(`#${item.name}`).addClass('invalid');
             return false;
             }
           if (item.name.length === 3) {
             $('.error_message').remove();
             $(`<div class="error_message"><p>Please ensure that no answer fields are left empty</p></div>`).insertBefore('#form_foot');
+            $(`#${item.name}`).addClass('invalid');
             return false;
           }
           if (item.name.length > 3) {
             $('.error_message').remove();
             $(`<div class="error_message"><p>Please enter a title and description for your quiz</p></div>`).insertBefore('#form_foot');
             $('.error_message').hide().slideDown(200);
+            $(`#${item.name}`).addClass('invalid');
             return false;
           }
         }
@@ -157,10 +185,20 @@ const validateData = function(valData) {
         return false;
       }
 
+      if(pubPriv === 0) {
+        $('.error_message').remove();
+        $(`<div class="error_message"><p>Please choose whether your quiz will be public or private</p></div>`).insertBefore('#form_foot');
+         return false;
+      }
+
 
       $('.error_message').remove();
       return true;
 
+    };
+
+    const removeError = function() {
+      $(this).removeClass('invalid');
     };
 
 
