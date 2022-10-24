@@ -17,6 +17,8 @@ $(() => {
   $(document).on('click', '.add_question', addQuestion);
 
   $(document).on('click', 'input[type="radio"]', showCorrect)
+
+  $(document).on('click', 'input[type="text"], textarea', removeError)
 })
 
 
@@ -142,17 +144,20 @@ const validateData = function(valData) {
           if (item.name.length === 1) {
             $('.error_message').remove();
             $(`<div class="error_message"><p>Please fill out all the questions!</p></div>`).insertBefore('#form_foot');
+            $(`#${item.name}`).addClass('invalid');
             return false;
             }
           if (item.name.length === 3) {
             $('.error_message').remove();
             $(`<div class="error_message"><p>Please ensure that no answer fields are left empty</p></div>`).insertBefore('#form_foot');
+            $(`#${item.name}`).addClass('invalid');
             return false;
           }
           if (item.name.length > 3) {
             $('.error_message').remove();
             $(`<div class="error_message"><p>Please enter a title and description for your quiz</p></div>`).insertBefore('#form_foot');
             $('.error_message').hide().slideDown(200);
+            $(`#${item.name}`).addClass('invalid');
             return false;
           }
         }
@@ -168,6 +173,10 @@ const validateData = function(valData) {
       $('.error_message').remove();
       return true;
 
+    };
+
+    const removeError = function() {
+      $(this).removeClass('invalid');
     };
 
 
