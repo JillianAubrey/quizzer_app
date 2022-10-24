@@ -4,7 +4,6 @@ const db = require('../connection'); //connect to DB
 const { generateRandomString } = require('./helpers')
 
 
-
 const getQuizzes = function(options) {
   let query = `
   SELECT
@@ -179,42 +178,48 @@ const addAnswers = function(questions, content) {
 
   ansQuery = ansQuery.slice(0, -1);
   ansQuery += 'RETURNING *;';
-const getAttempt = function({url, id}) {
-  const query =`
-    SELECT quiz_id, user_id,
-      users.name AS attempter,
-      attempt_answers.answer_id,
-      is_correct
-    FROM attempts
-    LEFT JOIN users
-      ON users.id = user_id
-    JOIN attempt_answers
-      ON attempts.id = attempt_id
-    JOIN answers
-      ON answers.id = answer_id
-    WHERE ${url ? 'url' : 'attempts.id'} = $1;
-  `
-  return db.query(query, [url || id])
-  .then(data => {
-    const {quiz_id, user_id, attempter} = data.rows[0];
-    const attempt = {
-      quiz_id,
-      user_id,
-      attempter,
-      answers:{}
-    }
-    const answers = attempt.answers;
-    data.rows.forEach(row => {
-      const { answer_id, is_correct} = row
-      const answer = {
-        id: answer_id,
+
+  return db.query(ansQuery, queryParams);
+
+  };
+
+
+  const getAttempt = function({url, id}) {
+    const query =`
+      SELECT quiz_id, user_id,
+        users.name AS attempter,
+        attempt_answers.answer_id,
         is_correct
+      FROM attempts
+      LEFT JOIN users
+        ON users.id = user_id
+      JOIN attempt_answers
+        ON attempts.id = attempt_id
+      JOIN answers
+        ON answers.id = answer_id
+      WHERE ${url ? 'url' : 'attempts.id'} = $1;
+    `
+    return db.query(query, [url || id])
+    .then(data => {
+      const {quiz_id, user_id, attempter} = data.rows[0];
+      const attempt = {
+        quiz_id,
+        user_id,
+        attempter,
+        answers:{}
       }
-      answers[answer_id] = answer
+      const answers = attempt.answers;
+      data.rows.forEach(row => {
+        const { answer_id, is_correct} = row
+        const answer = {
+          id: answer_id,
+          is_correct
+        }
+        answers[answer_id] = answer
+      })
+      return attempt;
     })
-    return attempt;
-  })
-}
+  }
 
 const getAttemptScore = function({url, id}) {
   queryCorrect = `
@@ -279,4 +284,4 @@ const postAttempt = function(submission, user_id) {
   })
 }
 
-module.exports = { getQuizzes, getQuiz, getAttempt, getAttemptScore, postAttempt };
+module.exports = { getQuizzes, getQuiz, getAttempt, getAttemptScore, postAttempt, addQuiz };
