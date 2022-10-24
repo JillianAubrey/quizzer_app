@@ -15,6 +15,8 @@ $(() => {
   $(document).on('click', '.delete_question', deleteQuestion);
 
   $(document).on('click', '.add_question', addQuestion);
+
+  $(document).on('click', 'input[type="radio"]', showCorrect)
 })
 
 
@@ -22,38 +24,39 @@ $(() => {
 const submitQuiz = function(event) {
   event.preventDefault();
   const data = $(this).serialize();
-  $.post('/api', data) //then...
-}
+  const valData = $(this).serializeArray();
+
+  if(validateData(valData)) {
+    $.post('/api', data)
+  }
+};
 
 const addAnswer = function(event) {
   if (event) {
     event.preventDefault();
   }
 
-  let currAnsID = $(this).prevAll('.answer_container').find('label').last().attr('for');
+  let currAnsID = $(this).closest('.question_form').find('.answer').last().find('label').attr('for');
+  console.log(currAnsID);
   currAnsID = currAnsID.split("-");
 
   const question = Number(currAnsID[0]);
   const answer = Number(currAnsID[1]) + 1;
 
-  $(this).prev('.answer_container').append(`
+  $(this).closest('.question_form').find('.answer_container').append(`
     <div class="answer">
       <label for="${question}-${answer}">Answer ${answer}</label>
       <input type="text" name="${question}-${answer}" id="${question}-${answer}">
       <input type="radio" name="${question}-a" value="${question}-${answer}">
     </div>`)
-
-  $(this).prevAll('.answer_container').children().last().hide().slideDown(400);
-}
+  }
 
 const deleteAnswer = function(event) {
   event.preventDefault();
-  const $answer = $(this).prevAll('.answer_container').children('.answer').last();
+  const $answer = $(this).closest('.question_form').find('.answer_container').children('.answer').last();
 
   if($answer.prev('.answer').length) {
-
-    $answer.slideUp( 400, () => $answer.remove())
-
+     $answer.remove()
   }
 }
 
@@ -66,6 +69,7 @@ const addQuestion = function(event) {
   const $newQuestion = $(`
     <fieldset class="question_form">
     <legend>Question ${questionNum}</legend>
+    <div class="question_form_main">
     <textarea class="question" name="${questionNum}" id="${questionNum}" placeholder="Your question here..."></textarea>
     <div class="answer_container">
 
@@ -85,9 +89,12 @@ const addQuestion = function(event) {
         <input type="radio" name="${questionNum}-a" value="${questionNum}-3">
       </div>
     </div>
+    <div class="question_form_foot">
     <button class="add_answer">Add Answer</button>
     <button class="delete_answer">Delete Answer</button>
     <button class="delete_question">Delete Question</button>
+    </div>
+    </div>
     </fieldset>`)
 
     $newQuestion.insertBefore('#form_foot');
@@ -99,7 +106,64 @@ const addQuestion = function(event) {
 const deleteQuestion = function(event) {
   event.preventDefault();
   const $question = $(this).closest('.question_form')
-  $question.slideUp(400, () => $question.remove())
+  $question.hide(400, () => $question.remove())
 }
+
+const showCorrect = function(event) {
+  $(this).closest('.answer_container').find('.correct').each(function () {
+     $(this).removeClass('correct') });
+  $(this).prev('input').addClass('correct');
+
+  $(this).closest('.answer_container').find('span').each(function () {
+      $(this).remove();
+  })
+  $(this).closest('.answer').find('label').append(`<span> ✅ </span>`);
+};
+
+const validateData = function(valData) {
+  console.log(valData);
+  let countQ = 0;
+  let countA = 0;
+      for (let item of valData) {
+
+        if (item.name.length === 1) {
+          countQ++;
+        }
+        if (item.name[2] === 'a') {
+          countA++;
+        }
+
+        if (!item.value.length) {
+          if (item.name.length === 1) {
+            $('.error_message').remove();
+            $(`<div class="error_message"><p>Please fill out all the questions!</p></div>`).insertBefore('#form_foot');
+            return false;
+            }
+          if (item.name.length === 3) {
+            $('.error_message').remove();
+            $(`<div class="error_message"><p>Please ensure that no answer fields are left empty.</p></div>`).insertBefore('#form_foot');
+            return false;
+          }
+          if (item.name.length > 3) {
+            $('.error_message').remove();
+            $(`<div class="error_message"><p>Please enter a title and description for your quiz.</p></div>`).insertBefore('#form_foot');
+            return false;
+          }
+        }
+      }
+
+      if (countQ !== countA) {
+        $('.error_message').remove();
+        $(`<div class="error_message"><p>Please select a correct answer for each question.</p></div>`).insertBefore('#form_foot');
+        return false;
+      }
+
+
+      $('.error_message').remove();
+      return true;
+
+    };
+
+
 
 })(jQuery);

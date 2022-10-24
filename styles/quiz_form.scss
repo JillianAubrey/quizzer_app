@@ -1,5 +1,182 @@
 @use 'base';
 
 main {
-  margin-top: base.$navHeight;
+  display: flex;
+  flex-flow: column;
+  width: 80%;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+  margin: 12rem auto 0;
+  height: calc(100vh - base.$navHeight - base.$footHeight);
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 2px 2px 4px #d7d8f0;
+  transition: all 0.2s ease-in-out;
+
+  h1 {
+    width: 100%;
+    font-size: 1.5rem;
+    margin: 0 auto;
+    text-align: center;
+    padding: 0.5em 0;
+    background-color: base.$mainThemeColour;
+    box-shadow: 0px 4px 6px #c9cae2;
+    color: white;
+    border-radius: inherit;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
 }
+
+form {
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+    overflow: auto;
+    margin: 0 auto;
+    height: calc(100vh - base.$navHeight - base.$footHeight);
+    padding: 1em 1em 0 1em;
+
+}
+
+form::-webkit-scrollbar {
+  display: none;
+}
+
+main:hover {
+  box-shadow: 5px 5px 10px base.$secondaryThemeColour;
+}
+
+#quiz_form fieldset {
+  border: none;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  box-shadow: 2px 2px 4px #d7d8f0;
+  transition: all 0.2s ease-in-out;
+}
+
+#quiz_form fieldset:hover {
+  box-shadow: 3px 3px 5px base.$secondaryThemeColour;
+}
+
+fieldset legend {
+  background-color: base.$secondaryThemeColour;
+  text-shadow: 2px 2px 3px base.$mainThemeColour;
+  color: white;
+  float: left;
+  padding: 0.5rem 0;
+  margin-bottom: 0.3rem;
+  border-radius: inherit;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  box-shadow: 0px 2px 4px #c9cae2;
+
+}
+
+.question_form, .quiz_details {
+  padding: 0;
+}
+
+.question_form_main {
+  padding: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  font-weight: lighter;
+  color: base.$mainThemeColour;
+  text-shadow: 0.5px 0.5px 3px base.$secondaryThemeColour;
+  gap: 0.5rem;
+}
+
+input[type="text"], textarea {
+  border-radius: 4px;
+  border: none;
+  resize: none;
+  box-shadow: 1.5px 1.5px 8px #31313b7f;
+}
+
+textarea::placeholder {
+  opacity: 1;
+  padding-left: 4rem;
+  padding-top: 0.5rem;
+  color: base.$mainThemeColour;
+  text-shadow: 0.5px 0.5px 3px base.$secondaryThemeColour;
+}
+
+.answer_container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  flex-flow: row wrap;
+  gap: 7px;
+}
+
+.answer {
+  width: 45%;
+}
+
+
+.answer input[type="text"]{
+  width: 62%;
+}
+
+.question_form_foot {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 5px;
+}
+
+.form_foot {
+  display: flex;
+  flex-direction: row;
+}
+
+//.add_answer, .delete_answer, .delete_question {
+  button {
+  border: none;
+  border-radius: 10px;
+  padding: 0.4em;
+  color: white;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 2px 2px 4px #31313b7f;
+
+}
+
+button:hover {
+  transform: scale(1.1);
+}
+
+.add_answer, .add_question {
+  background-color: base.$complThemeColour;
+}
+
+.delete_answer, .delete_question {
+  background-color: #E09732;
+}
+
+#form_foot {
+  display: flex;
+  justify-content: space-around;
+  margin: 0.5em 0 1.5em 0;
+}
+
+#form_foot button {
+  padding: 0.5em;
+  font-size: 1.1em;
+}
+
+#submit {
+  background: linear-gradient(50deg, base.$mainThemeColour 60%, base.$secondaryThemeColour 80%, base.$mainThemeColour 90%);
+}
+
+.correct {
+  background-color: #59deb26f;
+}
+
+// <button class="add_answer">Add Answer</button>
+//     <button class="delete_answer">Delete Answer</button>
+//     <button class="delete_question">Delete Question</button>

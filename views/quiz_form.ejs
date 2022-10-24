@@ -35,19 +35,24 @@
       <fieldset class="quiz_details">
         <legend>Your Quiz Details</legend>
 
+        <div class="question_form_main">
+
         <label for="quiz_title">Your Quiz Title</label>
         <input type="text" name="quiz_title" id="quiz_title"/>
 
         <label for="quiz_description">Quiz Description</label>
-        <textarea name="quiz_description" id="quiz_description"></textarea>
+        <textarea name="quiz_description" id="quiz_description" rows="3"></textarea>
+
+        </div>
 
       </fieldset>
 
           <!-- JQUERY APPENDS THE QUESTIONS HERE -->
 
+
       <div id="form_foot">
-        <button class="add_question">Add Another Question</button>
         <button type="submit" id="submit">Create Quiz!</button>
+        <button class="add_question">Add Question</button>
       </div>
 
     </form>
