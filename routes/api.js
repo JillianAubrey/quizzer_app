@@ -13,11 +13,10 @@ router.post('/', (req, res) => {
 
   console.log(req.body);
 
-  resContent = addQuiz(user_id, req.body);
+  addQuiz(user_id, req.body)
+    .then((resContent) => console.log(resContent));
 
-  console.log(resContent);
-
-  res.json(resContent)
+  //res.json(resContent)
 })
 
 router.post('/quiz',  (req, res) => {

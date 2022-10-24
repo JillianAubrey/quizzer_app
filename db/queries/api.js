@@ -87,6 +87,7 @@ const addQuiz = function(userId, content) {
   let quizPrivate = 'TRUE';
   let url = generateRandomString(10);
   let resultsUrl = generateRandomString(10);
+  let quizInfo;
 
   const quizzesQuery = `
     INSERT INTO quizzes(user_id, title, description, url, results_url, is_private)
@@ -106,9 +107,14 @@ const addQuiz = function(userId, content) {
     }
   }
 
+
+
   return db.query(quizzesQuery, [userId, quizTitle, quizDescription, url, resultsUrl, quizPrivate])
     .then((quizData) => addQuestions(quizData.rows[0].id, content))
     .then((questionData) => addAnswers(questionData, content))
+    .then(() => {
+      return { userId, quizTitle, quizDescription, url, resultsUrl, quizPrivate };
+    })
     .catch(error => console.log(error));
 }
 
