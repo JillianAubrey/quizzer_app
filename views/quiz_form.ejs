@@ -4,6 +4,7 @@
 <html lang="en">
 <head>
   <title>Quiz App - New Quiz</title>
+  <link href="/docs/owl.png" rel="icon" type="image/x-icon" />
 
   <meta charset="UTF-8" >
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
@@ -24,8 +25,38 @@
 
   <script src="/vendor/jquery-3.0.0.js"></script>
   <script defer src="/scripts/app.js"></script>
+  <script defer src="/scripts/quiz_form.js"></script>
 </head>
 <body>
+  <%- include('partials/__header') %>
+  <main>
+    <h1>Your New Quiz</h1>
+    <form action="/api" method="POST" id="quiz_form">
+      <fieldset class="quiz_details">
+        <legend>Your Quiz Details</legend>
 
+        <div class="question_form_main">
+
+        <label for="quiz_title">Your Quiz Title</label>
+        <input type="text" name="quiz_title" id="quiz_title"/>
+
+        <label for="quiz_description">Quiz Description</label>
+        <textarea name="quiz_description" id="quiz_description" rows="3"></textarea>
+
+        </div>
+
+      </fieldset>
+
+          <!-- JQUERY APPENDS THE QUESTIONS HERE -->
+
+
+      <div id="form_foot">
+        <button type="submit" id="submit">Create Quiz!</button>
+        <button class="add_question">Add Question</button>
+      </div>
+
+    </form>
+
+  </main>
 </body>
 </html>

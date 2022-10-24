@@ -7,4 +7,9 @@ router.get('/', (req, res) => {
   getQuizzes({public : true}).then(data => res.json(data));
 });
 
+router.post('/', (req, res) => {
+  console.log(req.body);
+  res.send('hihi')
+})
+
 module.exports = router;
