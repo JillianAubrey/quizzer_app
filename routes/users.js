@@ -35,13 +35,20 @@ router.get('/quiz/:url',  (req, res) => {
 router.get('/attempt/:url',  (req, res) => {
   //user_id == req.session.user_id
   const user_id = 2;
+  const templateVars = {};
 
   Promise.all([
     getUserById(user_id),
     getAttempt({ url: req.params.url })
   ])
   .then(([user, attempt]) => {
-    res.json(attempt);
+    templateVars.userName = user.name;
+    templateVars.attempt = attempt;
+    return getQuiz({id: attempt.quiz_id});
+  })
+  .then(quiz => {
+    templateVars.quiz = quiz;
+    res.render('quiz_attempt', templateVars);
   });
 })
 
