@@ -10,3 +10,5 @@ INSERT INTO attempts (quiz_id, user_id, attempted_at, url)
 VALUES (2, 3, '2022-10-21', 'OYe70s3LUb');
 INSERT INTO attempts (quiz_id, user_id, attempted_at, url)
 VALUES (3, 2, '2022-10-22', 'QWWmLQRon7');
+INSERT INTO attempts (quiz_id, attempted_at, url)
+VALUES (3, '2022-10-22', 'KLtaoQIqpW');

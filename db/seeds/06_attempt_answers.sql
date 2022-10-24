@@ -74,3 +74,7 @@ INSERT INTO attempt_answers (attempt_id, answer_id)
 VALUES (6, 40);
 INSERT INTO attempt_answers (attempt_id, answer_id)
 VALUES (6, 41);
+INSERT INTO attempt_answers (attempt_id, answer_id)
+VALUES (7, 40);
+INSERT INTO attempt_answers (attempt_id, answer_id)
+VALUES (7, 41);
