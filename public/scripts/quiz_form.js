@@ -29,7 +29,9 @@ const submitQuiz = function(event) {
   const valData = $(this).serializeArray();
 
   if(validateData(valData)) {
-    $.post('/api', data)
+    $.post('/api', data).then((res) => {
+      console.log(res);
+    });
   }
 };
 
@@ -126,7 +128,7 @@ const validateData = function(valData) {
   let countA = 0;
   let pubPriv = 0;
 
-      if(valData.length <= 2) {
+      if(valData.length <= 3) {
         $('.error_message').remove();
         $(`<div class="error_message"><p>You must have at least one question</p></div>`).insertBefore('#form_foot');
         return false;

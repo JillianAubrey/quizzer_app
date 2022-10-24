@@ -1,6 +1,7 @@
 //file for API queries (may share some functionality with db/users.js but trying to modularize).
 
 const db = require('../connection'); //connect to DB
+const { generateRandomString } = require('./helpers')
 
 
 
@@ -77,5 +78,85 @@ const getQuizByUrl = function(url) {
   })
 };
 
+const addQuiz = function(userId, content) {
+  let quizTitle = '';
+  let quizDescription = '';
+  let quizPrivate = 'TRUE';
+  let url = generateRandomString(10);
+  let resultsUrl = generateRandomString(10);
 
-module.exports = { getQuizzes, getQuizByUrl };
+  const quizzesQuery = `
+    INSERT INTO quizzes(user_id, title, description, url, results_url, is_private)
+    VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`;
+
+  for (let key in content) {
+    if (key === "quiz_title") {
+      quizTitle = content[key];
+    }
+
+    if (key === "quiz_description") {
+      quizDescription = content[key];
+    }
+
+    if (key === "quiz_private") {
+      quizPrivate = content[key];
+    }
+  }
+
+  return db.query(quizzesQuery, [userId, quizTitle, quizDescription, url, resultsUrl, quizPrivate])
+    .then((quizData) => addQuestions(quizData.rows[0].id, content))
+    .then((ansData) => addAnswers(ansData))
+   // .then((answerData))
+}
+
+const addQuestions = function(quizId, content) {
+  let queryParams = [];
+  let queryCount = 1;
+
+  let questionQuery = `
+    INSERT INTO questions(quiz_id, text, sequence) VALUES `
+
+  for (let key in content) {
+    if (key.length === 1) {
+      queryParams.push(`${quizId}`, content[key], key);
+      console.log('query params: ', queryParams)
+      questionQuery += `($${queryCount}, $${queryCount + 1}, $${queryCount + 2}),`;
+      queryCount += 3;
+    }
+  }
+
+  questionQuery = questionQuery.slice(0, -1);
+  questionQuery += ' RETURNING *;';
+
+  console.log(questionQuery);
+
+  return db.query(questionQuery, queryParams)
+    .then(data => data.rows);
+}
+
+const addAnswers = function(questions, content) {
+  
+}
+
+//information needed:
+//quizzes
+// user_id
+// title
+// description
+//url
+//results_url
+//created_at (default now())
+//is_private (default true)
+
+//questions
+//quiz_id
+//text
+//sequence
+
+//answers
+//question_id
+//text
+//is_correct
+
+
+module.exports = { getQuizzes, getQuizByUrl, addQuiz };
