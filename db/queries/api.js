@@ -33,9 +33,9 @@ const getQuizzes = function(options) {
   })
 }
 
-const getQuizByUrl = function(url) {
+const getQuiz = function({url, id}) {
   const query = `
-    SELECT title, description,
+    SELECT quizzes.id, title, description,
       users.name AS author,
       questions.text AS question,
       questions.sequence AS question_num,
@@ -48,12 +48,13 @@ const getQuizByUrl = function(url) {
       ON quizzes.id = quiz_id
     JOIN answers
       ON questions.id = question_id
-    WHERE url = $1
+    WHERE ${url ? 'url' : 'quizzes.id'} = $1
     ORDER BY question_num;
   `
-  return db.query(query, [url])
+  return db.query(query, [url || id])
   .then(data => {
     const quiz = {
+      id: data.rows[0].id,
       title: data.rows[0].title,
       description: data.rows[0].description,
       author: data.rows[0].author,
@@ -78,4 +79,4 @@ const getQuizByUrl = function(url) {
 };
 
 
-module.exports = { getQuizzes, getQuizByUrl };
+module.exports = { getQuizzes, getQuiz };

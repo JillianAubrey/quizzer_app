@@ -1,6 +1,6 @@
 
 const express = require('express');
-const { getQuizByUrl } = require('../db/queries/api');
+const { getQuiz } = require('../db/queries/api');
 const router  = express.Router();
 const { getUsers, getUserById } = require('../db/queries/users');
 
@@ -21,7 +21,7 @@ router.get('/quiz/:url',  (req, res) => {
 
   Promise.all([
     getUserById(user_id),
-    getQuizByUrl(req.params.url)
+    getQuiz({ url: req.params.url })
   ])
   .then(([user, quiz]) => {
       const templateVars = {
