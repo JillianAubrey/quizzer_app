@@ -37,11 +37,14 @@
       <% for (question in quiz.questions) { %>
         <article class = question_card>
           <header>
-            <p><%=question%>. <%= quiz.questions[question].text %></p>
+            <p><%= question %>. <%= quiz.questions[question].text %></p>
           </header>
           <ul>
             <% for (answer of quiz.questions[question].answers) { %>
-              <li><%= answer %></li>
+              <li>
+                <input type="radio" name=<%= question %> data-id=<%= answer.id %>>
+                <%= answer.text %>
+              </li>
             <% } %>
           </ul>
         </article>
