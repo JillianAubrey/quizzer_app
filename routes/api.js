@@ -2,6 +2,8 @@
 const express = require('express');
 const router  = express.Router();
 const { getQuizzes, postAttempt, addQuiz } = require('../db/queries/api');
+const { getUserById } = require('../db/queries/users');
+
 
 router.get('/', (req, res) => {
   getQuizzes({public : true}).then(data => res.json(data));
@@ -10,13 +12,12 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   //user_id == req.session.user_id
   const user_id = 2;
+  let userName
 
-  console.log(req.body);
+  getUserById(user_id)
+    .then((user) => addQuiz(user_id, req.body, user.name))
+    .then((resContent) => res.json(resContent));
 
-  addQuiz(user_id, req.body)
-    .then((resContent) => console.log(resContent));
-
-  //res.json(resContent)
 })
 
 router.post('/quiz',  (req, res) => {

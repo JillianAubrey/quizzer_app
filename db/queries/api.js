@@ -1,8 +1,7 @@
 //file for API queries (may share some functionality with db/users.js but trying to modularize).
 
 const db = require('../connection'); //connect to DB
-const { generateRandomString } = require('./helpers')
-
+const { generateRandomString } = require('./helpers');
 
 const getQuizzes = function(options) {
   let query = `
@@ -81,7 +80,7 @@ const getQuiz = function({url, id}) {
   })
 };
 
-const addQuiz = function(userId, content) {
+const addQuiz = function(userId, content, userName) {
   let quizTitle = '';
   let quizDescription = '';
   let quizPrivate = 'TRUE';
@@ -113,7 +112,7 @@ const addQuiz = function(userId, content) {
     .then((quizData) => addQuestions(quizData.rows[0].id, content))
     .then((questionData) => addAnswers(questionData, content))
     .then(() => {
-      return { userId, quizTitle, quizDescription, url, resultsUrl, quizPrivate };
+      return { quizTitle, quizDescription, url, resultsUrl, quizPrivate, userName };
     })
     .catch(error => console.log(error));
 }
