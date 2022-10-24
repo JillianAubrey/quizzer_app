@@ -122,6 +122,13 @@ const showCorrect = function(event) {
 const validateData = function(valData) {
   let countQ = 0;
   let countA = 0;
+
+      if(valData.length <= 2) {
+        $('.error_message').remove();
+        $(`<div class="error_message"><p>You must have at least one question</p></div>`).insertBefore('#form_foot');
+        return false;
+      }
+
       for (let item of valData) {
 
         if (item.name.length === 1) {
