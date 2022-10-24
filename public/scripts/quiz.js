@@ -9,8 +9,10 @@ $(() => {
 });
 
 const selectChildRadioButton = ($element) => {
-  $element.parent().find('input:radio').attr('checked', false)
-  $element.find('input:radio').attr('checked', true);
+  const $radioButton = $element.find('input:radio');
+  const name = $radioButton.attr('name');
+  $('body').find(`input:radio[name="${name}"]`).attr('checked', false)
+  $radioButton.attr('checked', true);
 };
 
 const submitQuiz = ($quizContainer) => {
