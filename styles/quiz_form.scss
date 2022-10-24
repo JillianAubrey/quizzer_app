@@ -97,6 +97,7 @@ input[type="text"], textarea {
   border: none;
   resize: none;
   box-shadow: 1.5px 1.5px 8px #31313b7f;
+  color: base.$mainThemeColour;
 }
 
 textarea::placeholder {
@@ -198,6 +199,27 @@ button:hover {
   border: solid rgba(240, 58, 17, 0.824) 2px !important;
 }
 
+label[for="quiz_private"] {
+  margin-top: 0.2em;
+}
+
+.public_private {
+  display: flex;
+  flex-direction: row nowrap;
+  justify-content: center;
+  gap: 1.5em;
+}
+
+.public_private > div {
+  display: flex;
+  flex-direction: row nowrap;
+  gap: 0.5em;
+}
+
+.quiz_details p {
+  font-style: italic;
+  font-size: 0.9em;
+}
 // <button class="add_answer">Add Answer</button>
 //     <button class="delete_answer">Delete Answer</button>
 //     <button class="delete_question">Delete Question</button>

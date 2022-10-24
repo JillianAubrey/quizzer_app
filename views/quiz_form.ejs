@@ -43,6 +43,19 @@
         <label for="quiz_description">Quiz Description</label>
         <textarea name="quiz_description" id="quiz_description" rows="3"></textarea>
 
+        <label for="quiz_private">Public Quiz?</label>
+        <p>If set to public, your quiz will be visible to all users. If set to private, only those who possess your quiz link will be able to view your quiz.</p>
+        <div class="public_private">
+          <div>
+            <label for="public">Public</label>
+            <input type="radio" name="quiz_private" value="FALSE" id="public">
+          </div>
+          <div>
+            <label for="private">Private</label>
+            <input type="radio" name="quiz_private" value="TRUE" id="private">
+          </div>
+        </div>
+
         </div>
 
       </fieldset>

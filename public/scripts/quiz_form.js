@@ -124,6 +124,7 @@ const showCorrect = function(event) {
 const validateData = function(valData) {
   let countQ = 0;
   let countA = 0;
+  let pubPriv = 0;
 
       if(valData.length <= 2) {
         $('.error_message').remove();
@@ -138,6 +139,19 @@ const validateData = function(valData) {
         }
         if (item.name[2] === 'a') {
           countA++;
+        }
+
+        if (item.name === 'quiz_private') {
+          pubPriv = 1;
+        }
+
+        if (item.name === 'quiz_description' || item.name === 'quiz_title') {
+          if (item.value.length > 255) {
+            $('.error_message').remove();
+            $(`<div class="error_message"><p>Title and description should be 255 characters or less</p></div>`).insertBefore('#form_foot');
+            $(`#${item.name}`).addClass('invalid');
+            return false;
+          }
         }
 
         if (!item.value.length) {
@@ -167,6 +181,12 @@ const validateData = function(valData) {
         $('.error_message').remove();
         $(`<div class="error_message"><p>Please select a correct answer for each question</p></div>`).insertBefore('#form_foot');
         return false;
+      }
+
+      if(pubPriv === 0) {
+        $('.error_message').remove();
+        $(`<div class="error_message"><p>Please choose whether your quiz will be public or private</p></div>`).insertBefore('#form_foot');
+         return false;
       }
 
 
