@@ -7,6 +7,18 @@ VALUES (1, 'What''s the capital of Alberta?', 3);
 INSERT INTO questions (quiz_id, text, sequence)
 VALUES (1, 'What''s the capital of New Brunswick?', 4);
 INSERT INTO questions (quiz_id, text, sequence)
+VALUES (1, 'What''s the capital of Newfoundland and Labrador?', 5);
+INSERT INTO questions (quiz_id, text, sequence)
+VALUES (1, 'What''s the capital of Nova Scotia?', 6);
+INSERT INTO questions (quiz_id, text, sequence)
+VALUES (1, 'What''s the capital of PEI?', 7);
+INSERT INTO questions (quiz_id, text, sequence)
+VALUES (1, 'What''s the capital of British Colombia?', 8);
+INSERT INTO questions (quiz_id, text, sequence)
+VALUES (1, 'What''s the capital of Saskatchewan?', 9);
+INSERT INTO questions (quiz_id, text, sequence)
+VALUES (1, 'What''s the capital of Manitoba?', 10);
+INSERT INTO questions (quiz_id, text, sequence)
 VALUES (2, 'What''s the command for adding a row to a table?', 2);
 INSERT INTO questions (quiz_id, text, sequence)
 VALUES (2, 'What''s the command for deleting a table?', 3);

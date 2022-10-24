@@ -39,7 +39,8 @@ const getQuizByUrl = function(url) {
       users.name AS author,
       questions.text AS question,
       questions.sequence AS question_num,
-      answers.text AS answer
+      answers.text AS answer,
+      answers.id AS answer_id
     FROM quizzes
     JOIN users
       ON users.id = user_id
@@ -69,7 +70,7 @@ const getQuizByUrl = function(url) {
         }
         question = quiz.questions[row.question_num];
       }
-      question.answers.push(row.answer);
+      question.answers.push({id: row.answer_id, text: row.answer});
     });
     console.log(quiz);
     return quiz;
