@@ -354,9 +354,9 @@ const getQuizResults = function({results_url, id}) {
 
   return db.query(queryQuizId, [results_url || id])
   .then(data => data.rows[0].id)
-  .then(quiz_id => {
+  .then(quizId => {
     return Promise.all([
-      quiz_id,
+      quizId,
       db.query(queryCounts, [quiz_id])
         .then(data => data.rows[0]),
       db.query(queryAverageScore, [quiz_id])
@@ -372,9 +372,9 @@ const getQuizResults = function({results_url, id}) {
         ),
     ])
   })
-  .then(([quiz_id, {attempters, attempts, questions}, average, byAttempt, byAnswer]) => {
+  .then(([quizId, {attempters, attempts, questions}, average, byAttempt, byAnswer]) => {
     return {
-      quiz_id,
+      quizId,
       attempters,
       attempts,
       questions,
