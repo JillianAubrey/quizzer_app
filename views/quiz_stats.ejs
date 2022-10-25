@@ -38,7 +38,7 @@
     <p class ="description"><%= quiz.description %></p>
     <p class="score">Average score: <%= Math.round(results.average * 10)/10 %>/<%= results.questions %></p>
     <p class="attempts">Total attempts: <%= results.attempts %></p>
-    <div  class="quiz_container">
+    <div  class="results_container">
       <section class="by_answer">
         <% for (question in quiz.questions) { %>
           <article class="question_card">
@@ -56,14 +56,16 @@
           </article>
         <% } %>
       </section>
-      <section class="byAttempt">
+      <section class="by_attempt">
         <% for (attempt of results.byAttempt) { %>
           <article class="attempt_card">
-            <p class="name">User: <%= (attempt.name || 'anonymous') %></p>
-            <p class="score">Score: <%= attempt.score %></p>
-            <p class="attempt_time">Attempted
-              <time class="timeago" datetime="<%= attempt.attempted_at %>"></time>
-            </p>
+            <ul class="attempt_info">
+              <li class="name">User: <%= (attempt.name || 'anonymous') %></li>
+              <li class="score">Score: <%= attempt.score %></li>
+              <li class="attempt_time">
+                <time class="timeago" datetime="<%= attempt.attempted_at %>"></time>
+              </li>
+            </ul>
             <a href="/quizapp/attempt/<%= attempt.url %>">
               <button>See this attempt</button>
             </a>

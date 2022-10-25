@@ -318,7 +318,7 @@ const getQuizResults = function({results_url, id}) {
       ON answers.id = answer_id
     WHERE is_correct
       AND attempts.quiz_id = $1
-    GROUP BY attempts.user_id
+    GROUP BY attempts.id
   ) AS scores
   `
 

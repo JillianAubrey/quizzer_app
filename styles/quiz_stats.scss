@@ -12,19 +12,6 @@ h1 {
   color: base.$mainThemeColour;
 }
 
-.description, .author {
-  margin: 0 1em 1em;
-}
-
-.quiz_container {
-  flex-flow: row;
-  justify-content: space-around;
-}
-
-.byQuestion, .byAttempt {
-  width: 50%;
-}
-
 button {
   border: none;
   border-radius: 6px;
@@ -34,26 +21,43 @@ button {
   padding: 1em;
 }
 
-.quiz_container {
-  width: 100%;
-  height: calc(100% - 10em);
+.description, .author {
+  margin: 0 1em 1em;
+}
+
+.results_container {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-around;
+  padding-top: 0;
+  height: calc(100vh - base.$navHeight - base.$footHeight - 10rem)
+}
+
+.by_answer, .by_attempt {
+  height: 100;
+  overflow: auto;
+  margin: 1em;
+  padding: 1em;
   border-top: 4px solid base.$mainThemeColour;
   border-bottom: 4px solid base.$mainThemeColour;
-  padding: 1em;
+}
 
-  li.correct {
-    background-color: base.$correctColour;
-  }
+.by_answer {
+  width: 60%
+}
 
-  li.incorrect {
-    background-color: base.$incorrectColour;
-  }
+.by_attempt {
+  width: 40%
+}
+
+li.correct {
+  background-color: base.$correctColour;
 }
 
 .attempt_card {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  flex-direction: row;
+  align-items: center;
   justify-content: space-around;
   border-radius: 6px;
   width: 95%;
@@ -61,4 +65,23 @@ button {
   box-shadow: 3px 3px 6px #c9cae2;
   overflow-wrap: break-word;
   background-color: white;
+
+  .attempt_info {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    align-content: center;
+    align-items: center;
+    list-style: none;
+    padding-left: 0;
+
+    li {
+      padding: 0.25em 0;
+    }
+  }
+
+  .attempt_time::first-letter {
+    text-transform: capitalize;
+  }
 }
+
