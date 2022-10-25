@@ -292,7 +292,7 @@ const getQuizResults = function({results_url, id}) {
   const queryQuizId = `
     SELECT id
     FROM quizzes
-    WHERE ${results_url ? 'results_url' : 'quizzes.id'} = $1
+    WHERE ${results_url ? 'results_url' : 'id'} = $1
   `
 
   const queryCounts = `
@@ -352,9 +352,11 @@ const getQuizResults = function({results_url, id}) {
   GROUP BY answers.id
   `
 
-  return db.query(queryQuizId, [results_url || id]).then(data => data.rows[0].id)
+  return db.query(queryQuizId, [results_url || id])
+  .then(data => data.rows[0].id)
   .then(quiz_id => {
     return Promise.all([
+      quiz_id,
       db.query(queryCounts, [quiz_id])
         .then(data => data.rows[0]),
       db.query(queryAverageScore, [quiz_id])
@@ -370,16 +372,17 @@ const getQuizResults = function({results_url, id}) {
         ),
     ])
   })
-  .then(([counts, average, byAttempt, byAnswer]) => {
+  .then(([quiz_id, {attempters, attempts, questions}, average, byAttempt, byAnswer]) => {
     return {
-      counts,
+      quiz_id,
+      attempters,
+      attempts,
+      questions,
       average,
       byAttempt,
       byAnswer,
     }
   });
 }
-
-getQuizResults({id: 2}).then(data => console.log(data))
 
 module.exports = { getQuizzes, getQuiz, getAttempt, getAttemptScore, postAttempt, addQuiz, getQuizResults };
