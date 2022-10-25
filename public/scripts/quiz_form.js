@@ -249,7 +249,4 @@ const validateData = function(valData) {
 
     };
 
-
-
-
 })(jQuery);
