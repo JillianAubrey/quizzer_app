@@ -61,48 +61,48 @@
                 <p>Created: <time class="timeago" datetime="${isoDate}">9 days ago</time></p>
               </header>
               <div class="quiz_stats">
-                <button class="questions">Questions: 9</button>
-                <button class="attempts">Attempts: 5</button>
-                <button class="score">Average Score: 5 / 9</button>
-                <button class="results">View Detailed Results</button>
+                <button class="questions">quizzes.questions</button>
+                <button class="attempts">quizzes.attempts</button>
+                <button class="score">quizzes.avgScore</button>
+                <a href="/quizapp/results/quizid>"><button class="results">View Detailed Results</button></a>
               </div>
               <div class="quiz_links">
                 <div class="quiz_link">
-                  <button class="quiz_link copy_quiz_btn">Copy Quiz Link &nbsp;<input class="quiz_link" value=http://localhost:8080/quizapp/quiz/${data.url}></button>
+                  <button class="quiz_link copy_quiz_btn">Copy Quiz Link &nbsp;<input class="quiz_link" value=http://localhost:8080/quizapp/quiz/quizzes.quizUrl></button>
                 </div>
                 <div class="quiz_link">
-                  <button class="quiz_link copy_results_btn">Copy Results Link &nbsp;<input class="quiz_link" value=http://localhost:8080/quizapp/quiz/${data.url}></button>
+                  <button class="quiz_link copy_results_btn">Copy Results Link &nbsp;<input class="quiz_link" value=http://localhost:8080/quizapp/results/quizzes.resultsUrl></button>
                 </div>
               </div>
               <footer>
-                <button class="public">Make Quiz Public / Private</button>
-                <button class="delete">Delete Quiz</button>
+                <button class="public">quizzes.private</button>
+                <form action="/quizapp/quiz/guid">
+                  <button class="delete">Delete Quiz</button></a>
+                </form>
               </footer>
             </div>
           </article>
+
           <article class="quiz_card">
             <div class="quiz_card_main">
               <header>
-                <h2>;lk;lklk</h2>
-                <p>Created: <time class="timeago" datetime="${isoDate}">9 days ago</time></p>
+                <h2>Quiz That i tried</h2>
+                <p>Attempted <time class="timeago" datetime="${isoDate}">9 days ago</time></p>
               </header>
               <div class="quiz_stats">
                 <button class="questions">Questions: 9</button>
-                <button class="attempts">Attempts: 5</button>
-                <button class="score">Average Score: 5 / 9</button>
-                <button class="results">View Detailed Results</button>
+                <button class="score">Score: 5 / 9</button>
+                <button class="results">View Your Attempt</button>
               </div>
               <div class="quiz_links">
                 <div class="quiz_link">
-                  <button class="quiz_link copy_quiz_btn">Copy Quiz Link &nbsp;<input class="quiz_link" value=http://localhost:8080/quizapp/quiz/${data.url}></button>
-                </div>
-                <div class="quiz_link">
-                  <button class="quiz_link copy_results_btn">Copy Results Link &nbsp;<input class="quiz_link" value=http://localhost:8080/quizapp/quiz/${data.url}></button>
+                  <button class="quiz_link copy_quiz_btn share_attempt">Share Attempt Link &nbsp;<input class="quiz_link" value=http://localhost:8080/quizapp/quiz/${data.url}></button>
                 </div>
               </div>
               <footer>
-                <button class="public">Make Quiz Public / Private</button>
-                <button class="delete">Delete Quiz</button>
+                <form action="/quizapp/quiz/guid" method="GET">
+                  <button class="quiz_link copy_results_btn get_quiz">Attempt Again</button>
+                </form>
               </footer>
             </div>
           </article>
