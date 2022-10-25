@@ -122,7 +122,7 @@ const addQuestions = function(quizId, content) {
   let queryCount = 1;
 
   let questionQuery = `
-    INSERT INTO questions(quiz_id, text, sequence) VALUES `
+    INSERT INTO questions(quizId, text, sequence) VALUES `
 
   for (let key in content) {
     if (key.length === 1) {
@@ -323,7 +323,7 @@ const getQuizResults = function({results_url, id}) {
   `
 
   const queryByAttempt = `
-  SELECT users.name, attempts.url,
+  SELECT users.name, attempts.url, attempted_at,
     COUNT(*) filter (where "is_correct") AS score
   FROM attempts
   LEFT JOIN attempt_answers
@@ -334,6 +334,7 @@ const getQuizResults = function({results_url, id}) {
     ON attempts.user_id = users.id
   WHERE attempts.quiz_id = $1
   GROUP BY users.id, attempts.id
+  ORDER BY attempted_at DESC
   `
 
   const queryByAnswer =`
@@ -357,13 +358,13 @@ const getQuizResults = function({results_url, id}) {
   .then(quizId => {
     return Promise.all([
       quizId,
-      db.query(queryCounts, [quiz_id])
+      db.query(queryCounts, [quizId])
         .then(data => data.rows[0]),
-      db.query(queryAverageScore, [quiz_id])
+      db.query(queryAverageScore, [quizId])
         .then(data => Number(data.rows[0].average)),
-      db.query(queryByAttempt, [quiz_id])
+      db.query(queryByAttempt, [quizId])
         .then(data => data.rows),
-      db.query(queryByAnswer, [quiz_id])
+      db.query(queryByAnswer, [quizId])
         .then(data => {
           return data.rows.reduce((byAnswer, row) => {
             byAnswer[row.id] = row
