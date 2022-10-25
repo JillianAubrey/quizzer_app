@@ -203,11 +203,18 @@ const validateData = function(valData) {
     };
 
     const renderConfirmation = function(data) {
+      let visibility
+      if (data.quizPrivate === 'FALSE') {
+        visibility = 'public'
+      } else {
+        visibility = 'private'
+      }
+
       let $confPage = `<article>
-        <h3>Congratulations <span class="conf_user">${data.userName}</span>! Your new <span class="conf_private">${data.quizPrivate = 'FALSE' ? 'public' : 'private'}</span> quiz "<span class=".conf_title">${data.quizTitle}</span>" was successfully created. 🥳</h3>
+        <h3>Congratulations <span class="conf_user">${data.userName}</span>! Your new <span class="conf_private">${visibility}</span> quiz "<span class=".conf_title">${data.quizTitle}</span>" was successfully created. 🥳</h3>
         <div class="copy_buttons">
           <button class="quizlink_button">Copy Quiz Link &nbsp;<input class="quiz_link" value=http://localhost:8080/quizapp/quiz/${data.url}></button>
-          <button class="resultslink_button">Copy Results Link &nbsp;<input class="results_link" value=http://localhost:8080/quizapp/quiz/${data.resultsUrl}></button>
+          <button class="resultslink_button">Copy Results Link &nbsp;<input class="results_link" value=http://localhost:8080/quizapp/results/${data.resultsUrl}></button>
         </div>
       </article>`;
 
