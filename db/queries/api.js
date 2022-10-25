@@ -288,4 +288,98 @@ const postAttempt = function(submission, user_id) {
   })
 }
 
-module.exports = { getQuizzes, getQuiz, getAttempt, getAttemptScore, postAttempt, addQuiz };
+const getQuizResults = function({results_url, id}) {
+  const queryQuizId = `
+    SELECT id
+    FROM quizzes
+    WHERE ${results_url ? 'results_url' : 'quizzes.id'} = $1
+  `
+
+  const queryCounts = `
+  SELECT COUNT(DISTINCT attempts.user_id) AS attempters,
+    COUNT(DISTINCT attempts.id) AS attempts,
+    COUNT (DISTINCT questions.id) AS questions
+  FROM attempts
+  JOIN quizzes ON
+    quizzes.id = attempts.quiz_id
+  JOIN questions ON
+    quizzes.id = questions.quiz_id
+  WHERE quizzes.id = $1
+  `
+
+  const queryAverageScore =`
+  SELECT AVG(score) AS average
+  FROM (
+    SELECT COUNT(*) AS score
+    FROM attempts
+    JOIN attempt_answers
+      ON attempts.id = attempt_id
+    JOIN answers
+      ON answers.id = answer_id
+    WHERE is_correct
+      AND attempts.quiz_id = $1
+    GROUP BY attempts.user_id
+  ) AS scores
+  `
+
+  const queryByAttempt = `
+  SELECT users.name, attempts.url,
+    COUNT(*) filter (where "is_correct") AS score
+  FROM attempts
+  LEFT JOIN attempt_answers
+    ON attempts.id = attempt_id
+  JOIN answers
+    ON answers.id = answer_id
+  LEFT JOIN users
+    ON attempts.user_id = users.id
+  WHERE attempts.quiz_id = $1
+  GROUP BY users.id, attempts.id
+  `
+
+  const queryByAnswer =`
+  SELECT answers.id, is_correct,
+    COUNT(attempt_answers.*) AS count
+  FROM answers
+  JOIN questions
+    ON questions.id = question_id
+  JOIN quizzes
+    ON quizzes.id = questions.quiz_id
+  LEFT JOIN attempt_answers
+    ON answers.id = answer_id
+  LEFT JOIN attempts
+    ON attempts.id = attempt_id
+  WHERE quizzes.id = $1
+  GROUP BY answers.id
+  `
+
+  return db.query(queryQuizId, [results_url || id]).then(data => data.rows[0].id)
+  .then(quiz_id => {
+    return Promise.all([
+      db.query(queryCounts, [quiz_id])
+        .then(data => data.rows[0]),
+      db.query(queryAverageScore, [quiz_id])
+        .then(data => Number(data.rows[0].average)),
+      db.query(queryByAttempt, [quiz_id])
+        .then(data => data.rows),
+      db.query(queryByAnswer, [quiz_id])
+        .then(data => {
+          return data.rows.reduce((byAnswer, row) => {
+            byAnswer[row.id] = row
+            return byAnswer
+          }, {})}
+        ),
+    ])
+  })
+  .then(([counts, average, byAttempt, byAnswer]) => {
+    return {
+      counts,
+      average,
+      byAttempt,
+      byAnswer,
+    }
+  });
+}
+
+getQuizResults({id: 2}).then(data => console.log(data))
+
+module.exports = { getQuizzes, getQuiz, getAttempt, getAttemptScore, postAttempt, addQuiz, getQuizResults };
