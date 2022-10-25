@@ -106,8 +106,6 @@ const addQuiz = function(userId, content, userName) {
     }
   }
 
-
-
   return db.query(quizzesQuery, [userId, quizTitle, quizDescription, url, resultsUrl, quizPrivate])
     .then((quizData) => addQuestions(quizData.rows[0].id, content))
     .then((questionData) => addAnswers(questionData, content))
