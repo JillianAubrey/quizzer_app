@@ -34,7 +34,7 @@ button {
 }
 
 .by_answer, .by_attempt {
-  height: 100;
+  height: 95%;
   overflow: auto;
   margin: 1em;
   padding: 1em;
@@ -58,7 +58,8 @@ li.correct {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
+  padding: 0 2em;
   border-radius: 6px;
   width: 95%;
   margin: 0 auto 1rem;
@@ -74,6 +75,7 @@ li.correct {
     align-items: center;
     list-style: none;
     padding-left: 0;
+    margin: auto;
 
     li {
       padding: 0.25em 0;
@@ -82,6 +84,18 @@ li.correct {
 
   .attempt_time::first-letter {
     text-transform: capitalize;
+  }
+}
+
+@media (max-width: 1440px) {
+  .results_container {
+    flex-flow: column;
+  }
+
+  .by_answer, .by_attempt {
+    height: 50%;
+    width: 100%;
+    margin: 0.25em
   }
 }
 
