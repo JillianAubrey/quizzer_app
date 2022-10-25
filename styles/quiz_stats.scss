@@ -1,0 +1,101 @@
+@use 'base';
+
+main {
+  width: 80%;
+  margin: base.$navHeight auto 0;
+  height: calc(100vh - base.$navHeight - base.$footHeight);
+  padding: 1em;
+}
+
+h1 {
+  margin: 0;
+  color: base.$mainThemeColour;
+}
+
+button {
+  border: none;
+  border-radius: 6px;
+  color: white;
+  background-color: base.$mainThemeColour;
+  margin: 1em auto;
+  padding: 1em;
+}
+
+.description, .author {
+  margin: 0 1em 1em;
+}
+
+.results_container {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-around;
+  padding-top: 0;
+  height: calc(100vh - base.$navHeight - base.$footHeight - 10rem)
+}
+
+.by_answer, .by_attempt {
+  height: 95%;
+  overflow: auto;
+  margin: 1em;
+  padding: 1em;
+  border-top: 4px solid base.$mainThemeColour;
+  border-bottom: 4px solid base.$mainThemeColour;
+}
+
+.by_answer {
+  width: 60%
+}
+
+.by_attempt {
+  width: 40%
+}
+
+li.correct {
+  background-color: base.$correctColour;
+}
+
+.attempt_card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2em;
+  border-radius: 6px;
+  width: 95%;
+  margin: 0 auto 1rem;
+  box-shadow: 3px 3px 6px #c9cae2;
+  overflow-wrap: break-word;
+  background-color: white;
+
+  .attempt_info {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    align-content: center;
+    align-items: center;
+    list-style: none;
+    padding-left: 0;
+    margin: auto;
+
+    li {
+      padding: 0.25em 0;
+    }
+  }
+
+  .attempt_time::first-letter {
+    text-transform: capitalize;
+  }
+}
+
+@media (max-width: 1440px) {
+  .results_container {
+    flex-flow: column;
+  }
+
+  .by_answer, .by_attempt {
+    height: 50%;
+    width: 100%;
+    margin: 0.25em
+  }
+}
+

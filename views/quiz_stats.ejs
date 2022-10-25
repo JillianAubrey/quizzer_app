@@ -19,14 +19,61 @@
    <link rel="stylesheet" href="/styles/all.css" />
    <link rel="stylesheet" href="/styles/header.css" />
    <link rel="stylesheet" href="/styles/footer.css" />
+   <link rel="stylesheet" href="/styles/quiz_container.css" />
+   <link rel="stylesheet" href="/styles/question_card.css" />
    <link rel="stylesheet" href="/styles/quiz_stats.css" />
 
   <!-- SCRIPTS-->
-
   <script src="/vendor/jquery-3.0.0.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timeago/1.6.7/jquery.timeago.min.js"></script>
   <script defer src="/scripts/app.js"></script>
+  <script defer src="/scripts/quiz_stats.js"></script>
 </head>
 <body>
+  <%- include('partials/__header') %>
 
+  <main>
+    <h1><%= quiz.title %> - Results</h1>
+    <p class="author">By <%= quiz.author%></p>
+    <p class ="description"><%= quiz.description %></p>
+    <p class="score">Average score: <%= Math.round(results.average * 10)/10 %>/<%= results.questions %></p>
+    <p class="attempts">Total attempts: <%= results.attempts %></p>
+    <div  class="results_container">
+      <section class="by_answer">
+        <% for (question in quiz.questions) { %>
+          <article class="question_card">
+            <header>
+              <p><%= question %>. <%= quiz.questions[question].text %></p>
+            </header>
+            <ul>
+              <% for (answer of quiz.questions[question].answers) { %>
+                <li class="<%= (results.byAnswer[answer.id].is_correct ? 'correct' : '') %>" >
+                  <span class="count">[<%= results.byAnswer[answer.id].count %>]</span>
+                  <%= answer.text %>
+                </li>
+              <% } %>
+            </ul>
+          </article>
+        <% } %>
+      </section>
+      <section class="by_attempt">
+        <% for (attempt of results.byAttempt) { %>
+          <article class="attempt_card">
+            <ul class="attempt_info">
+              <li class="name">User: <%= (attempt.name || 'anonymous') %></li>
+              <li class="score">Score: <%= attempt.score %></li>
+              <li class="attempt_time">
+                <time class="timeago" datetime="<%= attempt.attempted_at %>"></time>
+              </li>
+            </ul>
+            <a href="/quizapp/attempt/<%= attempt.url %>">
+              <button>See this attempt</button>
+            </a>
+          </article>
+        <% } %>
+      </section>
+    </div>
+    <a href="/quizapp/quiz/<%= quiz.url %>"><button id="quiz_try">Try this quiz!</button></a>
+  </main>
 </body>
 </html>

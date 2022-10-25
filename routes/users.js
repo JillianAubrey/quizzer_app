@@ -37,17 +37,19 @@ router.get('/quiz/results/:url',  (req, res) => {
   const user_id = 2;
   const templateVars = {};
 
-  getQuizResults({results_url: req.params.url})
-  .then(results => {
+  Promise.all([
+    getUserById(user_id),
+    getQuizResults({results_url: req.params.url})
+  ])
+  .then(([user, results]) => {
+    templateVars.userName = user.name;
     templateVars.results = results;
     return results.quizId;
   })
-  .then(quizId => {
-    getQuiz({id: quizId})
-  })
+  .then(quizId => getQuiz({id: quizId}))
   .then(quiz => {
     templateVars.quiz = quiz;
-    res.render('results', templateVars);
+    res.render('quiz_stats', templateVars);
   })
 })
 
