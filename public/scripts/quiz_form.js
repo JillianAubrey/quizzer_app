@@ -31,6 +31,7 @@ const submitQuiz = function(event) {
   if(validateData(valData)) {
     $.post('/api', data).then((res) => {
       console.log(res);
+      renderConfirmation(res);
     });
   }
 };
@@ -200,6 +201,47 @@ const validateData = function(valData) {
     const removeError = function() {
       $(this).removeClass('invalid');
     };
+
+    const renderConfirmation = function(data) {
+      let $confPage = `<article>
+        <h3>Congratulations <span class="conf_user">${data.userName}</span>! Your new <span class="conf_private">${data.quizPrivate = 'FALSE' ? 'public' : 'private'}</span> quiz "<span class=".conf_title">${data.quizTitle}</span>" was successfully created. 🥳</h3>
+        <div class="copy_buttons">
+          <button class="quizlink_button">Copy Quiz Link &nbsp;<input class="quiz_link" value=http://localhost:8080/quizapp/quiz/${data.url}></button>
+          <button class="resultslink_button">Copy Results Link &nbsp;<input class="results_link" value=http://localhost:8080/quizapp/quiz/${data.resultsUrl}></button>
+        </div>
+      </article>`;
+
+      $('h1').html('Quiz Created');
+      $('form').remove();
+      $('main').addClass('confirmation');
+      $('main').append($confPage);
+
+      $(document).on('click', '.quizlink_button', function () {
+        $(`.quiz_link`).select();
+        document.execCommand('copy');
+
+        $(this).find('input').addClass(`copied`);
+        setTimeout(() => {
+          $(this).find('input').removeClass(`copied`)
+        }, 1000)
+
+      })
+
+      $(document).on('click', '.resultslink_button', function () {
+        $(`.results_link`).select();
+        document.execCommand('copy');
+
+        $(this).find('input').addClass(`copied`);
+        setTimeout(() => {
+          $(this).find('input').removeClass(`copied`)
+        }, 1000)
+
+      })
+
+
+
+    };
+
 
 
 

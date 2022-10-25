@@ -220,6 +220,72 @@ label[for="quiz_private"] {
   font-style: italic;
   font-size: 0.9em;
 }
-// <button class="add_answer">Add Answer</button>
-//     <button class="delete_answer">Delete Answer</button>
-//     <button class="delete_question">Delete Question</button>
+
+article {
+  display: flex;
+  padding: 5em;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+}
+
+article div {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+
+article div p {
+  text-align: center;
+  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+
+i {
+  font-style: normal;
+}
+
+.copy_buttons {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  gap: 2em;
+  margin-top: 1.2em;
+}
+
+.confirmation {
+    height: 50vh;
+}
+
+article h3 {
+  color: base.$mainThemeColour;
+  text-shadow: 0.5px 0.5px 2px base.$secondaryThemeColour;
+  font-size: 1.2em;
+}
+
+.quizlink_button {
+  background-color: base.$mainThemeColour;
+}
+
+.resultslink_button {
+  background-color: base.$complThemeColour;
+}
+
+.link {
+  display: none;
+}
+
+.copied {
+  background-color: base.$complThemeColour;
+}
+
+.results_link, .quiz_link {
+  border: none;
+  border-radius: 3px;
+}

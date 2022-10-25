@@ -12,7 +12,6 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   //user_id == req.session.user_id
   const user_id = 2;
-  let userName
 
   getUserById(user_id)
     .then((user) => addQuiz(user_id, req.body, user.name))
