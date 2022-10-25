@@ -8,6 +8,7 @@ $(() => {
 
 const refreshIndexQuizzes = () => {
   return $.get('/api').then(data => {
+    console.log(data);
     return data;
   }).then(quizzes => renderQuizContainer(quizzes, $('.quiz_container')))
   .catch(error => console.log(error));
@@ -16,8 +17,10 @@ const refreshIndexQuizzes = () => {
 const renderQuizContainer = (quizzes, $quiz_container) => {
   $quiz_container.empty();
   quizzes.forEach(quiz => {
+    if (quiz) {
     const $quiz = createQuizCard(quiz);
     $quiz_container.prepend($quiz);
+    }
   });
   $('time.timeago').timeago();
 };

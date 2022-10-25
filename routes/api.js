@@ -6,7 +6,10 @@ const { getUserById } = require('../db/queries/users');
 
 
 router.get('/', (req, res) => {
-  getQuizzes({public : true}).then(data => res.json(data));
+  const user_id = 2;
+  getQuizzes(user_id).then(data => {
+    res.json(data);
+});
 });
 
 router.post('/', (req, res) => {

@@ -3,7 +3,10 @@
 const db = require('../connection'); //connect to DB
 const { generateRandomString } = require('./helpers');
 
-const getQuizzes = function(options) {
+const getQuizzes = function(userId, options = {recent : true, untaken : true}) {
+
+  let queryParams = [];
+
   let query = `
   SELECT
     quizzes.*,
@@ -15,18 +18,24 @@ const getQuizzes = function(options) {
   JOIN users
     ON users.id = user_id
   WHERE TRUE
+    AND NOT is_private
   `; // WHERE TRUE initiates the WHERE so the filter options can be added with AND
 
-  if (options.public) {
-    query += ' AND NOT is_private';
+  if (options.untaken) {
+    query += 'AND quizzes.id NOT IN (SELECT attempts.quiz_id FROM attempts WHERE user_id = $1)'
+    queryParams.push(userId);
   }
 
-  query += ' GROUP BY quizzes.id, users.id;'
+  query += ' GROUP BY quizzes.id, users.id'
 
-  return db.query(query, [])
+  if (options.recent) {
+    query += ' ORDER BY quizzes.created_at;'
+  }
+
+  return db.query(query, queryParams)
   .then (data => {
-    return data.rows;
-  })
+        return data.rows;
+      })
   .catch(error => {
     console.log(error);
   })
