@@ -45,3 +45,87 @@
 .quiz_card:hover {
     box-shadow: 5px 5px 5px base.$secondaryThemeColour;
 }
+
+
+//specified specific styling contraints for the rendering on the account 'my quizzes' page;
+.info_body {
+
+header {
+  height: 15%;
+  font-size: 0.9em;
+}
+
+.quiz_card_main {
+  width: 100%;
+  border-radius: inherit;
+  align-items: center;
+}
+
+button {
+  border: none;
+  border-radius: 10px;
+  padding: 0.4em;
+  color: white;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 2px 2px 4px #31313b7f;
+  padding: 0.5em;
+  background-color: base.$mainThemeColour;
+  transition: all 0.2s ease-in-out;
+}
+
+.quiz_stats {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  padding: 1em 1.5em;
+  margin: 0 auto;
+}
+
+.quiz_links {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0em 3em 0.5em 3em;
+
+  button {
+    background-color: base.$complThemeColour;
+  }
+
+}
+
+.quiz_link{
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+
+}
+
+.results {
+  background: linear-gradient(50deg, base.$mainThemeColour 60%, base.$secondaryThemeColour 80%, base.$mainThemeColour 90%);
+}
+
+.delete {
+  background-color: rgb(224, 85, 85);
+}
+
+.public {
+  background-color: base.$mainThemeColour;
+}
+
+.results:hover, .public:hover, .delete:hover, .copy_quiz_btn:hover, .copy_results_btn:hover {
+  transform: scale(1.1);
+}
+
+
+footer {
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-bottom: 0em;
+}
+
+}

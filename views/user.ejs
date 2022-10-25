@@ -1,0 +1,115 @@
+<!-- <-- PAGE FOR USERS' PERSONAL ACCOUNT INFORMATION -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Quiz App - Your Account</title>
+  <link href="/docs/owl.png" rel="icon" type="image/x-icon" />
+
+  <meta charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+  <!-- EXTERNAL STYLESHEETS -->
+  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
+  <link rel="stylesheet" href="/vendor/border-box.css" />
+
+
+   <!-- OUR STYLESHEETS -->
+   <link rel="stylesheet" href="/styles/all.css" />
+   <link rel="stylesheet" href="/styles/account_header.css" />
+   <link rel="stylesheet" href="/styles/quiz_card.css" />
+   <link rel="stylesheet" href="/styles/footer.css" />
+   <link rel="stylesheet" href="/styles/users.css" />
+
+  <!-- SCRIPTS-->
+
+  <script src="/vendor/jquery-3.0.0.js"></script>
+  <script defer src="/scripts/app.js"></script>
+
+</head>
+
+
+<body>
+  <header>
+    <nav>
+        <p class="user_Name"> Welcome Back, <%= userName %>!</p>
+        <div class="nav_right">
+        <form action="/quizapp/logout" method="POST" class="logout">
+           <button>Logout</button>
+        </form>
+        <form action="/quizapp" method="GET" class="home">
+          <button>Back Home<img src="/docs/owl.png"></button>
+        </form>
+       </div>
+    </nav>
+    </header>
+    <main>
+      <div class="main_buttons">
+        <button class="quizzes_btn">View My Quizzes</button>
+        <button class="results_btn">View My Quiz Attempts</button>
+      </div>
+
+      <div class="info_container">
+        <h1>My Quizzes</h1>
+        <div class="info_body">
+          <article class="quiz_card">
+            <div class="quiz_card_main">
+              <header>
+                <h2>;lk;lklk</h2>
+                <p>Created: <time class="timeago" datetime="${isoDate}">9 days ago</time></p>
+              </header>
+              <div class="quiz_stats">
+                <button class="questions">Questions: 9</button>
+                <button class="attempts">Attempts: 5</button>
+                <button class="score">Average Score: 5 / 9</button>
+                <button class="results">View Detailed Results</button>
+              </div>
+              <div class="quiz_links">
+                <div class="quiz_link">
+                  <button class="quiz_link copy_quiz_btn">Copy Quiz Link &nbsp;<input class="quiz_link" value=http://localhost:8080/quizapp/quiz/${data.url}></button>
+                </div>
+                <div class="quiz_link">
+                  <button class="quiz_link copy_results_btn">Copy Results Link &nbsp;<input class="quiz_link" value=http://localhost:8080/quizapp/quiz/${data.url}></button>
+                </div>
+              </div>
+              <footer>
+                <button class="public">Make Quiz Public / Private</button>
+                <button class="delete">Delete Quiz</button>
+              </footer>
+            </div>
+          </article>
+          <article class="quiz_card">
+            <div class="quiz_card_main">
+              <header>
+                <h2>;lk;lklk</h2>
+                <p>Created: <time class="timeago" datetime="${isoDate}">9 days ago</time></p>
+              </header>
+              <div class="quiz_stats">
+                <button class="questions">Questions: 9</button>
+                <button class="attempts">Attempts: 5</button>
+                <button class="score">Average Score: 5 / 9</button>
+                <button class="results">View Detailed Results</button>
+              </div>
+              <div class="quiz_links">
+                <div class="quiz_link">
+                  <button class="quiz_link copy_quiz_btn">Copy Quiz Link &nbsp;<input class="quiz_link" value=http://localhost:8080/quizapp/quiz/${data.url}></button>
+                </div>
+                <div class="quiz_link">
+                  <button class="quiz_link copy_results_btn">Copy Results Link &nbsp;<input class="quiz_link" value=http://localhost:8080/quizapp/quiz/${data.url}></button>
+                </div>
+              </div>
+              <footer>
+                <button class="public">Make Quiz Public / Private</button>
+                <button class="delete">Delete Quiz</button>
+              </footer>
+            </div>
+          </article>
+        </div>
+      </div>
+    </main>
+
+</body>
+
+</html>

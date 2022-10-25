@@ -85,4 +85,18 @@ router.get('/quiz_builder', (req, res) => {
   });
 });
 
+
+router.get('/account', (req, res) => {
+  //user_id == req.session.user_id
+  const user_id = 2;
+
+  getUserById(user_id)
+    .then(user => {
+    const templateVars = {userName: user.name};
+    res.render('user', templateVars);
+  });
+
+
+})
+
 module.exports = router;
