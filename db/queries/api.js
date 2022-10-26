@@ -260,16 +260,17 @@ const getAttemptScore = function({url, id}) {
     WHERE ${url ? 'attempts.url' : 'attempts.id'} = $1;
   `
 
-  return Promise.all([
-    db.query(queryCorrect, [url || id]),
-    db.query(queryTotal, [url || id]),
-  ])
-  .then(([correct, total]) => {
-    const score = {
-      correct: correct.rows[0].correct,
-      total: total.rows[0].total
-    }
-    return score;
+    return new Promise((res, rej) => {Promise.all([
+      db.query(queryCorrect, [url || id]),
+      db.query(queryTotal, [url || id]),
+    ])
+    .then(([correct, total]) => {
+      const score = {
+        correct: correct.rows[0].correct,
+        total: total.rows[0].total
+      }
+      return res(score);
+    })
   })
 };
 

@@ -2,7 +2,7 @@
 const express = require('express');
 const { getQuiz, getAttempt, getAttemptScore, getQuizResults, getQuizzes, getQuizAverage, getNumOfAttemptsQuiz } = require('../db/queries/api');
 const router  = express.Router();
-const { getUsers, getUserById } = require('../db/queries/users');
+const { getUsers, getUserById, getAllUserAttempts } = require('../db/queries/users');
 
 router.get('/', (req, res) => {
 
@@ -124,8 +124,27 @@ router.get('/account', (req, res) => {
           }
         }
       })
-    }).then(() => res.render('user', templateVars));
+    }).then(() => getAllUserAttempts(user_id))
+      .then((attempts) => {
+        templateVars.attempts = attempts;
+        let promises = [];
+        for (let attempt of attempts) {
+          let url = attempt.attempturl;
+          promises.push(getAttemptScore({ url }))
+        }
+        return Promise.all(promises);
+      })
+      .then((scores) => {
+        let count = 0;
+        for (let attempt of templateVars.attempts) {
+          attempt.attempted_at = attempt.attempted_at.toISOString();
+          attempt.score = scores[count].correct;
+          count++
+        }
+      }).then(() => {
+        res.render('user', templateVars)
+      })
 
-})
+});
 
 module.exports = router;
