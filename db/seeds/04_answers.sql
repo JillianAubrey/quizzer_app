@@ -82,3 +82,9 @@ INSERT INTO answers (question_id, text, is_correct)
 VALUES (15, 'Dawson', TRUE);
 INSERT INTO answers (question_id, text, is_correct)
 VALUES (15, 'Koshu', FALSE);
+INSERT INTO answers (question_id, text, is_correct)
+VALUES (16, 'placeholder', TRUE);
+INSERT INTO answers (question_id, text, is_correct)
+VALUES (17, 'placeholder', TRUE);
+INSERT INTO answers (question_id, text, is_correct)
+VALUES (18, 'placeholder', TRUE);

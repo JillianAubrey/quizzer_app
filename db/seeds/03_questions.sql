@@ -28,3 +28,9 @@ INSERT INTO questions (quiz_id, text, sequence)
 VALUES (3, 'Which cat is younger?', 1);
 INSERT INTO questions (quiz_id, text, sequence)
 VALUES (3, 'Which cat has long hair?', 2);
+INSERT INTO questions (quiz_id, text, sequence)
+VALUES (4, 'placeholder', 1);
+INSERT INTO questions (quiz_id, text, sequence)
+VALUES (5, 'placeholder', 1);
+INSERT INTO questions (quiz_id, text, sequence)
+VALUES (6, 'placeholder', 3);
