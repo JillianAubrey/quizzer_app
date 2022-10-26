@@ -1,5 +1,8 @@
-$(() => {
-  $('time.timeago').timeago();
+
+
+
+jQuery(() => {
+  jQuery('time.timeago').timeago();
 });
 
 const initTimeAgo = function($elements) {

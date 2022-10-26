@@ -111,9 +111,8 @@ router.get('/account', (req, res) => {
       return Promise.all(promises)
     })
     .then(result => {
-      console.log(result);
       templateVars.quizzes.forEach((quiz) => {
-        // quiz.created_at = quiz.created_at.toDateString();
+        quiz.created_at = quiz.created_at.toISOString();
         for (let res of result) {
           if (quiz.id === res[0]) {
             if (res[1].average) {
@@ -125,7 +124,6 @@ router.get('/account', (req, res) => {
           }
         }
       })
-      console.log(templateVars);
     }).then(() => res.render('user', templateVars));
 
 })
