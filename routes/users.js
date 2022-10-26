@@ -1,7 +1,6 @@
 
 const express = require('express');
 const router  = express.Router();
-const bcrypt = require('bcryptjs');
 const cookieSession = require('cookie-session');
 const { getQuiz, getAttempt, getAttemptScore, getQuizResults, getQuizzes, getQuizAverage, getNumOfAttemptsQuiz } = require('../db/queries/api');
 const { getUsers, getUserById } = require('../db/queries/users');

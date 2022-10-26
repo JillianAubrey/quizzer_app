@@ -1,8 +1,10 @@
 
 const express = require('express');
 const router  = express.Router();
+const bcrypt = require('bcryptjs');
+const cookieSession = require('cookie-session');
 const { getQuizzes, postAttempt, addQuiz } = require('../db/queries/api');
-const { getUserById } = require('../db/queries/users');
+const { getUserById, getUserByEmail } = require('../db/queries/users');
 
 
 router.get('/', (req, res) => {
@@ -34,11 +36,33 @@ router.post('/quiz',  (req, res) => {
   });
 })
 
+router.post('/login', (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    const templateVars = {
+      userName: '',
+      errorMessage: 'Please provide an email and password',
+    };
+    return res.status(400).render('login', templateVars);
+  }
 
+  const user = getUserByEmail(email);
 
+  if (!user || !bcrypt.compareSync(password, user.password)) {
+    const templateVars = {
+      userName: '',
+      errorMessage: 'That email and password combination did not match any accounts',
+    };
+    return res.status(400).render('login', templateVars);
+  }
 
+  req.session.user_id = user.id;
+  res.redirect('/quizapp');
+});
 
-
-
+router.post('/logout', (req, res) => {
+  req.session = null;
+  res.redirect('/quizapp');
+});
 
 module.exports = router;

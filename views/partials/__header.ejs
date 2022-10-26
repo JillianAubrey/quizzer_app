@@ -5,7 +5,9 @@
     <li class="user">
       <% if (userName) { %>
         <a href="/quizapp/account"><%= userName %></a>
-        <a href="/quizapp/logout" class="logout">Logout</a>
+        <form action="/api/logout" method="POST">
+          <button class="logout">Logout</button>
+        </form>
       <% } else { %>
         <a href="/quizapp/login">Login</a>
       <% } %>
