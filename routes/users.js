@@ -143,4 +143,18 @@ router.get('/login', (req, res) => {
   res.render('login', templateVars);
 })
 
+router.get('/register', (req, res) => {
+  const user_id = req.session.user_id
+  if (user_id) {
+    return res.redirect('/');
+  }
+  const templateVars = {
+    userName: '',
+    user_id,
+    errorMessage: '',
+  }
+  res.render('register', templateVars);
+})
+
+
 module.exports = router;

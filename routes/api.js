@@ -4,7 +4,7 @@ const router  = express.Router();
 const bcrypt = require('bcryptjs');
 const cookieSession = require('cookie-session');
 const { getQuizzes, postAttempt, addQuiz } = require('../db/queries/api');
-const { getUserById, getUserByEmail } = require('../db/queries/users');
+const { getUserById, getUserByEmail, addUser } = require('../db/queries/users');
 
 
 router.get('/', (req, res) => {
@@ -46,18 +46,48 @@ router.post('/login', (req, res) => {
     return res.status(400).render('login', templateVars);
   }
 
-  const user = getUserByEmail(email);
+ getUserByEmail(email)
+ .then(user => {
+   if (!user || !bcrypt.compareSync(password, user.password)) {
+     const templateVars = {
+       userName: '',
+       errorMessage: 'That email and password combination did not match any accounts',
+     };
+     return res.status(400).render('login', templateVars);
+   }
+   req.session.user_id = user.id;
+   res.redirect('/quizapp');
+ });
+});
 
-  if (!user || !bcrypt.compareSync(password, user.password)) {
+router.post('/register', (req, res) => {
+  const {name, email, password } = req.body;
+  if (!name || !email || !password) {
     const templateVars = {
       userName: '',
-      errorMessage: 'That email and password combination did not match any accounts',
+      errorMessage: 'Please provide a name, email and password',
     };
-    return res.status(400).render('login', templateVars);
+    return res.status(400).render('register', templateVars);
   }
 
-  req.session.user_id = user.id;
-  res.redirect('/quizapp');
+  getUserByEmail(email)
+  .then(user => {
+    if (user) {
+      const templateVars = {
+        userName: '',
+        errorMessage: 'There is already an account for that email address',
+      };
+      return res.status(400).render('register', templateVars);
+    }
+
+    addUser(name, email, bcrypt.hashSync(password))
+    .then(user => {
+      console.log(user);
+      req.session.user_id = user.id;
+      res.redirect('/quizapp');
+    });
+  })
+
 });
 
 router.post('/logout', (req, res) => {

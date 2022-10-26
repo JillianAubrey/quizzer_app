@@ -1,10 +1,10 @@
-<!-- Login Page -->
+<!-- Registration Page -->
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <title>Quiz App - Login</title>
+  <title>Quiz App - Register</title>
 
   <link href="/docs/owl.png" rel="icon" type="image/x-icon" />
 
@@ -32,13 +32,18 @@
 <body>
   <%- include('partials/__header') %>
   <main>
-    <h1>Login</h1>
+    <h1>Register</h1>
     <% if (errorMessage) { %>
       <p class="error"><%= errorMessage %></p>
     <% } %>
-    <form action="/api/login" method="POST">
+    <form action="/api/register" method="POST">
       <input
         type="text"
+        name="name"
+        placeholder="Name"
+      />
+      <input
+        type="email"
         name="email"
         placeholder="Email"
       />
