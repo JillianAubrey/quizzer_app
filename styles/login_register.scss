@@ -1,0 +1,35 @@
+@use 'base';
+
+main {
+  width: 80%;
+  margin: base.$navHeight auto 0;
+  height: calc(100vh - base.$navHeight - base.$footHeight);
+  padding: 1em;
+}
+
+button {
+  border: none;
+  border-radius: 6px;
+  color: white;
+  background-color: base.$mainThemeColour;
+  margin: 1em auto;
+  padding: 1em;
+}
+
+form {
+  display: flex;
+  flex-flow: column;
+  max-width: 20em;
+  input {
+    margin-bottom: 0.25em;
+  }
+}
+
+.error {
+  max-width: 20em;
+  background-color: base.$errorColour;
+  color: white;
+  border-radius: 6px;
+  padding: 0.5em;
+  margin: 0.5em 0;
+}

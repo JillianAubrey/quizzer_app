@@ -62,4 +62,32 @@ nav {
     //   text-decoration: none;
     // }
   }
+
+  .user {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+
+    .logout {
+      background-color: base.$errorColour;
+      border-radius: 5px;
+      padding: 0.25em;
+      margin-top: 0.25em;
+      border: none;
+      color: white;
+    }
+
+    .register, .login {
+      border-radius: 5px;
+      padding: 0.25em;
+    }
+
+    .register {
+      margin-top: 0.25em;
+    }
+
+    .register:hover, .login:hover {
+      background-color: base.$secondaryThemeColour;
+    }
+  }
 }

@@ -2,7 +2,17 @@
 <header>
 <nav>
   <ul>
-    <li class="user_Name"><a href="/quizapp/account"><%= userName %></a></li>
+    <li class="user">
+      <% if (userName) { %>
+        <a href="/quizapp/account"><%= userName %></a>
+        <form action="/api/logout" method="POST">
+          <button class="logout">Logout</button>
+        </form>
+      <% } else { %>
+        <a href="/quizapp/login" class="login">Login</a>
+        <a href="/quizapp/register" class="register">Register</a>
+      <% } %>
+    </li>
     <li class="logo"><a href="/quizapp">Quizzer</a><img src="/docs/owl.png"></li>
     <li class="new_quiz"><a href="/quizapp/quiz_builder">New Quiz</a></li>
   </ul>
