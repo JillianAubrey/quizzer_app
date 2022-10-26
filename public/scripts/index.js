@@ -8,7 +8,6 @@ $(() => {
 
 const refreshIndexQuizzes = () => {
   return $.get('/api').then(data => {
-    console.log(data);
     return data;
   }).then(quizzes => renderQuizContainer(quizzes, $('.quiz_container')))
     .catch(error => console.log(error));

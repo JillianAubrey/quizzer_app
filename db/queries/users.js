@@ -15,9 +15,7 @@ const getUserById = id => {
     .then(user => {
       return (user.rows[0] || null);
     })
-    .catch(error => {
-      console.log(error);
-    });
+    .catch(error => console.log(error));
 };
 
 const getUserByEmail = email => {
@@ -28,9 +26,7 @@ const getUserByEmail = email => {
     .then(user => {
       return (user.rows[0] || null);
     })
-    .catch(error => {
-      console.log(error);
-    });
+    .catch(error => console.log(error));
 };
 
 const addUser = (name, email, password) => {
@@ -42,9 +38,7 @@ const addUser = (name, email, password) => {
     .then(user => {
       return user.rows[0];
     })
-    .catch(error => {
-      console.log(error);
-    });
+    .catch(error => console.log(error));
 };
 
 module.exports = { getUsers, getUserById, getUserByEmail, addUser };

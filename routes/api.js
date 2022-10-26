@@ -27,7 +27,6 @@ router.post('/quiz',  (req, res) => {
 
   postAttempt(submission, userId)
     .then(url => {
-      console.log(url);
       res.send(`/quizapp/attempt/${url}`);
     });
 });

@@ -90,9 +90,7 @@
         }, 1200);
 
       })
-      .fail((error) => {
-        console.log(error);
-      });
+      .fail(error => console.log(error));
   };
 
 })(jQuery);

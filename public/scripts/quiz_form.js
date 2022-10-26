@@ -30,7 +30,6 @@
 
     if (validateData(valData)) {
       $.post('/api', data).then((res) => {
-        console.log(res);
         renderConfirmation(res);
       });
     }

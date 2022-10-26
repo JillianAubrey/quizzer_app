@@ -106,7 +106,6 @@ router.get('/account', (req, res) => {
       return Promise.all(promises);
     })
     .then(result => {
-      console.log(result);
       templateVars.quizzes.forEach((quiz) => {
         // quiz.created_at = quiz.created_at.toDateString();
         for (let res of result) {
@@ -120,8 +119,8 @@ router.get('/account', (req, res) => {
           }
         }
       });
-      console.log(templateVars);
-    }).then(() => res.render('user', templateVars));
+    })
+    .then(() => res.render('user', templateVars));
 });
 
 router.get('/login', (req, res) => {
