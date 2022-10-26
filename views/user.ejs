@@ -26,7 +26,10 @@
   <!-- SCRIPTS-->
 
   <script src="/vendor/jquery-3.0.0.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timeago/1.6.7/jquery.timeago.min.js"></script>
   <script defer src="/scripts/app.js"></script>
+  <script defer src="/scripts/quiz_stats.js"></script>
+
 
 
 </head>
@@ -60,24 +63,24 @@
             <div class="quiz_card_main">
               <header>
                 <h2><%= quiz.title %></h2>
-                <p>Created: <time class="timeago" datetime="<%= quiz.created_at %>"></time></p>
+                <p>Created: <time class="timeago" datetime="<%=quiz.created_at%>"></time></p>
               </header>
               <div class="quiz_stats">
                 <button class="questions"> Questions: <%= quiz.question_count %></button>
                 <button class="attempts"> Attempts: <%= quiz.attempts %></button>
                 <button class="score"> Average Score: <%= quiz.average %> / <%= quiz.question_count %></button>
-                <form action="/quizapp/results/<%= quiz.results_url %>" method="GET"><button class="results">View Detailed Results</button></form>
+                <form action="/quizapp/quiz/results/<%= quiz.results_url %>" method="GET"><button class="results">View Detailed Results</button></form>
               </div>
               <div class="quiz_links">
                 <div class="quiz_link">
                   <button class=" copy_quiz_btn">Copy Quiz Link &nbsp;<input class="copy_input" value=http://localhost:8080/quizapp/quiz/<%= quiz.url %>></button>
                 </div>
                 <div class="quiz_link">
-                  <button class="copy_results_btn">Copy Results Link &nbsp;<input class="copy_input" value=http://localhost:8080/quizapp/results/<%= quiz.results_url %>></button>
+                  <button class="copy_results_btn">Copy Results Link &nbsp;<input class="copy_input" value=http://localhost:8080/quizapp/quiz/results/<%= quiz.results_url %>></button>
                 </div>
               </div>
               <footer>
-                <button class="public">Make Quiz <%= quiz.is_private ? 'Public' : 'Private' %></button>
+                  <button class="public" id="<%= quiz.url %>">Make Quiz <%= quiz.is_private ? 'Public' : 'Private' %></button>
                 <form action="/quizapp/quiz/<%= quiz.url %>" method="POST">
                   <button class="delete">Delete Quiz</button></a>
                 </form>
