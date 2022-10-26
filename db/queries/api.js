@@ -475,11 +475,25 @@ const changePrivacy = function(quizUrl, request) {
     SET is_private = $1
     WHERE url = $2`
 
-  return db.query(query, [private, quizUrl]).then(() => {
+  return db.query(query, [private, quizUrl])
+    .then(() => {
     return true;
-  })
+   })
+   .catch(error => console.log(error));
+}
 
+const deleteQuiz = function(quizUrl) {
+
+  const query = `
+    DELETE FROM quizzes WHERE url = $1;
+    `
+
+  return db.query(query, [quizUrl])
+    .then(() => {
+      return true;
+    })
+    .catch(error => console.log(error));
 }
 
 module.exports = { getQuizzes, getQuiz, getAttempt, getAttemptScore, postAttempt, addQuiz, getQuizResults,
-    getQuizAverage, getNumOfAttemptsQuiz, checkUserPermission, changePrivacy};
+    getQuizAverage, getNumOfAttemptsQuiz, checkUserPermission, changePrivacy, deleteQuiz};
