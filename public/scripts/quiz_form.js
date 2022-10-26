@@ -1,76 +1,76 @@
 (($) => {
 
-$(() => {
+  $(() => {
 
-  addQuestion();
-  addQuestion();
-  addQuestion();
+    addQuestion();
+    addQuestion();
+    addQuestion();
 
-  $('#quiz_form').on('submit', submitQuiz);
+    $('#quiz_form').on('submit', submitQuiz);
 
-  $(document).on('click', '.add_answer', addAnswer);
+    $(document).on('click', '.add_answer', addAnswer);
 
-  $(document).on('click', '.delete_answer', deleteAnswer);
+    $(document).on('click', '.delete_answer', deleteAnswer);
 
-  $(document).on('click', '.delete_question', deleteQuestion);
+    $(document).on('click', '.delete_question', deleteQuestion);
 
-  $(document).on('click', '.add_question', addQuestion);
+    $(document).on('click', '.add_question', addQuestion);
 
-  $(document).on('click', 'input[type="radio"]', showCorrect)
+    $(document).on('click', 'input[type="radio"]', showCorrect);
 
-  $(document).on('click', 'input[type="text"], textarea', removeError)
-})
+    $(document).on('click', 'input[type="text"], textarea', removeError);
+  });
 
 
 
-const submitQuiz = function(event) {
-  event.preventDefault();
-  const data = $(this).serialize();
-  const valData = $(this).serializeArray();
-
-  if(validateData(valData)) {
-    $.post('/api', data).then((res) => {
-      console.log(res);
-      renderConfirmation(res);
-    });
-  }
-};
-
-const addAnswer = function(event) {
-  if (event) {
+  const submitQuiz = function(event) {
     event.preventDefault();
-  }
+    const data = $(this).serialize();
+    const valData = $(this).serializeArray();
 
-  let currAnsID = $(this).closest('.question_form').find('.answer').last().find('label').attr('for');
-  currAnsID = currAnsID.split("-");
+    if (validateData(valData)) {
+      $.post('/api', data).then((res) => {
+        console.log(res);
+        renderConfirmation(res);
+      });
+    }
+  };
 
-  const question = Number(currAnsID[0]);
-  const answer = Number(currAnsID[1]) + 1;
+  const addAnswer = function(event) {
+    if (event) {
+      event.preventDefault();
+    }
 
-  $(this).closest('.question_form').find('.answer_container').append(`
+    let currAnsID = $(this).closest('.question_form').find('.answer').last().find('label').attr('for');
+    currAnsID = currAnsID.split("-");
+
+    const question = Number(currAnsID[0]);
+    const answer = Number(currAnsID[1]) + 1;
+
+    $(this).closest('.question_form').find('.answer_container').append(`
     <div class="answer">
       <label for="${question}-${answer}">Answer ${answer}</label>
       <input type="text" name="${question}-${answer}" id="${question}-${answer}">
       <input type="radio" name="${question}-a" value="${question}-${answer}">
-    </div>`)
-  }
+    </div>`);
+  };
 
-const deleteAnswer = function(event) {
-  event.preventDefault();
-  const $answer = $(this).closest('.question_form').find('.answer_container').children('.answer').last();
-
-  if($answer.prev('.answer').length) {
-     $answer.remove()
-  }
-}
-
-const addQuestion = function(event) {
-  if (event) {
+  const deleteAnswer = function(event) {
     event.preventDefault();
-  }
-  const questionNum = Number($('#quiz_form').find('.question').last().attr('id')) + 1 || 1;
+    const $answer = $(this).closest('.question_form').find('.answer_container').children('.answer').last();
 
-  const $newQuestion = $(`
+    if ($answer.prev('.answer').length) {
+      $answer.remove();
+    }
+  };
+
+  const addQuestion = function(event) {
+    if (event) {
+      event.preventDefault();
+    }
+    const questionNum = Number($('#quiz_form').find('.question').last().attr('id')) + 1 || 1;
+
+    const $newQuestion = $(`
     <fieldset class="question_form">
     <legend>Question ${questionNum}</legend>
     <div class="question_form_main">
@@ -99,118 +99,119 @@ const addQuestion = function(event) {
     <button class="delete_question">Delete Question</button>
     </div>
     </div>
-    </fieldset>`)
+    </fieldset>`);
 
     $newQuestion.insertBefore('#form_foot');
 
     $(`#${questionNum}`).closest(`.question_form`).hide().show(400);
 
-}
+  };
 
-const deleteQuestion = function(event) {
-  event.preventDefault();
-  const $question = $(this).closest('.question_form')
-  $question.hide(400, () => $question.remove())
-}
+  const deleteQuestion = function(event) {
+    event.preventDefault();
+    const $question = $(this).closest('.question_form');
+    $question.hide(400, () => $question.remove());
+  };
 
-const showCorrect = function(event) {
-  $(this).closest('.answer_container').find('.correct').each(function () {
-     $(this).removeClass('correct') });
-  $(this).prev('input').addClass('correct');
+  const showCorrect = function(event) {
+    $(this).closest('.answer_container').find('.correct').each(function() {
+      $(this).removeClass('correct');
+    });
+    $(this).prev('input').addClass('correct');
 
-  $(this).closest('.answer_container').find('span').each(function () {
+    $(this).closest('.answer_container').find('span').each(function() {
       $(this).remove();
-  })
-  $(this).closest('.answer').find('label').append(`<span> ✅ </span>`);
-};
+    });
+    $(this).closest('.answer').find('label').append(`<span> ✅ </span>`);
+  };
 
-const validateData = function(valData) {
-  let countQ = 0;
-  let countA = 0;
-  let pubPriv = 0;
+  const validateData = function(valData) {
+    let countQ = 0;
+    let countA = 0;
+    let pubPriv = 0;
 
-      if(valData.length <= 3) {
-        $('.error_message').remove();
-        $(`<div class="error_message"><p>You must have at least one question</p></div>`).insertBefore('#form_foot');
-        return false;
-      }
-
-      for (let item of valData) {
-
-        if (item.name.length === 1) {
-          countQ++;
-        }
-        if (item.name[2] === 'a') {
-          countA++;
-        }
-
-        if (item.name === 'quiz_private') {
-          pubPriv = 1;
-        }
-
-        if (item.name === 'quiz_description' || item.name === 'quiz_title') {
-          if (item.value.length > 255) {
-            $('.error_message').remove();
-            $(`<div class="error_message"><p>Title and description should be 255 characters or less</p></div>`).insertBefore('#form_foot');
-            $(`#${item.name}`).addClass('invalid');
-            return false;
-          }
-        }
-
-        if (!item.value.length) {
-          if (item.name.length === 1) {
-            $('.error_message').remove();
-            $(`<div class="error_message"><p>Please fill out all the questions!</p></div>`).insertBefore('#form_foot');
-            $(`#${item.name}`).addClass('invalid');
-            return false;
-            }
-          if (item.name.length === 3) {
-            $('.error_message').remove();
-            $(`<div class="error_message"><p>Please ensure that no answer fields are left empty</p></div>`).insertBefore('#form_foot');
-            $(`#${item.name}`).addClass('invalid');
-            return false;
-          }
-          if (item.name.length > 3) {
-            $('.error_message').remove();
-            $(`<div class="error_message"><p>Please enter a title and description for your quiz</p></div>`).insertBefore('#form_foot');
-            $('.error_message').hide().slideDown(200);
-            $(`#${item.name}`).addClass('invalid');
-            return false;
-          }
-        }
-      }
-
-      if (countQ !== countA) {
-        $('.error_message').remove();
-        $(`<div class="error_message"><p>Please select a correct answer for each question</p></div>`).insertBefore('#form_foot');
-        return false;
-      }
-
-      if(pubPriv === 0) {
-        $('.error_message').remove();
-        $(`<div class="error_message"><p>Please choose whether your quiz will be public or private</p></div>`).insertBefore('#form_foot');
-         return false;
-      }
-
-
+    if (valData.length <= 3) {
       $('.error_message').remove();
-      return true;
+      $(`<div class="error_message"><p>You must have at least one question</p></div>`).insertBefore('#form_foot');
+      return false;
+    }
 
-    };
+    for (let item of valData) {
 
-    const removeError = function() {
-      $(this).removeClass('invalid');
-    };
-
-    const renderConfirmation = function(data) {
-      let visibility
-      if (data.quizPrivate === 'FALSE') {
-        visibility = 'public'
-      } else {
-        visibility = 'private'
+      if (item.name.length === 1) {
+        countQ++;
+      }
+      if (item.name[2] === 'a') {
+        countA++;
       }
 
-      let $confPage = `<article>
+      if (item.name === 'quiz_private') {
+        pubPriv = 1;
+      }
+
+      if (item.name === 'quiz_description' || item.name === 'quiz_title') {
+        if (item.value.length > 255) {
+          $('.error_message').remove();
+          $(`<div class="error_message"><p>Title and description should be 255 characters or less</p></div>`).insertBefore('#form_foot');
+          $(`#${item.name}`).addClass('invalid');
+          return false;
+        }
+      }
+
+      if (!item.value.length) {
+        if (item.name.length === 1) {
+          $('.error_message').remove();
+          $(`<div class="error_message"><p>Please fill out all the questions!</p></div>`).insertBefore('#form_foot');
+          $(`#${item.name}`).addClass('invalid');
+          return false;
+        }
+        if (item.name.length === 3) {
+          $('.error_message').remove();
+          $(`<div class="error_message"><p>Please ensure that no answer fields are left empty</p></div>`).insertBefore('#form_foot');
+          $(`#${item.name}`).addClass('invalid');
+          return false;
+        }
+        if (item.name.length > 3) {
+          $('.error_message').remove();
+          $(`<div class="error_message"><p>Please enter a title and description for your quiz</p></div>`).insertBefore('#form_foot');
+          $('.error_message').hide().slideDown(200);
+          $(`#${item.name}`).addClass('invalid');
+          return false;
+        }
+      }
+    }
+
+    if (countQ !== countA) {
+      $('.error_message').remove();
+      $(`<div class="error_message"><p>Please select a correct answer for each question</p></div>`).insertBefore('#form_foot');
+      return false;
+    }
+
+    if (pubPriv === 0) {
+      $('.error_message').remove();
+      $(`<div class="error_message"><p>Please choose whether your quiz will be public or private</p></div>`).insertBefore('#form_foot');
+      return false;
+    }
+
+
+    $('.error_message').remove();
+    return true;
+
+  };
+
+  const removeError = function() {
+    $(this).removeClass('invalid');
+  };
+
+  const renderConfirmation = function(data) {
+    let visibility;
+    if (data.quizPrivate === 'FALSE') {
+      visibility = 'public';
+    } else {
+      visibility = 'private';
+    }
+
+    let $confPage = `<article>
         <h3>Congratulations <span class="conf_user">${data.userName}</span>! Your new <span class="conf_private">${visibility}</span> quiz "<span class=".conf_title">${data.quizTitle}</span>" was successfully created. 🥳</h3>
         <div class="copy_buttons">
           <button class="quizlink_button c_b"><span>Copy Quiz Link</span>&nbsp;<input class="quiz_link" value=http://localhost:8080/quizapp/quiz/${data.url}></button>
@@ -218,25 +219,25 @@ const validateData = function(valData) {
         </div>
       </article>`;
 
-      $('h1').html('Quiz Created');
-      $('form').remove();
-      $('main').addClass('confirmation');
-      $('main').append($confPage);
+    $('h1').html('Quiz Created');
+    $('form').remove();
+    $('main').addClass('confirmation');
+    $('main').append($confPage);
 
-      $(document).on('click', '.c_b', function () {
-       $(this).find('input').select();
-        document.execCommand('copy');
+    $(document).on('click', '.c_b', function() {
+      $(this).find('input').select();
+      document.execCommand('copy');
 
-        let $text = $(this).find('span').text();
-        $(this).find('span').text("Link Copied!")
+      let $text = $(this).find('span').text();
+      $(this).find('span').text("Link Copied!");
 
-        setTimeout(() => {
-          $(this).find('span').text($text)
-        }, 2000)
+      setTimeout(() => {
+        $(this).find('span').text($text);
+      }, 2000);
 
-      })
+    });
 
 
-    };
+  };
 
 })(jQuery);

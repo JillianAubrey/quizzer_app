@@ -11,15 +11,15 @@ const refreshIndexQuizzes = () => {
     console.log(data);
     return data;
   }).then(quizzes => renderQuizContainer(quizzes, $('.quiz_container')))
-  .catch(error => console.log(error));
-}
+    .catch(error => console.log(error));
+};
 
-const renderQuizContainer = (quizzes, $quiz_container) => {
-  $quiz_container.empty();
+const renderQuizContainer = (quizzes, $quizContainer) => {
+  $quizContainer.empty();
   quizzes.forEach(quiz => {
     if (quiz) {
-    const $quiz = createQuizCard(quiz);
-    $quiz_container.prepend($quiz);
+      const $quiz = createQuizCard(quiz);
+      $quizContainer.prepend($quiz);
     }
   });
   $('time.timeago').timeago();

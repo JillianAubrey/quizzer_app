@@ -12,13 +12,13 @@ const getUserById = id => {
   SELECT * FROM users
   WHERE id = $1;
   `, [id])
-  .then (user => {
-    return (user.rows[0] || null)
-  })
-  .catch(error => {
-    console.log(error);
-  })
-}
+    .then(user => {
+      return (user.rows[0] || null);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+};
 
 const getAllUserAttempts = function(userId) {
 
@@ -31,25 +31,27 @@ const getAllUserAttempts = function(userId) {
     JOIN questions ON questions.quiz_id = quizzes.id
     WHERE attempts.user_id = $1
     GROUP BY quizzes.id, attempts.url, attempts.attempted_at, attempts.id
-    ORDER BY attempts.attempted_at DESC`
+    ORDER BY attempts.attempted_at DESC`;
 
-  return new Promise((res, rej) => {db.query(query, [userId])
-    .then(data => res(data.rows))});
+  return new Promise((res, rej) => {
+    db.query(query, [userId])
+      .then(data => res(data.rows));
+  });
 
-}
+};
 
 const getUserByEmail = email => {
   return db.query(`
   SELECT * FROM users
   WHERE email = $1;
   `, [email])
-  .then (user => {
-    return (user.rows[0] || null);
-  })
-  .catch(error => {
-    console.log(error);
-  })
-}
+    .then(user => {
+      return (user.rows[0] || null);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+};
 
 const addUser = (name, email, password) => {
   return db.query(`
@@ -57,12 +59,12 @@ const addUser = (name, email, password) => {
   VALUES ($1, $2, $3)
   RETURNING *
   `, [name, email, password])
-  .then(user => {
-    return user.rows[0];
-  })
-  .catch(error => {
-    console.log(error);
-  });
-}
+    .then(user => {
+      return user.rows[0];
+    })
+    .catch(error => {
+      console.log(error);
+    });
+};
 
 module.exports = { getUsers, getUserById, getUserByEmail, addUser, getAllUserAttempts };

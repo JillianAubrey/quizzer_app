@@ -21,33 +21,33 @@ const getQuizzes = function(userId, options = {recent : true, untaken : false, s
   `; // WHERE TRUE initiates the WHERE so the filter options can be added with AND
 
   if (options.untaken) {
-    query += 'AND quizzes.id NOT IN (SELECT attempts.quiz_id FROM attempts WHERE user_id = $1) '
+    query += 'AND quizzes.id NOT IN (SELECT attempts.quiz_id FROM attempts WHERE user_id = $1) ';
     queryParams.push(userId);
   }
 
   if (!options.showPrivate) {
-    query += ' AND NOT is_private'
+    query += ' AND NOT is_private';
   }
 
   if (options.ownQuizzes) {
-    query += ` AND users.id = $1`
+    query += ` AND users.id = $1`;
     queryParams.push(userId);
   }
 
-  query += ' GROUP BY quizzes.id, users.id'
+  query += ' GROUP BY quizzes.id, users.id';
 
   if (options.recent) {
-    query += ' ORDER BY quizzes.created_at;'
+    query += ' ORDER BY quizzes.created_at;';
   }
 
   return db.query(query, queryParams)
-  .then (data => {
-        return data.rows;
-      })
-  .catch(error => {
-    console.log(error);
-  })
-}
+    .then(data => {
+      return data.rows;
+    })
+    .catch(error => {
+      console.log(error);
+    });
+};
 
 const getQuiz = function({url, id}) {
   const query = `
@@ -66,35 +66,35 @@ const getQuiz = function({url, id}) {
       ON questions.id = question_id
     WHERE ${url ? 'url' : 'quizzes.id'} = $1
     ORDER BY question_num;
-  `
+  `;
   return db.query(query, [url || id])
-  .then(data => {
-    const {id, url, title, description, author} = data.rows[0]
-    const quiz = {
-      id,
-      url,
-      title,
-      description,
-      author,
-      questions: {}
-    };
+    .then(data => {
+      const {id, url, title, description, author} = data.rows[0];
+      const quiz = {
+        id,
+        url,
+        title,
+        description,
+        author,
+        questions: {}
+      };
 
-    const questions = quiz.questions;
-    let question;
-    data.rows.forEach(row => {
-      const { question_num, answer_id, answer } = row;
-      if (!questions[question_num]) {
-        questions[question_num] = {
-          num: question_num,
-          text: row.question,
-          answers: []
+      const questions = quiz.questions;
+      let question;
+      data.rows.forEach(row => {
+        const { question_num, answer_id, answer } = row;
+        if (!questions[question_num]) {
+          questions[question_num] = {
+            num: question_num,
+            text: row.question,
+            answers: []
+          };
+          question = questions[question_num];
         }
-        question = questions[question_num];
-      }
-      question.answers.push({id: answer_id, text: answer});
+        question.answers.push({id: answer_id, text: answer});
+      });
+      return quiz;
     });
-    return quiz;
-  })
 };
 
 const addQuiz = function(userId, content, userName) {
@@ -130,14 +130,14 @@ const addQuiz = function(userId, content, userName) {
       return { quizTitle, quizDescription, url, resultsUrl, quizPrivate, userName };
     })
     .catch(error => console.log(error));
-}
+};
 
 const addQuestions = function(quizId, content) {
   let queryParams = [];
   let queryCount = 1;
 
   let questionQuery = `
-    INSERT INTO questions(quiz_id, text, sequence) VALUES `
+    INSERT INTO questions(quiz_id, text, sequence) VALUES `;
 
   for (let key in content) {
     if (key.length === 1) {
@@ -152,11 +152,10 @@ const addQuestions = function(quizId, content) {
 
   return db.query(questionQuery, queryParams)
     .then(data => data.rows);
-}
+};
 
 const addAnswers = function(questions, content) {
-
-  let ansQuery = `INSERT INTO answers(question_id, text, is_correct) VALUES `
+  let ansQuery = `INSERT INTO answers(question_id, text, is_correct) VALUES `;
   let queryCount = 1;
   let queryParams = [];
   let answers = [];
@@ -179,13 +178,13 @@ const addAnswers = function(questions, content) {
 
         if (quesAndAns[1] !== 'a' && Number(quesAndAns[0]) === question.sequence) {
 
-          ansQuery += `($${queryCount}, $${queryCount + 1}, $${queryCount + 2}),`
+          ansQuery += `($${queryCount}, $${queryCount + 1}, $${queryCount + 2}),`;
           queryParams.push(question.id, content[key]);
 
           if (answers.includes(key)) {
-            queryParams.push('TRUE')
+            queryParams.push('TRUE');
           } else {
-            queryParams.push('FALSE')
+            queryParams.push('FALSE');
           }
 
           queryCount += 3;
@@ -193,18 +192,17 @@ const addAnswers = function(questions, content) {
         }
       }
     }
-  })
+  });
 
   ansQuery = ansQuery.slice(0, -1);
   ansQuery += 'RETURNING*;';
 
   return db.query(ansQuery, queryParams);
+};
 
-  };
 
-
-  const getAttempt = function({url, id}) {
-    const query =`
+const getAttempt = function({url, id}) {
+  const query = `
       SELECT quiz_id, user_id,
         users.name AS attempter,
         attempt_answers.answer_id,
@@ -217,8 +215,8 @@ const addAnswers = function(questions, content) {
       JOIN answers
         ON answers.id = answer_id
       WHERE ${url ? 'url' : 'attempts.id'} = $1;
-    `
-    return db.query(query, [url || id])
+    `;
+  return db.query(query, [url || id])
     .then(data => {
       const {quiz_id, user_id, attempter} = data.rows[0];
       const attempt = {
@@ -226,19 +224,19 @@ const addAnswers = function(questions, content) {
         user_id,
         attempter,
         answers:{}
-      }
+      };
       const answers = attempt.answers;
       data.rows.forEach(row => {
-        const { answer_id, is_correct} = row
+        const { answer_id, is_correct} = row;
         const answer = {
           id: answer_id,
           is_correct
-        }
-        answers[answer_id] = answer
-      })
+        };
+        answers[answer_id] = answer;
+      });
       return attempt;
-    })
-  }
+    });
+};
 
 const getAttemptScore = function({url, id}) {
   queryCorrect = `
@@ -249,7 +247,7 @@ const getAttemptScore = function({url, id}) {
     JOIN answers
       ON answers.id = answer_id
     WHERE ${url ? 'url' : 'attempts.id'} = $1;
-  `
+  `;
   queryTotal = `
     SELECT COUNT(questions.*) AS total
     FROM attempts
@@ -258,58 +256,59 @@ const getAttemptScore = function({url, id}) {
     JOIN questions
       ON quizzes.id = questions.quiz_id
     WHERE ${url ? 'attempts.url' : 'attempts.id'} = $1;
-  `
+  `;
 
-    return new Promise((res, rej) => {Promise.all([
+  return new Promise((res, rej) => {
+    Promise.all([
       db.query(queryCorrect, [url || id]),
       db.query(queryTotal, [url || id]),
     ])
-    .then(([correct, total]) => {
-      const score = {
-        correct: correct.rows[0].correct,
-        total: total.rows[0].total
-      }
-      return res(score);
-    })
-  })
+      .then(([correct, total]) => {
+        const score = {
+          correct: correct.rows[0].correct,
+          total: total.rows[0].total
+        };
+        return res(score);
+      });
+  });
 };
 
 const postAttempt = function(submission, user_id) {
-  const url = Math.round(Math.random() * 1e10); //replace later with random string generation
+  const url = generateRandomString(10);
   const queryAttempt = `
     INSERT INTO attempts (quiz_id, user_id, url)
     VALUES ($1, $2, $3)
     RETURNING id;
-  `
+  `;
   const attemptParams = [submission.quiz_id, user_id, url];
 
   let queryAnswers = 'INSERT INTO attempt_answers (attempt_id, answer_id) VALUES';
   const queryAnswersParams = [null]; //null will be replaced with attempt_id
 
-  submission.answerIds.forEach( id => {
-    queryAnswersParams.push(id)
+  submission.answerIds.forEach(id => {
+    queryAnswersParams.push(id);
     queryAnswers += `
-      ($1, $${queryAnswersParams.length}),`
+      ($1, $${queryAnswersParams.length}),`;
   });
 
   queryAnswers = queryAnswers.slice(0,-1) + ';';
 
   return db.query(queryAttempt, attemptParams)
-  .then(data => {
-    queryAnswersParams[0] = data.rows[0].id;
-    return db.query(queryAnswers, queryAnswersParams);
-  })
-  .then(() => {
-    return url;
-  })
-}
+    .then(data => {
+      queryAnswersParams[0] = data.rows[0].id;
+      return db.query(queryAnswers, queryAnswersParams);
+    })
+    .then(() => {
+      return url;
+    });
+};
 
 const getQuizResults = function({results_url, id}) {
   const queryQuizId = `
     SELECT id
     FROM quizzes
     WHERE ${results_url ? 'results_url' : 'id'} = $1
-  `
+  `;
 
   const queryCounts = `
   SELECT COUNT(DISTINCT attempts.user_id) AS attempters,
@@ -321,9 +320,9 @@ const getQuizResults = function({results_url, id}) {
   JOIN questions ON
     quizzes.id = questions.quiz_id
   WHERE quizzes.id = $1
-  `
+  `;
 
-  const queryAverageScore =`
+  const queryAverageScore = `
   SELECT AVG(score) AS average
   FROM (
     SELECT COUNT(*) AS score
@@ -336,7 +335,7 @@ const getQuizResults = function({results_url, id}) {
       AND attempts.quiz_id = $1
     GROUP BY attempts.id
   ) AS scores
-  `
+  `;
 
   const queryByAttempt = `
   SELECT users.name, attempts.url, attempted_at,
@@ -351,9 +350,9 @@ const getQuizResults = function({results_url, id}) {
   WHERE attempts.quiz_id = $1
   GROUP BY users.id, attempts.id
   ORDER BY attempted_at DESC
-  `
+  `;
 
-  const queryByAnswer =`
+  const queryByAnswer = `
   SELECT answers.id, is_correct,
     COUNT(attempt_answers.*) AS count
   FROM answers
@@ -367,46 +366,47 @@ const getQuizResults = function({results_url, id}) {
     ON attempts.id = attempt_id
   WHERE quizzes.id = $1
   GROUP BY answers.id
-  `
+  `;
 
   return db.query(queryQuizId, [results_url || id])
-  .then(data => data.rows[0].id)
-  .then(quizId => {
-    return Promise.all([
-      quizId,
-      db.query(queryCounts, [quizId])
-        .then(data => data.rows[0]),
-      db.query(queryAverageScore, [quizId])
-        .then(data => Number(data.rows[0].average)),
-      db.query(queryByAttempt, [quizId])
-        .then(data => {
-          data.rows.forEach((row) => {
-            row.attempted_at = new Date(row.attempted_at).toISOString();
-          });
-          return data.rows;
-        }),
-      db.query(queryByAnswer, [quizId])
-        .then(data => {
-          return data.rows.reduce((byAnswer, row) => {
-            byAnswer[row.id] = row
-            return byAnswer
-          }, {})}
-        ),
-    ])
-  })
-  .then(([quizId, {attempters, attempts, questions}, average, byAttempt, byAnswer]) => {
-    return {
-      quizId,
-      attempters,
-      attempts,
-      questions,
-      average,
-      byAttempt,
-      byAnswer,
-    }
-  });
+    .then(data => data.rows[0].id)
+    .then(quizId => {
+      return Promise.all([
+        quizId,
+        db.query(queryCounts, [quizId])
+          .then(data => data.rows[0]),
+        db.query(queryAverageScore, [quizId])
+          .then(data => Number(data.rows[0].average)),
+        db.query(queryByAttempt, [quizId])
+          .then(data => {
+            data.rows.forEach((row) => {
+              row.attempted_at = new Date(row.attempted_at).toISOString();
+            });
+            return data.rows;
+          }),
+        db.query(queryByAnswer, [quizId])
+          .then(data => {
+            return data.rows.reduce((byAnswer, row) => {
+              byAnswer[row.id] = row;
+              return byAnswer;
+            }, {});
+          }
+          ),
+      ]);
+    })
+    .then(([quizId, {attempters, attempts, questions}, average, byAttempt, byAnswer]) => {
+      return {
+        quizId,
+        attempters,
+        attempts,
+        questions,
+        average,
+        byAttempt,
+        byAnswer,
+      };
+    });
 
-}
+};
 
 const getQuizAverage = function(quizId) {
   query = `SELECT AVG(score) AS average
@@ -420,28 +420,30 @@ const getQuizAverage = function(quizId) {
       WHERE is_correct
         AND attempts.quiz_id = $1
       GROUP BY attempts.id
-    ) AS scores;`
+    ) AS scores;`;
 
-  return new Promise((res, rej) => { db.query(query, [quizId])
+  return new Promise((res, rej) => {
+    db.query(query, [quizId])
       .then((result) => {
-         return res([quizId, result.rows[0]])
-     });
+        return res([quizId, result.rows[0]]);
+      });
   });
-}
+};
 
 const getNumOfAttemptsQuiz = function(quizId) {
   let query = `SELECT COUNT(DISTINCT attempts.id) AS attempts
     FROM attempts
     JOIN quizzes
     ON attempts.quiz_id = quizzes.id
-    WHERE quiz_id = $1;`
+    WHERE quiz_id = $1;`;
 
-  return new Promise((res, rej) => { db.query(query, [quizId])
-    .then((result) => {
-       return res([quizId, result.rows[0]])
-     });
+  return new Promise((res, rej) => {
+    db.query(query, [quizId])
+      .then((result) => {
+        return res([quizId, result.rows[0]]);
+      });
   });
-}
+};
 
 const checkUserPermission = function(userId, quizUrl) {
   let query = `
@@ -450,15 +452,15 @@ const checkUserPermission = function(userId, quizUrl) {
     JOIN users
     ON quizzes.user_id = users.id
     WHERE users.id = $1
-    AND quizzes.url = $2`
+    AND quizzes.url = $2`;
 
   return db.query(query, [userId, quizUrl]).then((data) => {
     if (data.rows.length) {
       return true;
     }
     return false;
-  })
-}
+  });
+};
 
 const changePrivacy = function(quizUrl, request) {
   let private;
@@ -473,27 +475,27 @@ const changePrivacy = function(quizUrl, request) {
   const query = `
     UPDATE quizzes
     SET is_private = $1
-    WHERE url = $2`
+    WHERE url = $2`;
 
   return db.query(query, [private, quizUrl])
     .then(() => {
-    return true;
-   })
-   .catch(error => console.log(error));
-}
+      return true;
+    })
+    .catch(error => console.log(error));
+};
 
 const deleteQuiz = function(quizUrl) {
 
   const query = `
     DELETE FROM quizzes WHERE url = $1;
-    `
+    `;
 
   return db.query(query, [quizUrl])
     .then(() => {
       return true;
     })
     .catch(error => console.log(error));
-}
+};
 
 module.exports = { getQuizzes, getQuiz, getAttempt, getAttemptScore, postAttempt, addQuiz, getQuizResults,
-    getQuizAverage, getNumOfAttemptsQuiz, checkUserPermission, changePrivacy, deleteQuiz};
+  getQuizAverage, getNumOfAttemptsQuiz, checkUserPermission, changePrivacy, deleteQuiz};
