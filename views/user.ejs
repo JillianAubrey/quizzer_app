@@ -67,8 +67,8 @@
               </header>
               <div class="quiz_stats">
                 <button class="questions"> Questions: <%= quiz.question_count %></button>
-                <button class="attempts"> Attempts: <%= (quiz.attempts || 0) %></button>
-                <button class="score"> Average Score: <%= (quiz.average || `N/A`) %> / <%= quiz.question_count %></button>
+                <button class="attempts"> Attempts: <%= (quiz.attempts ? quiz.attempts : 0) %></button>
+                <button class="score"> Average Score: <%= (quiz.average ? quiz.average : `N/A`) %> / <%= quiz.question_count %></button>
                 <form action="/quizapp/quiz/results/<%= quiz.results_url %>" method="GET"><button class="results">View Detailed Results</button></form>
               </div>
               <div class="quiz_links">
