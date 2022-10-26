@@ -86,22 +86,17 @@ button {
   width: 100%;
   display: flex;
   flex-flow: row nowrap;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
+  gap: 3em;
   padding: 0em 3em 0.5em 3em;
 
   button {
     background-color: base.$complThemeColour;
+    display: flex;
+    align-items: center;
+    padding: 0.5em;
   }
-
-}
-
-.quiz_link{
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: center;
-  width: 80%;
 
 }
 
@@ -117,8 +112,20 @@ button {
   background-color: base.$mainThemeColour;
 }
 
+.copy_quiz_btn {
+  display: inline-flex;
+  align-items: center;
+}
+
 .results:hover, .public:hover, .delete:hover, .copy_quiz_btn:hover, .copy_results_btn:hover {
   transform: scale(1.1);
+}
+
+.copy_input {
+  border: none;
+  border-radius: 4px;
+  box-shadow: 1px 1px 4px #31313b7f;
+
 }
 
 

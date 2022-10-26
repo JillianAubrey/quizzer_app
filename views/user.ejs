@@ -28,6 +28,7 @@
   <script src="/vendor/jquery-3.0.0.js"></script>
   <script defer src="/scripts/app.js"></script>
 
+
 </head>
 
 
@@ -52,36 +53,38 @@
       </div>
 
       <div class="info_container">
-        <h1>My Quizzes</h1>
+        <h1>My Quizzes </h1>
         <div class="info_body">
+        <% for (quiz of quizzes) { %>
           <article class="quiz_card">
             <div class="quiz_card_main">
               <header>
-                <h2>;lk;lklk</h2>
-                <p>Created: <time class="timeago" datetime="${isoDate}">9 days ago</time></p>
+                <h2><%= quiz.title %></h2>
+                <p>Created: <time class="timeago" datetime="<%= quiz.created_at %>"></time></p>
               </header>
               <div class="quiz_stats">
-                <button class="questions">quizzes.questions</button>
-                <button class="attempts">quizzes.attempts</button>
-                <button class="score">quizzes.avgScore</button>
-                <a href="/quizapp/results/quizid>"><button class="results">View Detailed Results</button></a>
+                <button class="questions"> Questions: <%= quiz.question_count %></button>
+                <button class="attempts"> Attempts: <%= quiz.attempts %></button>
+                <button class="score"> Average Score: <%= quiz.average %> / <%= quiz.question_count %></button>
+                <form action="/quizapp/results/<%= quiz.results_url %>" method="GET"><button class="results">View Detailed Results</button></form>
               </div>
               <div class="quiz_links">
                 <div class="quiz_link">
-                  <button class="quiz_link copy_quiz_btn">Copy Quiz Link &nbsp;<input class="quiz_link" value=http://localhost:8080/quizapp/quiz/quizzes.quizUrl></button>
+                  <button class=" copy_quiz_btn">Copy Quiz Link &nbsp;<input class="copy_input" value=http://localhost:8080/quizapp/quiz/<%= quiz.url %>></button>
                 </div>
                 <div class="quiz_link">
-                  <button class="quiz_link copy_results_btn">Copy Results Link &nbsp;<input class="quiz_link" value=http://localhost:8080/quizapp/results/quizzes.resultsUrl></button>
+                  <button class="copy_results_btn">Copy Results Link &nbsp;<input class="copy_input" value=http://localhost:8080/quizapp/results/<%= quiz.results_url %>></button>
                 </div>
               </div>
               <footer>
-                <button class="public">quizzes.private</button>
-                <form action="/quizapp/quiz/guid">
+                <button class="public">Make Quiz <%= quiz.is_private ? 'Public' : 'Private' %></button>
+                <form action="/quizapp/quiz/<%= quiz.url %>" method="POST">
                   <button class="delete">Delete Quiz</button></a>
                 </form>
               </footer>
             </div>
           </article>
+          <% } %>
 
           <article class="quiz_card">
             <div class="quiz_card_main">
