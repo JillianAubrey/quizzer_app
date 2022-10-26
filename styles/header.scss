@@ -62,4 +62,17 @@ nav {
     //   text-decoration: none;
     // }
   }
+
+  .user {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+
+    .logout {
+      background-color: base.$errorColour;
+      border-radius: 5px;
+      padding: 0.25em;
+      margin: 0.25em 0 0;
+    }
+  }
 }

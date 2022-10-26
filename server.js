@@ -5,6 +5,7 @@ require('dotenv').config();
 const sassMiddleware = require('./lib/sass-middleware');
 const express = require('express');
 const morgan = require('morgan');
+const cookieSession = require('cookie-session');
 
 const PORT = process.env.PORT || 8080;
 const app = express();
@@ -25,6 +26,20 @@ app.use(
   })
 );
 app.use(express.static('public'));
+app.use(cookieSession({
+  keys: [
+    'lk0XZ4Bdelb1tb44R5g0tmN1BCedJfjnChqGcqlD',
+    'RzQDTBORGRpGOtK5y9mPzVtC4ACN1zGupPdChImE',
+    'KjgvMzBPij1DC0zA8FiRYA1mmF23b7zR7yetZolS',
+    'oOx1XZeGztQLaBWvZkGvucZlAzGn0CE9UildgknM',
+    'kAmmDcHFOeHKbaNEx7szNF8wfIButWDoT2QpcPRw',
+    'JkH0RKsrU9pVRfG079pcASkokW80sDbAgU7zC3hW',
+    'zcKZ4otbNu0IWzZoWGUmppSmypgnxzlMuFGzW6As',
+    'FVHER4AxdGwI5HyDgfqhHw2Jpnuv9jg10RcufEJQ',
+    'gpbaPkpKV13Crq3lygfj4unulGKd3Jo7omPYBw1x',
+    'kRASoBIqhlZXsKFRIqVJedMeyv6DlDDvNZXLcyxF',
+  ]
+}));
 
 // Separated Routes for each Resource
 const userRoutes = require('./routes/users');

@@ -1,11 +1,12 @@
 
 const express = require('express');
-const { getQuiz, getAttempt, getAttemptScore, getQuizResults, getQuizzes, getQuizAverage, getNumOfAttemptsQuiz } = require('../db/queries/api');
 const router  = express.Router();
+const bcrypt = require('bcryptjs');
+const cookieSession = require('cookie-session');
+const { getQuiz, getAttempt, getAttemptScore, getQuizResults, getQuizzes, getQuizAverage, getNumOfAttemptsQuiz } = require('../db/queries/api');
 const { getUsers, getUserById } = require('../db/queries/users');
 
 router.get('/', (req, res) => {
-
   //user_id == req.session.user_id
   const user_id = 2;
 
@@ -128,6 +129,19 @@ router.get('/account', (req, res) => {
       console.log(templateVars);
     }).then(() => res.render('user', templateVars));
 
+})
+
+router.get('/login', (req, res) => {
+  const user_id = req.session.user_id
+  if (user_id) {
+    return res.redirect('/');
+  }
+  const templateVars = {
+    userName: '',
+    user_id,
+    errorMessage: '',
+  }
+  res.render('login', templateVars);
 })
 
 module.exports = router;
