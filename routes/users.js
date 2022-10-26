@@ -1,7 +1,7 @@
 const express = require('express');
 const router  = express.Router();
 const { getQuiz, getAttempt, getAttemptScore, getQuizResults, getQuizzes, getQuizAverage, getNumOfAttemptsQuiz } = require('../db/queries/api');
-const { getUsers, getUserById } = require('../db/queries/users');
+const { getUsers, getUserById, getAllUserAttempts } = require('../db/queries/users');
 
 router.get('/', (req, res) => {
   const user_id = req.session.user_id;
@@ -85,15 +85,16 @@ router.get('/quiz_builder', (req, res) => {
 
 
 router.get('/account', (req, res) => {
-  const user_id = 1;
-  let templateVars = {};
 
+  const user_id = req.session.user_id
+
+  let templateVars = {};
   Promise.all([
     getUserById(user_id),
     getQuizzes(user_id, {recent : true, showPrivate : true, ownQuizzes : true})
   ])
     .then(([user, quizzes]) => {
-      templateVars.userName = (!user ? '' : user.name)
+      templateVars.userName = user.name
       templateVars.quizzes = quizzes;
       return quizzes;
     })
@@ -106,9 +107,8 @@ router.get('/account', (req, res) => {
       return Promise.all(promises)
     })
     .then(result => {
-      console.log(result);
       templateVars.quizzes.forEach((quiz) => {
-        // quiz.created_at = quiz.created_at.toDateString();
+        quiz.created_at = quiz.created_at.toISOString();
         for (let res of result) {
           if (quiz.id === res[0]) {
             if (res[1].average) {
@@ -120,9 +120,28 @@ router.get('/account', (req, res) => {
           }
         }
       })
-      console.log(templateVars);
-    }).then(() => res.render('user', templateVars));
-})
+    }).then(() => getAllUserAttempts(user_id))
+      .then((attempts) => {
+        templateVars.attempts = attempts;
+        let promises = [];
+        for (let attempt of attempts) {
+          let url = attempt.attempturl;
+          promises.push(getAttemptScore({ url }))
+        }
+        return Promise.all(promises);
+      })
+      .then((scores) => {
+        let count = 0;
+        for (let attempt of templateVars.attempts) {
+          attempt.attempted_at = attempt.attempted_at.toISOString();
+          attempt.score = scores[count].correct;
+          count++
+        }
+      }).then(() => {
+        console.log(templateVars);
+        res.render('user', templateVars)
+      })
+  });
 
 router.get('/login', (req, res) => {
   const user_id = req.session.user_id

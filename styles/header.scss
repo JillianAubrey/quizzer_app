@@ -67,6 +67,7 @@ nav {
     display: flex;
     flex-flow: column;
     justify-content: space-between;
+    align-items: center;
 
     .logout {
       background-color: base.$errorColour;
@@ -88,6 +89,10 @@ nav {
 
     .register:hover, .login:hover {
       background-color: base.$secondaryThemeColour;
+    }
+
+    form {
+      height: auto;
     }
   }
 }
