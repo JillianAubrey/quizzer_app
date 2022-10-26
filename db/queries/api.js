@@ -137,7 +137,7 @@ const addQuestions = function(quizId, content) {
   let queryCount = 1;
 
   let questionQuery = `
-    INSERT INTO questions(quizId, text, sequence) VALUES `
+    INSERT INTO questions(quiz_id, text, sequence) VALUES `
 
   for (let key in content) {
     if (key.length === 1) {

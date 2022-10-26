@@ -34,6 +34,11 @@ router.post('/quiz',  (req, res) => {
   });
 })
 
+router.post('/visibility/:id', (req, res) => {
+  console.log(req.body);
+  res.send('hihi');
+})
+
 
 
 

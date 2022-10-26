@@ -33,6 +33,9 @@ main {
   .results_btn {
     background: linear-gradient(50deg, base.$secondaryThemeColour 0%, base.$mainThemeColour 70%, base.$secondaryThemeColour 95%);
   }
+  .selected {
+    background: linear-gradient(50deg, base.$complThemeColour 60%, #b1cec4 80%, base.$complThemeColour 90%);
+  }
 }
 
 .info_container {

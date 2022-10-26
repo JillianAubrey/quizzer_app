@@ -27,8 +27,8 @@
 
   <script src="/vendor/jquery-3.0.0.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timeago/1.6.7/jquery.timeago.min.js"></script>
-  <script defer src="/scripts/app.js"></script>
   <script defer src="/scripts/quiz_stats.js"></script>
+  <script defer src="/scripts/users.js"></script>
 
 
 
@@ -73,14 +73,14 @@
               </div>
               <div class="quiz_links">
                 <div class="quiz_link">
-                  <button class=" copy_quiz_btn">Copy Quiz Link &nbsp;<input class="copy_input" value=http://localhost:8080/quizapp/quiz/<%= quiz.url %>></button>
+                  <button class=" copy_quiz_btn c_b"><span>Copy Quiz Link &nbsp;</span><input class="copy_input" value=http://localhost:8080/quizapp/quiz/<%= quiz.url %>></button>
                 </div>
                 <div class="quiz_link">
-                  <button class="copy_results_btn">Copy Results Link &nbsp;<input class="copy_input" value=http://localhost:8080/quizapp/quiz/results/<%= quiz.results_url %>></button>
+                  <button class="copy_results_btn c_b"><span>Copy Results Link &nbsp;</span><input class="copy_input" value=http://localhost:8080/quizapp/quiz/results/<%= quiz.results_url %>></button>
                 </div>
               </div>
               <footer>
-                  <button class="public" id="<%= quiz.url %>">Make Quiz <%= quiz.is_private ? 'Public' : 'Private' %></button>
+                  <button class="public" id="<%= quiz.url %>">Make Quiz <span><%= quiz.is_private ? 'Public' : 'Private' %></span></button>
                 <form action="/quizapp/quiz/<%= quiz.url %>" method="POST">
                   <button class="delete">Delete Quiz</button></a>
                 </form>
@@ -107,7 +107,7 @@
               </div>
               <div class="quiz_links">
                 <div class="quiz_link">
-                  <button class="quiz_link copy_quiz_btn share_attempt">Share Attempt Link &nbsp;<input class="quiz_link copy_input" value=http://localhost:8080/quizapp/attempt/<%=attempt.attempturl %>></button>
+                  <button class="quiz_link copy_quiz_btn share_attempt c_b"><span>Share Attempt Link &nbsp;</span><input class="quiz_link copy_input" value=http://localhost:8080/quizapp/attempt/<%=attempt.attempturl %>></button>
                 </div>
               </div>
               <footer>

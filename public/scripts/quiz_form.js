@@ -213,8 +213,8 @@ const validateData = function(valData) {
       let $confPage = `<article>
         <h3>Congratulations <span class="conf_user">${data.userName}</span>! Your new <span class="conf_private">${visibility}</span> quiz "<span class=".conf_title">${data.quizTitle}</span>" was successfully created. 🥳</h3>
         <div class="copy_buttons">
-          <button class="quizlink_button">Copy Quiz Link &nbsp;<input class="quiz_link" value=http://localhost:8080/quizapp/quiz/${data.url}></button>
-          <button class="resultslink_button">Copy Results Link &nbsp;<input class="results_link" value=http://localhost:8080/quizapp/results/${data.resultsUrl}></button>
+          <button class="quizlink_button c_b"><span>Copy Quiz Link</span>&nbsp;<input class="quiz_link" value=http://localhost:8080/quizapp/quiz/${data.url}></button>
+          <button class="resultslink_button c_b"><span>Copy Results Link </span> &nbsp;<input class="results_link" value=http://localhost:8080/quizapp/results/${data.resultsUrl}></button>
         </div>
       </article>`;
 
@@ -223,28 +223,18 @@ const validateData = function(valData) {
       $('main').addClass('confirmation');
       $('main').append($confPage);
 
-      $(document).on('click', '.quizlink_button', function () {
-        $(`.quiz_link`).select();
+      $(document).on('click', '.c_b', function () {
+       $(this).find('input').select();
         document.execCommand('copy');
 
-        $(this).find('input').addClass(`copied`);
+        let $text = $(this).find('span').text();
+        $(this).find('span').text("Link Copied!")
+
         setTimeout(() => {
-          $(this).find('input').removeClass(`copied`)
-        }, 1000)
+          $(this).find('span').text($text)
+        }, 2000)
 
       })
-
-      $(document).on('click', '.resultslink_button', function () {
-        $(`.results_link`).select();
-        document.execCommand('copy');
-
-        $(this).find('input').addClass(`copied`);
-        setTimeout(() => {
-          $(this).find('input').removeClass(`copied`)
-        }, 1000)
-
-      })
-
 
 
     };
