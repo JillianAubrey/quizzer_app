@@ -212,7 +212,7 @@ const addAnswers = function(questions, content) {
       FROM attempts
       LEFT JOIN users
         ON users.id = user_id
-      JOIN attempt_answers
+      LEFT JOIN attempt_answers
         ON attempts.id = attempt_id
       JOIN answers
         ON answers.id = answer_id

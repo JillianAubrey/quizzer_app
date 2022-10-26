@@ -1,6 +1,7 @@
 $(() => {
   $('.question_card li').on('click', function() {
-    selectChildRadioButton($(this))
+    selectChildRadioButton($(this));
+    clearError($('.error'));
   });
 
   $('#quiz_submit').on('click', () => {
@@ -23,6 +24,11 @@ const submitQuiz = ($quizContainer) => {
     answerIds.push(id);
   })
 
+  if (answerIds.length < 1) {
+    displayError('You must answer at least one question', $('.error'));
+    return;
+  }
+
   const submission = {
     quiz_id: $quizContainer.attr('data-id'),
     answerIds
@@ -32,4 +38,14 @@ const submitQuiz = ($quizContainer) => {
   .then(redirect => {
     window.location.href = redirect;
   });
+};
+
+const displayError = (message, $element) => {
+  $element.text(message);
+  $element.fadeIn();
+};
+
+const clearError = ($element) => {
+  $element.hide();
+  $element.text('');
 };

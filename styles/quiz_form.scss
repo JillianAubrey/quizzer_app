@@ -195,7 +195,7 @@ button:hover {
 }
 
 .invalid {
-  border: solid rgba(240, 58, 17, 0.824) 2px !important;
+  border: solid base.$errorColour 2px !important;
 }
 
 label[for="quiz_private"] {
