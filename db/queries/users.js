@@ -13,7 +13,7 @@ const getUserById = id => {
   WHERE id = $1;
   `, [id])
   .then (user => {
-    return user.rows[0]
+    return (user.rows[0] || null)
   })
   .catch(error => {
     console.log(error);

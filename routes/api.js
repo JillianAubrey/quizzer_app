@@ -1,8 +1,6 @@
-
 const express = require('express');
 const router  = express.Router();
 const bcrypt = require('bcryptjs');
-const cookieSession = require('cookie-session');
 const { getQuizzes, postAttempt, addQuiz } = require('../db/queries/api');
 const { getUserById, getUserByEmail, addUser } = require('../db/queries/users');
 
@@ -15,8 +13,7 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  //user_id == req.session.user_id
-  const user_id = 2;
+  const user_id = req.session.user_id;
 
   getUserById(user_id)
     .then((user) => addQuiz(user_id, req.body, user.name))
@@ -25,8 +22,7 @@ router.post('/', (req, res) => {
 })
 
 router.post('/quiz',  (req, res) => {
-  //user_id == req.session.user_id
-  const user_id = 2;
+  const user_id = req.session.user_id;
   const submission = req.body;
 
   postAttempt(submission, user_id)
