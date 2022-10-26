@@ -1,5 +1,6 @@
 const express = require('express');
 const router  = express.Router();
+const bcrypt = require('bcryptjs');
 const { getQuizzes, postAttempt, addQuiz, checkUserPermission, changePrivacy, deleteQuiz } = require('../db/queries/api');
 const { getUserById, getUserByEmail, addUser } = require('../db/queries/users');
 
