@@ -72,9 +72,22 @@ nav {
       background-color: base.$errorColour;
       border-radius: 5px;
       padding: 0.25em;
-      margin: 0.25em 0 0;
+      margin-top: 0.25em;
       border: none;
       color: white;
+    }
+
+    .register, .login {
+      border-radius: 5px;
+      padding: 0.25em;
+    }
+
+    .register {
+      margin-top: 0.25em;
+    }
+
+    .register:hover, .login:hover {
+      background-color: base.$secondaryThemeColour;
     }
   }
 }
