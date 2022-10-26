@@ -378,7 +378,12 @@ const getQuizResults = function({results_url, id}) {
       db.query(queryAverageScore, [quizId])
         .then(data => Number(data.rows[0].average)),
       db.query(queryByAttempt, [quizId])
-        .then(data => data.rows),
+        .then(data => {
+          data.rows.forEach((row) => {
+            row.attempted_at = new Date(row.attempted_at).toISOString();
+          });
+          return data.rows;
+        }),
       db.query(queryByAnswer, [quizId])
         .then(data => {
           return data.rows.reduce((byAnswer, row) => {
