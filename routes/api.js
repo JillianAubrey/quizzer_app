@@ -1,7 +1,7 @@
 
 const express = require('express');
 const router  = express.Router();
-const { getQuizzes, postAttempt, addQuiz } = require('../db/queries/api');
+const { getQuizzes, postAttempt, addQuiz, checkUserPermission, changePrivacy } = require('../db/queries/api');
 const { getUserById } = require('../db/queries/users');
 
 
@@ -35,7 +35,26 @@ router.post('/quiz',  (req, res) => {
 })
 
 router.post('/visibility/:id', (req, res) => {
-  console.log(req.body);
+  // const user_id = req.session.user_id
+  const user_id = 1;
+  const request = req.body.visibility;
+  const quizUrl = req.params.id;
+
+  checkUserPermission(user_id, quizUrl).then((permission) => {
+    if (permission) {
+      changePrivacy(quizUrl, request).then(() => {
+        res.send('privacy changed');
+      })
+    } else {
+      res
+        .status(401)
+        .send('permission denied')
+    }
+  })
+})
+
+router.post('/quiz/:id', (req, res) => {
+  console.log(req.params);
   res.send('hihi');
 })
 

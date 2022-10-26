@@ -443,4 +443,43 @@ const getNumOfAttemptsQuiz = function(quizId) {
   });
 }
 
-module.exports = { getQuizzes, getQuiz, getAttempt, getAttemptScore, postAttempt, addQuiz, getQuizResults, getQuizAverage, getNumOfAttemptsQuiz };
+const checkUserPermission = function(userId, quizUrl) {
+  let query = `
+    SELECT quizzes.id
+    FROM quizzes
+    JOIN users
+    ON quizzes.user_id = users.id
+    WHERE users.id = $1
+    AND quizzes.url = $2`
+
+  return db.query(query, [userId, quizUrl]).then((data) => {
+    if (data.rows.length) {
+      return true;
+    }
+    return false;
+  })
+}
+
+const changePrivacy = function(quizUrl, request) {
+  let private;
+
+  if (request === 'Private') {
+    private = true;
+  }
+  if (request === 'Public') {
+    private = false;
+  }
+
+  const query = `
+    UPDATE quizzes
+    SET is_private = $1
+    WHERE url = $2`
+
+  return db.query(query, [private, quizUrl]).then(() => {
+    return true;
+  })
+
+}
+
+module.exports = { getQuizzes, getQuiz, getAttempt, getAttemptScore, postAttempt, addQuiz, getQuizResults,
+    getQuizAverage, getNumOfAttemptsQuiz, checkUserPermission, changePrivacy};
