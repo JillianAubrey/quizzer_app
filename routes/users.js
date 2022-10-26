@@ -1,6 +1,6 @@
 
 const express = require('express');
-const { getQuiz, getAttempt, getAttemptScore, getQuizResults } = require('../db/queries/api');
+const { getQuiz, getAttempt, getAttemptScore, getQuizResults, getQuizzes, getQuizAverage, getNumOfAttemptsQuiz } = require('../db/queries/api');
 const router  = express.Router();
 const { getUsers, getUserById } = require('../db/queries/users');
 
@@ -86,5 +86,48 @@ router.get('/quiz_builder', (req, res) => {
     res.render('quiz_form', templateVars);
   });
 });
+
+
+router.get('/account', (req, res) => {
+  //user_id == req.session.user_id
+  const user_id = 1;
+  let templateVars = {};
+
+  Promise.all([
+    getUserById(user_id),
+    getQuizzes(user_id, {recent : true, showPrivate : true, ownQuizzes : true})
+  ])
+    .then(([user, quizzes]) => {
+      templateVars.userName = user.name
+      templateVars.quizzes = quizzes;
+      return quizzes;
+    })
+    .then((quizzes) => {
+      let promises = [];
+      for (let quiz of quizzes) {
+        promises.push(getQuizAverage(quiz.id));
+        promises.push(getNumOfAttemptsQuiz(quiz.id))
+      }
+      return Promise.all(promises)
+    })
+    .then(result => {
+      console.log(result);
+      templateVars.quizzes.forEach((quiz) => {
+        // quiz.created_at = quiz.created_at.toDateString();
+        for (let res of result) {
+          if (quiz.id === res[0]) {
+            if (res[1].average) {
+              quiz.average = Math.round(res[1].average * 10) / 10;
+            }
+            if (res[1].attempts) {
+              quiz.attempts = res[1].attempts;
+            }
+          }
+        }
+      })
+      console.log(templateVars);
+    }).then(() => res.render('user', templateVars));
+
+})
 
 module.exports = router;

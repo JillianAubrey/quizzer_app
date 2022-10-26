@@ -3,7 +3,7 @@
 const db = require('../connection'); //connect to DB
 const { generateRandomString } = require('./helpers');
 
-const getQuizzes = function(userId, options = {recent : true, untaken : true}) {
+const getQuizzes = function(userId, options = {recent : true, untaken : false, showPrivate : false, ownQuizzes : false}) {
 
   let queryParams = [];
 
@@ -18,11 +18,19 @@ const getQuizzes = function(userId, options = {recent : true, untaken : true}) {
   JOIN users
     ON users.id = user_id
   WHERE TRUE
-    AND NOT is_private
   `; // WHERE TRUE initiates the WHERE so the filter options can be added with AND
 
   if (options.untaken) {
-    query += 'AND quizzes.id NOT IN (SELECT attempts.quiz_id FROM attempts WHERE user_id = $1)'
+    query += 'AND quizzes.id NOT IN (SELECT attempts.quiz_id FROM attempts WHERE user_id = $1) '
+    queryParams.push(userId);
+  }
+
+  if (!options.showPrivate) {
+    query += ' AND NOT is_private'
+  }
+
+  if (options.ownQuizzes) {
+    query += ` AND users.id = $1`
     queryParams.push(userId);
   }
 
@@ -391,6 +399,42 @@ const getQuizResults = function({results_url, id}) {
       byAnswer,
     }
   });
+
 }
 
-module.exports = { getQuizzes, getQuiz, getAttempt, getAttemptScore, postAttempt, addQuiz, getQuizResults };
+const getQuizAverage = function(quizId) {
+  query = `SELECT AVG(score) AS average
+    FROM (
+      SELECT COUNT(*) AS score, attempts.user_id
+      FROM attempts
+      JOIN attempt_answers
+        ON attempts.id = attempt_id
+      JOIN answers
+        ON answers.id = answer_id
+      WHERE is_correct
+        AND attempts.quiz_id = $1
+      GROUP BY attempts.id
+    ) AS scores;`
+
+  return new Promise((res, rej) => { db.query(query, [quizId])
+      .then((result) => {
+         return res([quizId, result.rows[0]])
+     });
+  });
+}
+
+const getNumOfAttemptsQuiz = function(quizId) {
+  let query = `SELECT COUNT(DISTINCT attempts.id) AS attempts
+    FROM attempts
+    JOIN quizzes
+    ON attempts.quiz_id = quizzes.id
+    WHERE quiz_id = $1;`
+
+  return new Promise((res, rej) => { db.query(query, [quizId])
+    .then((result) => {
+       return res([quizId, result.rows[0]])
+     });
+  });
+}
+
+module.exports = { getQuizzes, getQuiz, getAttempt, getAttemptScore, postAttempt, addQuiz, getQuizResults, getQuizAverage, getNumOfAttemptsQuiz };
