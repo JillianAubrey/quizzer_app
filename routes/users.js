@@ -1,13 +1,7 @@
-
 const express = require('express');
 const router  = express.Router();
-<<<<<<< HEAD
-const { getUsers, getUserById, getAllUserAttempts } = require('../db/queries/users');
-=======
-const cookieSession = require('cookie-session');
 const { getQuiz, getAttempt, getAttemptScore, getQuizResults, getQuizzes, getQuizAverage, getNumOfAttemptsQuiz } = require('../db/queries/api');
 const { getUsers, getUserById } = require('../db/queries/users');
->>>>>>> feature/user-login
 
 router.get('/', (req, res) => {
   const user_id = req.session.user_id;
@@ -112,8 +106,9 @@ router.get('/account', (req, res) => {
       return Promise.all(promises)
     })
     .then(result => {
+      console.log(result);
       templateVars.quizzes.forEach((quiz) => {
-        quiz.created_at = quiz.created_at.toISOString();
+        // quiz.created_at = quiz.created_at.toDateString();
         for (let res of result) {
           if (quiz.id === res[0]) {
             if (res[1].average) {
@@ -125,30 +120,6 @@ router.get('/account', (req, res) => {
           }
         }
       })
-<<<<<<< HEAD
-    }).then(() => getAllUserAttempts(user_id))
-      .then((attempts) => {
-        templateVars.attempts = attempts;
-        let promises = [];
-        for (let attempt of attempts) {
-          let url = attempt.attempturl;
-          promises.push(getAttemptScore({ url }))
-        }
-        return Promise.all(promises);
-      })
-      .then((scores) => {
-        let count = 0;
-        for (let attempt of templateVars.attempts) {
-          attempt.attempted_at = attempt.attempted_at.toISOString();
-          attempt.score = scores[count].correct;
-          count++
-        }
-      }).then(() => {
-        res.render('user', templateVars)
-      })
-
-});
-=======
       console.log(templateVars);
     }).then(() => res.render('user', templateVars));
 })
@@ -165,7 +136,6 @@ router.get('/login', (req, res) => {
   }
   res.render('login', templateVars);
 })
->>>>>>> feature/user-login
 
 router.get('/register', (req, res) => {
   const user_id = req.session.user_id
