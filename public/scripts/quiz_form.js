@@ -151,8 +151,8 @@
     const quiz = formatQuiz(data);
 
     if (quiz) {
-      $.post('/api/quiz', quiz).then((res) => {
-        renderConfirmation(res);
+      $.post('/api/quiz', JSON.stringify(quiz)).then((res) => {
+        renderConfirmation(res, quiz.quiz_title);
       });
     }
   };
@@ -198,9 +198,11 @@
       const question = questions[quesId];
       if (!ansId) {
         question.text = value;
+        continue;
       }
       if (ansId === 'a') {
         question.correct = value.split('-')[1];
+        continue;
       }
       question.answers[ansId] = value;
     }
@@ -254,13 +256,15 @@
   * @param {object} data Information from server returned from quiz POSTing.
   * @return {none}
   */
-  const renderConfirmation = function(data) {
+  const renderConfirmation = function(data, quizTitle) {
     let visibility;
     if (data.quizPrivate === 'FALSE') {
       visibility = 'public';
     } else {
       visibility = 'private';
     }
+
+    const userName = $('#user_name').text();
 
     let $confPage = $(`<article>
         <h3>Congratulations <span class="conf_user"></span>! Your new <span class="conf_private"></span> quiz "<span class="conf_title"></span>" was successfully created. 🥳</h3>
@@ -271,8 +275,8 @@
       </article>`);
 
     const $header = $($confPage.children('h3'));
-    $header.children(`.conf_user`).text(data.userName);
-    $header.children('.conf_title').text(data.quizTitle);
+    $header.children(`.conf_user`).text(userName);
+    $header.children('.conf_title').text(quizTitle);
     $header.children('.conf_private').text(visibility);
 
     $('h1').html('Quiz Created');
