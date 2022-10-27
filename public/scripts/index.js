@@ -8,18 +8,17 @@ $(() => {
 
 const refreshIndexQuizzes = () => {
   return $.get('/api').then(data => {
-    console.log(data);
     return data;
   }).then(quizzes => renderQuizContainer(quizzes, $('.quiz_container')))
-  .catch(error => console.log(error));
-}
+    .catch(error => console.log(error));
+};
 
-const renderQuizContainer = (quizzes, $quiz_container) => {
-  $quiz_container.empty();
+const renderQuizContainer = (quizzes, $quizContainer) => {
+  $quizContainer.empty();
   quizzes.forEach(quiz => {
     if (quiz) {
-    const $quiz = createQuizCard(quiz);
-    $quiz_container.prepend($quiz);
+      const $quiz = createQuizCard(quiz);
+      $quizContainer.prepend($quiz);
     }
   });
   $('time.timeago').timeago();
@@ -38,7 +37,7 @@ const createQuizCard = quiz => {
       <p class="quiz_description"></p>
       <footer>
         <p><span>${quiz.question_count}</span> Questions</p>
-        <p>Created: <time class="timeago" datetime="${isoDate}">${isoDate}</time></p>
+        <p>Created: <time class="timeago" datetime="${isoDate}"></time></p>
       </footer>
     </a>
   </article>

@@ -1,0 +1,3 @@
+$(() => {
+  $('time.timeago').timeago();
+});
