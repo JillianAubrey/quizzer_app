@@ -71,9 +71,9 @@
                 <p>Created <time class="timeago" datetime="<%= quiz.created_at %>"></time></p>
               </header>
               <div class="quiz_stats">
-                <button class="questions"> Questions: <%= quiz.question_count %></button>
+                <button class="questions"> Questions: <%= quiz.questions %></button>
                 <button class="attempts"> Attempts: <%= (quiz.attempts ? quiz.attempts : 0) %></button>
-                <button class="score"> Average Score: <%= (quiz.average ? quiz.average : `N/A`) %> / <%= quiz.question_count %></button>
+                <button class="score"> Average Score: <%= (quiz.avg_score ? Math.round(Number(quiz.avg_score)*10)/10 : `N/A`) %> / <%= quiz.questions %></button>
                 <form action="/quizapp/quiz/results/<%= quiz.results_url %>" method="GET"><button class="results">View Detailed Results</button></form>
               </div>
               <div class="quiz_links">
@@ -103,19 +103,19 @@
           <article class="quiz_card my_quiz_attempts">
             <div class="quiz_card_main">
               <header>
-                <h2><%= attempt.quiztitle %> </h2>
-                <p>Attempted <time class="timeago" datetime="<%=attempt.attempted_at%>">9 days ago</time></p>
+                <h2><%= attempt.title %> </h2>
+                <p>Attempted <time class="timeago" datetime="<%=attempt.attempted_at%>"></time></p>
               </header>
               <div class="quiz_stats">
-                <button class="questions">Questions: <%= attempt.questioncount %></button>
-                <button class="score">Score: <%= attempt.score %> / <%= attempt.questioncount %></button>
+                <button class="questions">Questions: <%= attempt.questions %></button>
+                <button class="score">Score: <%= attempt.score %> / <%= attempt.questions %></button>
                 <form action="/quizapp/attempt/<%=attempt.attempturl %>" method="GET">
                  <button class="results">View Your Attempt</button>
                 </form>
               </div>
               <div class="quiz_links">
                 <div class="quiz_link">
-                  <button class="quiz_link copy_quiz_btn share_attempt c_b"><span>Share Attempt Link &nbsp;</span><input class="quiz_link copy_input" value=http://localhost:8080/quizapp/attempt/<%=attempt.attempturl %>></button>
+                  <button class="quiz_link copy_quiz_btn share_attempt c_b"><span>Share Attempt Link &nbsp;</span><input class="quiz_link copy_input" value=http://localhost:8080/quizapp/attempt/<%=attempt.attempt_url %>></button>
                 </div>
               </div>
               <footer>

@@ -108,7 +108,7 @@ const getQuizResults = function({results_url, id}) {
 const getQuizAverage = function(quizId) {
   query = `SELECT AVG(score) AS average
     FROM (
-      SELECT COUNT(*) AS score, attempts.user_id
+      SELECT COUNT(*) AS score, attempts.user_id, attempts.quiz_id
       FROM attempts
       JOIN attempt_answers
         ON attempts.id = attempt_id
@@ -117,7 +117,8 @@ const getQuizAverage = function(quizId) {
       WHERE is_correct
         AND attempts.quiz_id = $1
       GROUP BY attempts.id
-    ) AS scores;`;
+    ) AS scores
+    GROUP BY quiz_id;`;
 
   return new Promise((res, rej) => {
     db.query(query, [quizId])

@@ -2,27 +2,35 @@
 
   $(() => {
 
+    //adds three questions to the form on load
     addQuestion();
     addQuestion();
     addQuestion();
 
+    //validates the input and submits the form if the checks pass
     $('#quiz_form').on('submit', submitQuiz);
 
+    //adds an answer input to a question form
     $(document).on('click', '.add_answer', addAnswer);
 
+    //deletes an answer input in a question form
     $(document).on('click', '.delete_answer', deleteAnswer);
 
+    //deletes a question form in the quiz form
     $(document).on('click', '.delete_question', deleteQuestion);
 
+    //adds a question form to the quiz form
     $(document).on('click', '.add_question', addQuestion);
 
+    //displays visual elements when the user selects what the correct answer to their question is
     $(document).on('click', 'input[type="radio"]', showCorrect);
 
+    //removes validation error styling when the user re-enters the form input text area
     $(document).on('click', 'input[type="text"], textarea', removeError);
   });
 
 
-
+  
   const submitQuiz = function(event) {
     event.preventDefault();
     const data = $(this).serialize();

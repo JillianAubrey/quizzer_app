@@ -14,7 +14,7 @@ router.use('/login', loginRoutes);
 router.use('/logout', logoutRoute);
 
 router.get('/', (req, res) => {
-  const userId = 2;
+  const userId = req.session.userId;
   getQuizzes(userId).then(data => {
     res.json(data);
   });

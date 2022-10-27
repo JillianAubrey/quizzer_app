@@ -1,14 +1,21 @@
 $(() => {
+  //Selects answer on click, and clears submit error if it exists
   $('.question_card li').on('click', function() {
     selectChildRadioButton($(this));
-    clearError($('#error'));
+    clearSubmitError($('#error'));
   });
 
+  //Posts attempt to server
   $('#quiz_submit').on('click', () => {
     submitQuiz($('.quiz_container'));
   });
 });
 
+/**
+ * Select the child radio button of passed $element, and unselect other radio buttons in the group.
+ * @param {jquery$element} $element The element containing the radio button.
+ * @return {none}
+ */
 const selectChildRadioButton = ($element) => {
   const $radioButton = $element.find('input:radio');
   const name = $radioButton.attr('name');
@@ -16,16 +23,21 @@ const selectChildRadioButton = ($element) => {
   $radioButton.attr('checked', true);
 };
 
+/**
+ * POST selected answers as a quiz attempt, then redirect to attempt page.
+ * @param {jquery$element} $quizContainer The element containing the quiz.
+ * @return {none}
+ */
 const submitQuiz = ($quizContainer) => {
   const answerIds = [];
 
-  $.each($quizContainer.find('input:checked'), (index, value) => {
-    const id = Number($(value).attr('data-id'));
+  $.each($quizContainer.find('input:checked'), (index, input) => {
+    const id = Number($(input).attr('data-id'));
     answerIds.push(id);
   });
 
   if (answerIds.length < 1) {
-    displayError('You must answer at least one question', $('#quiz_submit'));
+    displaySubmitError('You must answer at least one question', $('#quiz_submit'));
     return;
   }
 
@@ -40,17 +52,26 @@ const submitQuiz = ($quizContainer) => {
     });
 };
 
-const displayError = (message, $element) => {
+/**
+ * Tranforms submit button into an error, with given message
+ * @param {String} message The error message to display.
+ * @param {jquery$element} $element The submit button element.
+ * @return {none}
+ */
+const displaySubmitError = (message, $element) => {
   $element.text(message);
   $element.attr('id','error')
   setTimeout(() => {
-    $element.removeAttr('id','error');
-    $element.attr('id','quiz_submit')
-    $element.html('Submit')
+    clearSubmitError($element);
   }, 3000);
 };
 
-const clearError = ($element) => {
+/**
+ * Transforms error message back into submit button
+ * @param {jquery $element} $element The submit button element.
+ * @return {none}
+ */
+const clearSubmitError = ($element) => {
   $element.removeAttr('id','error');
   $element.attr('id','quiz_submit')
   $element.html('Submit')
