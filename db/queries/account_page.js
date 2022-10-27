@@ -1,16 +1,5 @@
 const db = require('../connection');
 
-/*
-quiz id
-quiz title
-quiz description
-url
-creation_date (as iso string)
-average score
-question count
-attempt count
-*/
-
 const getAccountQuizzes = (userId) => {
   const query = `
   SELECT quizzes.id AS quiz_id, title, quizzes.url,quizzes.results_url, created_at, is_private,
@@ -41,19 +30,11 @@ const getAccountQuizzes = (userId) => {
 return db.query(query, [userId])
 .then(data => {
   // console.log(data.rows);
-  data.rows.forEach(row => row.created_at = new Date(row.created_at).toISOString);
+  data.rows.forEach(row => row.created_at = new Date(row.created_at).toISOString());
   return data.rows;
 })
 .catch(error => console.log(error));
 }
-
-/*
-attempt url
-attempt date
-quiz link
-score
-num of questions
-*/
 
 const getAccountAttempts = userId => {
   const query = `
@@ -78,7 +59,7 @@ const getAccountAttempts = userId => {
   return db.query(query, [userId])
   .then(data => {
     // console.log(data.rows);
-    data.rows.forEach(row => row.attempted_at = new Date(row.attempted_at).toISOString);
+    data.rows.forEach(row => row.attempted_at = new Date(row.attempted_at).toISOString());
     return data.rows;
   })
   .catch(error => console.log(error));

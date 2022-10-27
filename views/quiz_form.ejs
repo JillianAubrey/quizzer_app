@@ -28,6 +28,7 @@
   <script src="/vendor/jquery-3.0.0.js"></script>
   <script defer src="/scripts/app.js"></script>
   <script defer src="/scripts/quiz_form.js"></script>
+  <script defer src="/scripts/copy_link.js"></script>
 
 </head>
 <body>
@@ -66,7 +67,8 @@
       </fieldset>
 
           <!-- JQUERY APPENDS THE QUESTIONS HERE -->
-
+      <div id="form_questions">
+      </div>
 
       <div id="form_foot">
         <button type="submit" id="submit">Create Quiz!</button>
@@ -76,6 +78,7 @@
     </form>
 
   </main>
+  <%- include('partials/__footer') %>
 </body>
 
 </html>

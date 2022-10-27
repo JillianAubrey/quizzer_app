@@ -1,13 +1,7 @@
 (($) => {
 
-
-
 $(() => {
-
-
-  $(`.c_b`).on('click', copyMessage);
-
-
+  $(document).on('click', `.c_b`, copyMessage);
 });
 
 const copyMessage = function() {

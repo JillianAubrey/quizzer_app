@@ -73,7 +73,7 @@
               <div class="quiz_stats">
                 <button class="questions"> Questions: <%= quiz.questions %></button>
                 <button class="attempts"> Attempts: <%= (quiz.attempts ? quiz.attempts : 0) %></button>
-                <button class="score"> Average Score: <%= (quiz.avg_score ? Math.round(Number(quiz.avg_score)*10)/10 : `N/A`) %> / <%= quiz.questions %></button>
+                <button class="score"> Average Score: <%= (quiz.avg_score ? `${Math.round(Number(quiz.avg_score)*10)/10}/${quiz.questions}`: `N/A`) %></button>
                 <form action="/quizapp/quiz/results/<%= quiz.results_url %>" method="GET"><button class="results">View Detailed Results</button></form>
               </div>
               <div class="quiz_links">
@@ -109,13 +109,13 @@
               <div class="quiz_stats">
                 <button class="questions">Questions: <%= attempt.questions %></button>
                 <button class="score">Score: <%= attempt.score %> / <%= attempt.questions %></button>
-                <form action="/quizapp/attempt/<%=attempt.attempturl %>" method="GET">
+                <form action="/quizapp/attempt/<%=attempt.attempt_url %>" method="GET">
                  <button class="results">View Your Attempt</button>
                 </form>
               </div>
               <div class="quiz_links">
                 <div class="quiz_link">
-                  <button class="quiz_link copy_quiz_btn share_attempt c_b"><span>Share Attempt Link &nbsp;</span><input class="quiz_link copy_input" value=http://localhost:8080/quizapp/attempt/<%=attempt.attempt_url %>></button>
+                  <button class="quiz_link copy_quiz_btn share_attempt c_b"><span>Share Attempt Link &nbsp;</span><input class="quiz_link copy_input" value=http://localhost:8080/quizapp/attempt/<%= attempt.attempt_url %>></button>
                 </div>
               </div>
               <footer>
@@ -133,6 +133,7 @@
 
       </div>
     </main>
+    <%- include('partials/__footer') %>
 </body>
 
 </html>

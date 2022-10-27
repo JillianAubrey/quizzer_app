@@ -3,38 +3,60 @@
   $(() => {
 
     //adds three questions to the form on load
-    addQuestion();
-    addQuestion();
-    addQuestion();
+    for (let i = 0; i < 3; i++) {
+      addQuestion();
+    }
 
     //validates the input and submits the form if the checks pass
     $('#quiz_form').on('submit', submitQuiz);
 
     //adds an answer input to a question form
-    $(document).on('click', '.add_answer', addAnswer);
+    $(document).on('click', '.add_answer', function(event) {
+      event.preventDefault()
+      addAnswer($(this).closest('.question_form'));
+    });
 
     //deletes an answer input in a question form
-    $(document).on('click', '.delete_answer', deleteAnswer);
+    $(document).on('click', '.delete_answer', function(event) {
+      event.preventDefault();
+      deleteLast($(this).closest('.question_form'), '.answer');
+    });
 
     //deletes a question form in the quiz form
-    $(document).on('click', '.delete_question', deleteQuestion);
+    $(document).on('click', '.delete_question', function(event) {
+      event.preventDefault();
+      deleteElementAnimate($(this).closest('.question_form'));
+    });
 
     //adds a question form to the quiz form
-    $(document).on('click', '.add_question', addQuestion);
+    $(document).on('click', '.add_question', function(event) {
+      event.preventDefault();
+      addQuestion();
+    });
 
     //displays visual elements when the user selects what the correct answer to their question is
-    $(document).on('click', 'input[type="radio"]', showCorrect);
+    $(document).on('click', 'input[type="radio"]', function() {
+      formatCorrect($(this).closest('.answer'));
+    });
 
     //removes validation error styling when the user re-enters the form input text area
-    $(document).on('click', 'input[type="text"], textarea', removeError);
+    $(document).on('click', 'input[type="text"], textarea', function() {
+      removeError($(this));
+    });
   });
 
-
-  
+  /**
+ * POST selected answers as a quiz attempt, then redirect to attempt page.
+ * @param {jQueryEvent} event The element containing the quiz.
+ * @return {none}
+ */
   const submitQuiz = function(event) {
     event.preventDefault();
-    const data = $(this).serialize();
-    const valData = $(this).serializeArray();
+    const data = $(this).serialize()
+    const valData = $(this).serializeArray().reduce((valData, input) => {
+      valData[input.name] = input;
+      return valData;
+    }, {});
 
     if (validateData(valData)) {
       $.post('/api/quiz', data).then((res) => {
@@ -43,38 +65,48 @@
     }
   };
 
-  const addAnswer = function(event) {
-    if (event) {
-      event.preventDefault();
+  /**
+ * Add an answer field to a question form
+ * @param {jQueryEvent} event The event that triggered adding a question, default will be prevented.
+ * @param {jQueryElement} $questionForm The question form element
+ * @return {none}
+ */
+  const addAnswer = function($questionForm) {
+    let answerId = 1;
+    const questionId = $questionForm.find('.question').attr('id');
+    const prevAnswerId = $questionForm.find('.answer').last().find('label').attr('for') || null;
+
+    if (prevAnswerId) {
+      answerId = Number(prevAnswerId.split("-")[1]) + 1;
     }
 
-    let currAnsID = $(this).closest('.question_form').find('.answer').last().find('label').attr('for');
-    currAnsID = currAnsID.split("-");
-
-    const question = Number(currAnsID[0]);
-    const answer = Number(currAnsID[1]) + 1;
-
-    $(this).closest('.question_form').find('.answer_container').append(`
+    $questionForm.find('.answer_container').append(`
     <div class="answer">
-      <label for="${question}-${answer}">Answer ${answer}</label>
-      <input type="text" name="${question}-${answer}" id="${question}-${answer}">
-      <input type="radio" name="${question}-a" value="${question}-${answer}">
+      <label for="${questionId}-${answerId}">Answer ${answerId}</label>
+      <input type="text" name="${questionId}-${answerId}" id="${questionId}-${answerId}">
+      <input type="radio" name="${questionId}-a" value="${questionId}-${answerId}">
     </div>`);
   };
 
-  const deleteAnswer = function(event) {
-    event.preventDefault();
-    const $answer = $(this).closest('.question_form').find('.answer_container').children('.answer').last();
-
-    if ($answer.prev('.answer').length) {
-      $answer.remove();
+    /**
+   * Deletes the last element in $element that matches selector
+   * @param {jQueryElement} $element The target element, containd the element to be deleted.
+   * @param {String} selector jQuery compatible selector that targets element to be deleted.
+   * @return {none}
+   */
+  const deleteLast = ($element, selector) => {
+    const $last = $element.find(selector).last() || null;
+    if ($last) {
+      deleteElementAnimate($last);
     }
-  };
+  }
 
-  const addQuestion = function(event) {
-    if (event) {
-      event.preventDefault();
-    }
+    /**
+   * Add an answer field to a question form
+   * @param {jQueryEvent} event The element containing the quiz.
+   * @return {none}
+   */
+  const addQuestion = function() {
     const questionNum = Number($('#quiz_form').find('.question').last().attr('id')) + 1 || 1;
 
     const $newQuestion = $(`
@@ -83,22 +115,6 @@
     <div class="question_form_main">
     <textarea class="question" name="${questionNum}" id="${questionNum}" placeholder="Your question here..."></textarea>
     <div class="answer_container">
-
-      <div class="answer">
-        <label for="${questionNum}-1">Answer 1</label>
-        <input type="text" name="${questionNum}-1" id="${questionNum}-1">
-        <input type="radio" name="${questionNum}-a" value="${questionNum}-1">
-      </div>
-      <div class="answer">
-        <label for="${questionNum}-2">Answer 2</label>
-        <input type="text" name="${questionNum}-2" id="${questionNum}-2">
-        <input type="radio" name="${questionNum}-a" value="${questionNum}-2">
-      </div>
-      <div class="answer">
-        <label for="${questionNum}-3">Answer 3</label>
-        <input type="text" name="${questionNum}-3" id="${questionNum}-3">
-        <input type="radio" name="${questionNum}-a" value="${questionNum}-3">
-      </div>
     </div>
     <div class="question_form_foot">
     <button class="add_answer">Add Answer</button>
@@ -108,108 +124,130 @@
     </div>
     </fieldset>`);
 
-    $newQuestion.insertBefore('#form_foot');
+    for (i = 0; i < 4; i++) {
+      addAnswer($newQuestion);
+    }
+
+    $newQuestion.insertBefore('#form_questions');
 
     $(`#${questionNum}`).closest(`.question_form`).hide().show(400);
 
   };
 
-  const deleteQuestion = function(event) {
-    event.preventDefault();
-    const $question = $(this).closest('.question_form');
-    $question.hide(400, () => $question.remove());
+  /**
+   * Deletes $element with an animation
+   * @param {jQueryElement} $element Element to delete.
+   * @return {none}
+   */
+  const deleteElementAnimate = function($element) {
+    $element.hide(400, () => $element.remove());
+  }
+
+  /**
+   * Format $answer as the correct answer for its question, and remove correct answering formatting from other answers on the question.
+   * @param {jQueryElement} $answer The element that is the correct answer.
+   * @return {none}
+   */
+  const formatCorrect = function($answer) {
+    const $answerContainer = $answer.closest('.answer_container')
+
+    $answerContainer.find('.correct').removeClass('correct');
+    $answer.children('input[type="text"]').addClass('correct');
+
+    $answerContainer.find('span').remove();
+    $answer.append(`<span> ✅ </span>`);
   };
 
-  const showCorrect = function(event) {
-    $(this).closest('.answer_container').find('.correct').each(function() {
-      $(this).removeClass('correct');
-    });
-    $(this).prev('input').addClass('correct');
-
-    $(this).closest('.answer_container').find('span').each(function() {
-      $(this).remove();
-    });
-    $(this).closest('.answer').find('label').append(`<span> ✅ </span>`);
-  };
-
+   /**
+ * Validate the form data before submission
+ * @param {inputsArray} array The element containing the quiz.
+ * @return {boolean} true or false
+ */
   const validateData = function(valData) {
-    let countQ = 0;
-    let countA = 0;
-    let pubPriv = 0;
+    let countQ = 0; //Question count
+    let countA = 0; //Correct answer count
 
-    if (valData.length <= 3) {
-      $('.error_message').remove();
-      $(`<div class="error_message"><p>You must have at least one question</p></div>`).insertBefore('#form_foot');
-      return false;
+    const { quiz_title, quiz_description, quiz_private, ...qsAndAs } = valData;
+
+    if (quiz_title.value.length > 255) {
+      validationError(`#quiz_title`,`Title must be 255 characters or less`);
+      return;
+    }
+    if (quiz_title.value.length === 0) {
+      validationError(`#quiz_title`,`Please include a title for your quiz`);
+      return;
+    }
+    if (quiz_description.value.length > 255) {
+      validationError(`#quiz_description`,`Description must be 255 characters or less`);
+      return;
+    }
+    if (quiz_description.value.length === 0) {
+      validationError(`#quiz_description`,`Please include a description for your quiz`);
+      return;
     }
 
-    for (let item of valData) {
+    if (!quiz_private) {
+      validationError(`#quiz_private`,`Please choose whether your question will be public or private`);
+      return;
+    }
 
-      if (item.name.length === 1) {
-        countQ++;
+    if (Object.keys(qsAndAs) <= 1) {
+      validationError(null,`You must have at least one question`);
+      return;
+    }
+
+    for (const id in qsAndAs) {
+      if (id.length === 1) {
+        countQ++
       }
-      if (item.name[2] === 'a') {
+      if (id.slice(-1) === 'a') {
         countA++;
       }
-
-      if (item.name === 'quiz_private') {
-        pubPriv = 1;
-      }
-
-      if (item.name === 'quiz_description' || item.name === 'quiz_title') {
-        if (item.value.length > 255) {
-          $('.error_message').remove();
-          $(`<div class="error_message"><p>Title and description should be 255 characters or less</p></div>`).insertBefore('#form_foot');
-          $(`#${item.name}`).addClass('invalid');
-          return false;
-        }
-      }
-
-      if (!item.value.length) {
-        if (item.name.length === 1) {
-          $('.error_message').remove();
-          $(`<div class="error_message"><p>Please fill out all the questions!</p></div>`).insertBefore('#form_foot');
-          $(`#${item.name}`).addClass('invalid');
-          return false;
-        }
-        if (item.name.length === 3) {
-          $('.error_message').remove();
-          $(`<div class="error_message"><p>Please ensure that no answer fields are left empty</p></div>`).insertBefore('#form_foot');
-          $(`#${item.name}`).addClass('invalid');
-          return false;
-        }
-        if (item.name.length > 3) {
-          $('.error_message').remove();
-          $(`<div class="error_message"><p>Please enter a title and description for your quiz</p></div>`).insertBefore('#form_foot');
-          $('.error_message').hide().slideDown(200);
-          $(`#${item.name}`).addClass('invalid');
-          return false;
-        }
+      if (qsAndAs[id].value.length === 0) {
+        validationError(`#${id}`,`Don't leave any blank questions or answers.`);
+        return;
       }
     }
 
     if (countQ !== countA) {
-      $('.error_message').remove();
-      $(`<div class="error_message"><p>Please select a correct answer for each question</p></div>`).insertBefore('#form_foot');
-      return false;
+      validationError(null,`Please select a correct answer for each question`)
+      return;
     }
-
-    if (pubPriv === 0) {
-      $('.error_message').remove();
-      $(`<div class="error_message"><p>Please choose whether your quiz will be public or private</p></div>`).insertBefore('#form_foot');
-      return false;
-    }
-
 
     $('.error_message').remove();
     return true;
-
   };
 
-  const removeError = function() {
-    $(this).removeClass('invalid');
+  /**
+   * Render validation error on quiz form submission
+   * @param {String} selector jQuery compatible selector that targets element to be given the invalid class.
+   * @param {String} errMsg The element containing the quiz.
+   * @return {boolean} true or false
+   */
+  const validationError = function(selector, errMsg) {
+    $('.error_message').remove();
+
+    const $error = $(`<div class="error_message"><p></p></div>`);
+    $error.children('p').text(errMsg);
+    $error.insertBefore('#form_foot');
+
+    $(selector).addClass('invalid');
+  }
+
+  /**
+   * Removes error formatting from $element
+   * @param {jQueryElement} $element The element to remove error formatting from.
+   * @return {none}
+   */
+  const removeError = function($element) {
+    $element.removeClass('invalid');
   };
 
+  /**
+  * Renders confirmation of quiz creation
+  * @param {object} data Information from server returned from quiz POSTing.
+  * @return {none}
+  */
   const renderConfirmation = function(data) {
     let visibility;
     if (data.quizPrivate === 'FALSE') {
@@ -218,32 +256,22 @@
       visibility = 'private';
     }
 
-    let $confPage = `<article>
-        <h3>Congratulations <span class="conf_user">${data.userName}</span>! Your new <span class="conf_private">${visibility}</span> quiz "<span class=".conf_title">${data.quizTitle}</span>" was successfully created. 🥳</h3>
+    let $confPage = $(`<article>
+        <h3>Congratulations <span class="conf_user"></span>! Your new <span class="conf_private"></span> quiz "<span class="conf_title"></span>" was successfully created. 🥳</h3>
         <div class="copy_buttons">
           <button class="quizlink_button c_b"><span>Copy Quiz Link</span>&nbsp;<input class="copy_input" value=http://localhost:8080/quizapp/quiz/${data.url}></button>
           <button class="resultslink_button c_b"><span>Copy Results Link </span> &nbsp;<input class="copy_input" value=http://localhost:8080/quizapp/quiz/results/${data.resultsUrl}></button>
         </div>
-      </article>`;
+      </article>`);
+
+    const $header = $($confPage.children('h3'))
+    $header.children(`.conf_user`).text(data.userName)
+    $header.children('.conf_title').text(data.quizTitle)
+    $header.children('.conf_private').text(visibility);
 
     $('h1').html('Quiz Created');
-    $('form').remove();
-    $('main').addClass('confirmation');
-    $('main').append($confPage);
-
-    $(document).on('click', '.c_b', function() {
-      $(this).find('input').select();
-      document.execCommand('copy');
-
-      let $text = $(this).find('span').text();
-      $(this).find('span').text("Link Copied!");
-
-      setTimeout(() => {
-        $(this).find('span').text($text);
-      }, 2000);
-
-    });
-
+    $('#quiz_form').remove();
+    $('main').addClass('confirmation').append($confPage);
 
   };
 

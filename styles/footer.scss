@@ -1,0 +1,9 @@
+@use 'base';
+
+body > footer {
+  position: fixed;
+  bottom: 0;
+  height: 1em;
+  width: 100vw;
+  background-color: base.$mainThemeColour;
+}
