@@ -1,7 +1,7 @@
 @use 'base';
 
 main {
-  margin: base.$navHeight auto 0;
+  margin: calc(base.$navHeight + 3rem) auto 0;
   height: calc(100vh - base.$navHeight - base.$footHeight);
   padding: 1em;
 }

@@ -37,18 +37,22 @@ nav {
       flex-direction: column;
       gap: 10px;
       align-items: center;
-      padding: 0.5em 3em;
+      padding: 0.1em 2em 0.4em 2em;
       font-size: 2em;
       border-top-left-radius: 0px;
       border-top-right-radius: 0px;
       margin-top: 0em;
       padding: auto, inherit;
+      font-family: 'Cormorant Unicase', serif;
+      font-size: 2.8em;
+      font-weight: 700;
+      letter-spacing: 1px;
     }
 
     .logo img {
       filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
-      width: 64px;
-      height: 64px;
+      width: 60px;
+      height: 60px;
     }
 
 
