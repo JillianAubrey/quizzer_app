@@ -27,7 +27,7 @@ router.get('/results/:url',  (req, res) => {
 
   Promise.all([
     getUserById(userId),
-    getQuizResults({results_url: url})
+    getQuizResults(url)
   ])
     .then(([user, results]) => {
       templateVars.userName = (!user ? '' : user.name);

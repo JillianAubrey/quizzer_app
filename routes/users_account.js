@@ -2,9 +2,6 @@ const express = require('express');
 const router  = express.Router();
 
 const { getUserById } = require('../db/queries/users')
-// const { getQuizAverage, getNumOfAttemptsQuiz } = require('../db/queries/get_quiz_stats')
-// const { getQuizzes } = require('../db/queries/get_quizzes')
-// const { getAllUserAttempts, getAttemptScore } = require('../db/queries/get_attempts')
 const { getAccountQuizzes, getAccountAttempts } = require('../db/queries/account_page')
 
 router.get('/', (req, res) => {

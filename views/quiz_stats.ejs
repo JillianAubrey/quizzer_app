@@ -40,12 +40,12 @@
       <p class="author">By <%= quiz.author%></p>
       <p class ="description"><%= quiz.description %></p>
       <div class="result_summary">
-        <p class="score">Average score: <%= Math.round(results.average * 10)/10 %>/<%= results.questions %></p>
+        <p class="score">Average score: <%= (results.avg_score ? `${Math.round(results.avg_score * 10)/10}/${results.questions}` : 'N/A') %></p>
         <p class="attempts">Total attempts: <%= results.attempts %></p>
       </div>
   </div>
     <div  class="results_container">
-      <section class="by_answer">
+      <section class="by_answer quiz_container">
         <% for (question in quiz.questions) { %>
           <article class="question_card">
             <header>
@@ -62,7 +62,7 @@
           </article>
         <% } %>
       </section>
-      <section class="by_attempt">
+      <section class="by_attempt quiz_container">
         <% for (attempt of results.byAttempt) { %>
           <article class="attempt_card">
             <ul class="attempt_info">

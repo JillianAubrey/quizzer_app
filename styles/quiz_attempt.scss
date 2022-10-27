@@ -89,8 +89,6 @@ h1 {
 .quiz_container {
   width: 100%;
   height: calc(100% - 10em);
-  border-top: 4px solid base.$mainThemeColour;
-  border-bottom: 4px solid base.$mainThemeColour;
   padding: 1em;
 
   li.correct {
