@@ -81,3 +81,12 @@ main {
 .info_container:hover {
   box-shadow: 5px 5px 10px base.$secondaryThemeColour;
 }
+
+.null {
+  width: 100%;
+  text-align: center;
+  margin-top: 15%;
+  font-size: 2em;
+  font-weight: bolder;
+  color: #5969de56;
+}

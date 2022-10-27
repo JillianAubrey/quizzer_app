@@ -40,7 +40,7 @@
     <nav>
         <p class="user_Name"> Welcome Back, <%= userName %>!</p>
         <div class="nav_right">
-        <form action="/quizapp/logout" method="POST" class="logout">
+        <form action="/api/logout" method="POST" class="logout">
            <button>Logout</button>
         </form>
         <form action="/quizapp" method="GET" class="home">
@@ -58,7 +58,9 @@
       <div class="info_container">
         <h1>My Quizzes </h1>
         <div class="info_body">
-        <% for (quiz of quizzes) { %>
+
+         <% if (quizzes !== undefined && quizzes.length) { %>
+          <% for (quiz of quizzes) { %>
           <article class="quiz_card my_quiz">
             <div class="quiz_card_main">
               <header>
@@ -88,8 +90,11 @@
             </div>
           </article>
           <% } %>
+          <% } else { %>
+            <article class="my_quiz null" id="null">You have not made any quizzes </article>
+          <% } %>
 
-
+          <% if (attempts !== undefined && attempts.length) { %>
           <% for (let attempt of attempts) { %>
 
           <article class="quiz_card my_quiz_attempts">
@@ -118,7 +123,11 @@
             </div>
           </article>
           <% } %>
+          <% } else { %>
+            <article class="my_quiz_attempts null" id="null">You have not attempted any quizzes</article>
+         <% } %>
         </div>
+
       </div>
     </main>
 
