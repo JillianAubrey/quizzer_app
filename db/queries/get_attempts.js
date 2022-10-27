@@ -34,7 +34,8 @@ const getAttempt = function({url, id}) {
         answers[answer_id] = answer;
       });
       return attempt;
-    });
+    })
+    .catch(error => console.log(error));;
 };
 
 const getAttemptScore = function({url, id}) {
@@ -62,13 +63,14 @@ const getAttemptScore = function({url, id}) {
       db.query(queryCorrect, [url || id]),
       db.query(queryTotal, [url || id]),
     ])
-      .then(([correct, total]) => {
-        const score = {
-          correct: correct.rows[0].correct,
-          total: total.rows[0].total
-        };
-        return res(score);
-      });
+    .then(([correct, total]) => {
+      const score = {
+        correct: correct.rows[0].correct,
+        total: total.rows[0].total
+      };
+      return res(score);
+    })
+    .catch(error => console.log(error));;
   });
 };
 
@@ -87,7 +89,8 @@ const getAllUserAttempts = function(userId) {
 
   return new Promise((res, rej) => {
     db.query(query, [userId])
-      .then(data => res(data.rows));
+    .then(data => res(data.rows))
+    .catch(error => console.log(error));;
   });
 
 };

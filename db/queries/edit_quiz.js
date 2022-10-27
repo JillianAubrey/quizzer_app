@@ -9,12 +9,14 @@ const checkUserPermission = function(userId, quizUrl) {
     WHERE users.id = $1
     AND quizzes.url = $2`;
 
-  return db.query(query, [userId, quizUrl]).then((data) => {
+  return db.query(query, [userId, quizUrl])
+  .then((data) => {
     if (data.rows.length) {
       return true;
     }
     return false;
-  });
+  })
+  .catch(error => console.log(error));
 };
 
 const changePrivacy = function(quizUrl, request) {

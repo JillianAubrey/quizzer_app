@@ -101,7 +101,8 @@ const getQuizResults = function({results_url, id}) {
         byAttempt,
         byAnswer,
       };
-    });
+    })
+    .catch(error => console.log(error));
 };
 
 const getQuizAverage = function(quizId) {
@@ -122,7 +123,8 @@ const getQuizAverage = function(quizId) {
     db.query(query, [quizId])
       .then((result) => {
         return res([quizId, result.rows[0]]);
-      });
+      })
+      .catch(error => console.log(error));
   });
 };
 
@@ -137,7 +139,8 @@ const getNumOfAttemptsQuiz = function(quizId) {
     db.query(query, [quizId])
       .then((result) => {
         return res([quizId, result.rows[0]]);
-      });
+      })
+      .catch(error => console.log(error));
   });
 };
 
