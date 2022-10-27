@@ -37,7 +37,7 @@ const createQuizCard = quiz => {
       <p class="quiz_description"></p>
       <footer>
         <p><span>${quiz.question_count}</span> Questions</p>
-        <p>Created: <time class="timeago" datetime="${isoDate}"></time></p>
+        <p>Created <time class="timeago" datetime="${isoDate}"></time></p>
       </footer>
     </a>
   </article>
