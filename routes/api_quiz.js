@@ -15,10 +15,8 @@ router.post('/', (req, res) => {
     .send('Must be logged in to create quiz');
   }
 
-  getUserById(userId)
-    .then((user) => addQuiz(userId, req.body, user.name))
+  addQuiz(userId, quiz)
     .then((resContent) => res.json(resContent));
-
 });
 
 router.post('/attempt',  (req, res) => {

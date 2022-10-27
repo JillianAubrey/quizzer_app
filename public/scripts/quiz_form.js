@@ -3,16 +3,19 @@
   $(() => {
 
     //adds three questions to the form on load
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 1; i++) {
       addQuestion();
     }
 
     //validates the input and submits the form if the checks pass
-    $('#quiz_form').on('submit', submitQuiz);
+    $('#quiz_form').on('submit', function(event) {
+      event.preventDefault();
+      submitQuiz($(this));
+    });
 
     //adds an answer input to a question form
     $(document).on('click', '.add_answer', function(event) {
-      event.preventDefault()
+      event.preventDefault();
       addAnswer($(this).closest('.question_form'));
     });
 
@@ -46,26 +49,6 @@
   });
 
   /**
- * POST selected answers as a quiz attempt, then redirect to attempt page.
- * @param {jQueryEvent} event The element containing the quiz.
- * @return {none}
- */
-  const submitQuiz = function(event) {
-    event.preventDefault();
-    const data = $(this).serialize()
-    const valData = $(this).serializeArray().reduce((valData, input) => {
-      valData[input.name] = input;
-      return valData;
-    }, {});
-
-    if (validateData(valData)) {
-      $.post('/api/quiz', data).then((res) => {
-        renderConfirmation(res);
-      });
-    }
-  };
-
-  /**
  * Add an answer field to a question form
  * @param {jQueryEvent} event The event that triggered adding a question, default will be prevented.
  * @param {jQueryElement} $questionForm The question form element
@@ -88,7 +71,7 @@
     </div>`);
   };
 
-    /**
+  /**
    * Deletes the last element in $element that matches selector
    * @param {jQueryElement} $element The target element, containd the element to be deleted.
    * @param {String} selector jQuery compatible selector that targets element to be deleted.
@@ -99,9 +82,9 @@
     if ($last) {
       deleteElementAnimate($last);
     }
-  }
+  };
 
-    /**
+  /**
    * Add an answer field to a question form
    * @param {jQueryEvent} event The element containing the quiz.
    * @return {none}
@@ -124,7 +107,7 @@
     </div>
     </fieldset>`);
 
-    for (i = 0; i < 4; i++) {
+    for (let i = 0; i < 4; i++) {
       addAnswer($newQuestion);
     }
 
@@ -141,7 +124,7 @@
    */
   const deleteElementAnimate = function($element) {
     $element.hide(400, () => $element.remove());
-  }
+  };
 
   /**
    * Format $answer as the correct answer for its question, and remove correct answering formatting from other answers on the question.
@@ -149,7 +132,7 @@
    * @return {none}
    */
   const formatCorrect = function($answer) {
-    const $answerContainer = $answer.closest('.answer_container')
+    const $answerContainer = $answer.closest('.answer_container');
 
     $answerContainer.find('.correct').removeClass('correct');
     $answer.children('input[type="text"]').addClass('correct');
@@ -158,64 +141,87 @@
     $answer.append(`<span> ✅ </span>`);
   };
 
-   /**
+  /**
+ * POST selected answers as a quiz attempt, then redirect to attempt page.
+ * @param {jQueryEvent} event The element containing the quiz.
+ * @return {none}
+ */
+  const submitQuiz = function($quizForm) {
+    const data = $quizForm.serializeArray();
+    const quiz = formatQuiz(data);
+
+    if (quiz) {
+      $.post('/api/quiz', quiz).then((res) => {
+        renderConfirmation(res);
+      });
+    }
+  };
+
+  /**
  * Validate the form data before submission
  * @param {inputsArray} array The element containing the quiz.
  * @return {boolean} true or false
  */
-  const validateData = function(valData) {
-    let countQ = 0; //Question count
-    let countA = 0; //Correct answer count
+  const formatQuiz = function(data) {
+    const quiz = {
+      questions: {},
+    };
+    const questions = quiz.questions;
 
-    const { quiz_title, quiz_description, quiz_private, ...qsAndAs } = valData;
+    for (const input of data) {
+      const name = input.name;
+      const value = input.value;
+      if (isNaN(name.charAt(0))) {
+        if (!value) {
+          return validationError(`#${name}`, `Please include a ${name.split('_')[1]} for your quiz.`);
+        }
+        if (value.length > 255) {
+          return validationError(`#${name}`, `Quiz ${name.split('_')[1]} must be 255 characters or less.`);
+        }
+        quiz[name] = value;
+        continue;
+      }
 
-    if (quiz_title.value.length > 255) {
-      validationError(`#quiz_title`,`Title must be 255 characters or less`);
-      return;
-    }
-    if (quiz_title.value.length === 0) {
-      validationError(`#quiz_title`,`Please include a title for your quiz`);
-      return;
-    }
-    if (quiz_description.value.length > 255) {
-      validationError(`#quiz_description`,`Description must be 255 characters or less`);
-      return;
-    }
-    if (quiz_description.value.length === 0) {
-      validationError(`#quiz_description`,`Please include a description for your quiz`);
-      return;
+      if (!value) {
+        return validationError(`#${name}`, `Don't leave any blank questions or answers.`);
+      }
+
+      const quesId = name.split('-')[0];
+      const ansId = name.split('-')[1];
+
+      if (!questions[quesId]) {
+        questions[quesId] = {
+          answers: {}
+        };
+      }
+
+      const question = questions[quesId];
+      if (!ansId) {
+        question.text = value;
+      }
+      if (ansId === 'a') {
+        question.correct = value.split('-')[1];
+      }
+      question.answers[ansId] = value;
     }
 
-    if (!quiz_private) {
+    if (!quiz.quiz_private) {
       validationError(`#quiz_private`,`Please choose whether your question will be public or private`);
       return;
     }
 
-    if (Object.keys(qsAndAs) <= 1) {
-      validationError(null,`You must have at least one question`);
-      return;
+    if (Object.keys(questions).length < 1) {
+      return validationError(null,`You must have at least one question`);
     }
 
-    for (const id in qsAndAs) {
-      if (id.length === 1) {
-        countQ++
+    for (const quesId in questions) {
+      if (!questions[quesId].correct) {
+        return validationError(`#${quesId}`,`Please select a correct answer for each question`);
       }
-      if (id.slice(-1) === 'a') {
-        countA++;
-      }
-      if (qsAndAs[id].value.length === 0) {
-        validationError(`#${id}`,`Don't leave any blank questions or answers.`);
-        return;
-      }
-    }
-
-    if (countQ !== countA) {
-      validationError(null,`Please select a correct answer for each question`)
-      return;
     }
 
     $('.error_message').remove();
-    return true;
+    return quiz;
   };
 
   /**
@@ -232,7 +238,7 @@
     $error.insertBefore('#form_foot');
 
     $(selector).addClass('invalid');
-  }
+  };
 
   /**
    * Removes error formatting from $element
@@ -264,9 +270,9 @@
         </div>
       </article>`);
 
-    const $header = $($confPage.children('h3'))
-    $header.children(`.conf_user`).text(data.userName)
-    $header.children('.conf_title').text(data.quizTitle)
+    const $header = $($confPage.children('h3'));
+    $header.children(`.conf_user`).text(data.userName);
+    $header.children('.conf_title').text(data.quizTitle);
     $header.children('.conf_private').text(visibility);
 
     $('h1').html('Quiz Created');
