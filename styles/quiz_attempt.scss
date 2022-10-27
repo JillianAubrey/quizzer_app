@@ -5,24 +5,85 @@ main {
   margin: base.$navHeight auto 0;
   height: calc(100vh - base.$navHeight - base.$footHeight);
   padding: 1em;
+  font-weight: normal;
+  color: base.$mainThemeColour;
+  text-shadow: 0.5px 0.5px 3px base.$secondaryThemeColour;
+}
+
+.attempt_header {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  .description {
+    font-style: italic;
+    margin-bottom: 0.7rem;
+  }
 }
 
 h1 {
-  margin: 0;
+  margin: 0.1em 0 0.2em 0;
+  padding: 0.1em 1.5em;
   color: base.$mainThemeColour;
+  border-radius: 10px;
+  // border-bottom: solid black 2px;
+  box-shadow: 3px 3px 8px #c9cae2 inset;
+
 }
 
-.description, .author {
-  margin: 0 1em 1em;
-}
-
-button {
+#quiz_try, .c_b {
   border: none;
-  border-radius: 6px;
-  color: white;
-  background-color: base.$mainThemeColour;
+  border-radius: 10px;
   margin: 1em auto;
   padding: 1em;
+  color: white;
+  transition: all 0.2s ease-in-out;
+  font-weight: bold;
+  box-shadow: 2px 2px 4px #31313b7f;
+}
+
+#quiz_try {
+  background: linear-gradient(50deg, base.$mainThemeColour 60%, base.$secondaryThemeColour 80%, base.$mainThemeColour 90%);
+}
+
+#quiz_try:hover, .c_b:hover {
+  transform: scale(1.1);
+}
+
+.c_b {
+  margin: 0;
+  padding: 0.9em;
+  background-color: base.$complThemeColour;
+}
+
+.copy_input {
+  border: none;
+  border-radius: 5px;
+  font-weight: 400;
+  box-shadow: 2px 2px 5px #52525e inset;
+}
+
+.attempt_foot {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  color: white;
+  align-items: center;
+}
+
+.attempt_results {
+  display:flex;
+  flex-flow: column wrap;
+  align-items: center;
+  gap: 2px;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border-radius: 10px;
+  background-color: base.$mainThemeColour;
+  text-shadow: none;
+  color: white;
+  font-weight: 500;
+  box-shadow: 3px 3px 8px #afafc4;
+
 }
 
 .quiz_container {
@@ -34,9 +95,12 @@ button {
 
   li.correct {
     background-color: base.$correctColour;
+    color: white;
   }
 
   li.incorrect {
     background-color: base.$incorrectColour;
+    color: white;
+    text-shadow: none;
   }
 }
