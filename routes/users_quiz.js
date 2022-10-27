@@ -21,10 +21,13 @@ router.get('/new', (req, res) => {
 router.get('/results/:url',  (req, res) => {
   const userId = req.session.userId;
   const templateVars = {};
+  const url = req.params.url;
+
+  templateVars.url = url;
 
   Promise.all([
     getUserById(userId),
-    getQuizResults({results_url: req.params.url})
+    getQuizResults({results_url: url})
   ])
     .then(([user, results]) => {
       templateVars.userName = (!user ? '' : user.name);

@@ -29,16 +29,21 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timeago/1.6.7/jquery.timeago.min.js"></script>
   <script defer src="/scripts/app.js"></script>
   <script defer src="/scripts/timeago_init.js"></script>
+  <script defer src="/scripts/copy_link.js"></script>
 </head>
 <body>
   <%- include('partials/__header') %>
 
   <main>
-    <h1><%= quiz.title %> - Results</h1>
-    <p class="author">By <%= quiz.author%></p>
-    <p class ="description"><%= quiz.description %></p>
-    <p class="score">Average score: <%= Math.round(results.average * 10)/10 %>/<%= results.questions %></p>
-    <p class="attempts">Total attempts: <%= results.attempts %></p>
+    <div class="results_header">
+      <h1><%= quiz.title %> - Results</h1>
+      <p class="author">By <%= quiz.author%></p>
+      <p class ="description"><%= quiz.description %></p>
+      <div class="result_summary">
+        <p class="score">Average score: <%= Math.round(results.average * 10)/10 %>/<%= results.questions %></p>
+        <p class="attempts">Total attempts: <%= results.attempts %></p>
+      </div>
+  </div>
     <div  class="results_container">
       <section class="by_answer">
         <% for (question in quiz.questions) { %>
@@ -68,13 +73,16 @@
               </li>
             </ul>
             <a href="/quizapp/attempt/<%= attempt.url %>">
-              <button>See this attempt</button>
+              <button class="view_attempt">See this attempt</button>
             </a>
           </article>
         <% } %>
       </section>
     </div>
+    <div class="page_foot">
     <a href="/quizapp/quiz/<%= quiz.url %>"><button id="quiz_try">Try this quiz!</button></a>
+    <button class="c_b"><span>Copy Results Link</span>&nbsp; &nbsp;<input class="copy_input" value=http://localhost:8080/quizapp/results/<%= url %>></button>
+  </div>
   </main>
 </body>
 </html>

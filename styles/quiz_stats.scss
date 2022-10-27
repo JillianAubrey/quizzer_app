@@ -5,24 +5,92 @@ main {
   margin: base.$navHeight auto 0;
   height: calc(100vh - base.$navHeight - base.$footHeight);
   padding: 1em;
+  padding-top: 0.5em;
+  font-weight: normal;
+  color: base.$mainThemeColour;
+  text-shadow: 0.5px 0.5px 3px base.$secondaryThemeColour;
+}
+
+header {
+  text-shadow: none;
+}
+
+.results_header {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  .description {
+    font-style: italic;
+    margin-bottom: 0.5rem;
+    margin-top: 0.1rem;
+  }
 }
 
 h1 {
-  margin: 0;
+  margin: 0.1em 0 0.2em 0;
+  padding: 0.1em 1.5em;
   color: base.$mainThemeColour;
+  border-radius: 10px;
+  box-shadow: 3px 3px 8px #c9cae2 inset;
 }
 
-button {
+#quiz_try, .view_attempt, .c_b {
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
   color: white;
   background-color: base.$mainThemeColour;
-  margin: 1em auto;
+  margin: 0.8em auto;
   padding: 1em;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 2px 2px 4px #31313b7f;
 }
 
-.description, .author {
-  margin: 0 1em 1em;
+#quiz_try:hover, .view_attempt:hover, .c_b:hover {
+  transform: scale(1.1);
+}
+
+.c_b {
+  margin: 0;
+  padding: 0.9em;
+  background-color: base.$complThemeColour;
+  font-weight: 600;
+}
+
+.copy_input {
+  border: none;
+  border-radius: 5px;
+  font-weight: 400;
+  box-shadow: 2px 2px 5px #52525e inset;
+}
+
+#quiz_try {
+  background: linear-gradient(50deg, base.$mainThemeColour 60%, base.$secondaryThemeColour 80%, base.$mainThemeColour 90%);
+  margin-top: 0.3em;
+  font-weight: 600;
+}
+
+
+.page_foot {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+}
+
+.result_summary {
+  display:flex;
+  flex-flow: column wrap;
+  align-items: center;
+  gap: 1px;
+  margin-bottom: 0.4rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 10px;
+  background-color: base.$mainThemeColour;
+  text-shadow: none;
+  color: white;
+  font-weight: 500;
+  box-shadow: 3px 3px 8px #afafc4;
+
 }
 
 .results_container {
