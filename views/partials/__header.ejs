@@ -1,20 +1,20 @@
-<!-- HEADER FOR THE PAGE  -->
+
 <header>
 <nav>
   <ul>
-    <li class="user">
+    <div class="left_nav">
       <% if (userName) { %>
-        <a href="/quizapp/account"><%= userName %></a>
-        <form action="/api/logout" method="POST">
-          <button class="logout">Logout</button>
-        </form>
-      <% } else { %>
-        <a href="/quizapp/login" class="login">Login</a>
-        <a href="/quizapp/register" class="register">Register</a>
-      <% } %>
-    </li>
-    <li class="logo"><a href="/quizapp">Quizzer</a><img src="/docs/owl.png"></li>
-    <li class="new_quiz"><a href="/quizapp/quiz_builder">New Quiz</a></li>
+    <a href="/quizapp/account"><li class="user left"><%= userName %>'s Account</li></a>
+    <form action="/api/logout" method="POST">
+      <button type="submit"><li class="logout left">Logout</li></button>
+    </form>
+    <% } else { %>
+     <a href="/quizapp/login"><li class="login left">Login</li></a>
+    <a href="/quizapp/register"><li class="register left">Register</li></a>
+    <% } %>
+    </div>
+    <a href="/quizapp"><li class="logo">Quizzer<img src="/docs/owl.png"></li></a>
+    <a href="/quizapp/quiz_new"><li class="new_quiz">New Quiz</li></a>
   </ul>
 </nav>
 </header>

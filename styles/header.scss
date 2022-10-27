@@ -8,7 +8,7 @@ nav {
   top: 0;
   left: 0;
   z-index: 10;
-  padding: 0 2.5em;
+  padding: 0 1.5em;
   height: base.$navHeight;
   ul {
     display: flex;
@@ -21,10 +21,10 @@ nav {
     li {
       list-style-type: none;
       background-color: base.$mainThemeColour;
-      padding: 1.5em;
-      margin-top: 1.5em;
-      border-radius: 10px;
+      border-radius: 12px;
+      margin-top: 1.2em;
       transition: all 0.2s ease-in-out;
+      width: 100%;
     }
 
     li:hover {
@@ -32,21 +32,58 @@ nav {
       box-shadow: 0px 0px 20px base.$secondaryThemeColour;
     }
 
+    .new_quiz {
+      padding: 1.5em;
+    }
+
+    .left {
+      // margin-top: 1em;
+      padding: 0.5em 1em;
+    }
+
+    .logout, .register {
+      margin-top: 0.5em;
+    }
+
+    .logout {
+      background-color: base.$errorColour;
+    }
+
+    .user {
+      background-color: #50c8a0;
+    }
+
     .logo {
+      position: fixed;
+      top: 0;
+      margin: 0 auto;
+      left: 0;
+      right: 0;
+      width: 20%;
       display: flex;
       flex-direction: column;
       gap: 10px;
       align-items: center;
-      padding: 0.1em 2em 0.4em 2em;
+      padding: 0.1em 2em 0.5em 2em;
       font-size: 2em;
       border-top-left-radius: 0px;
       border-top-right-radius: 0px;
       margin-top: 0em;
       padding: auto, inherit;
       font-family: 'Cormorant Unicase', serif;
-      font-size: 2.8em;
+      font-size: 2.5em;
       font-weight: 700;
       letter-spacing: 1px;
+    }
+
+    button {
+      margin: 0;
+      border: none;
+      padding: 0;
+      background-color: transparent;
+      color: white;
+      width: 100%;
+      text-align: left;
     }
 
     .logo img {
@@ -55,6 +92,11 @@ nav {
       height: 60px;
     }
 
+    .left_nav {
+      display: flex;
+      flex-flow: column wrap;
+      width: 18%;
+    }
 
 
 
@@ -62,41 +104,13 @@ nav {
       text-decoration: none !important;
       color: inherit !important;
     }
-    // a:visited {
-    //   text-decoration: none;
-    // }
+
   }
 
-  .user {
-    display: flex;
-    flex-flow: column;
-    justify-content: space-between;
-    align-items: center;
-
-    .logout {
-      background-color: base.$errorColour;
-      border-radius: 5px;
-      padding: 0.25em;
-      margin-top: 0.25em;
-      border: none;
-      color: white;
-    }
-
-    .register, .login {
-      border-radius: 5px;
-      padding: 0.25em;
-    }
-
-    .register {
-      margin-top: 0.25em;
-    }
+  .left_nav {
 
     .register:hover, .login:hover {
       background-color: base.$secondaryThemeColour;
-    }
-
-    form {
-      height: auto;
     }
   }
 }
