@@ -29,7 +29,7 @@
     const valData = $(this).serializeArray();
 
     if (validateData(valData)) {
-      $.post('/api', data).then((res) => {
+      $.post('/api/quiz', data).then((res) => {
         renderConfirmation(res);
       });
     }
@@ -214,7 +214,7 @@
         <h3>Congratulations <span class="conf_user">${data.userName}</span>! Your new <span class="conf_private">${visibility}</span> quiz "<span class=".conf_title">${data.quizTitle}</span>" was successfully created. 🥳</h3>
         <div class="copy_buttons">
           <button class="quizlink_button c_b"><span>Copy Quiz Link</span>&nbsp;<input class="quiz_link" value=http://localhost:8080/quizapp/quiz/${data.url}></button>
-          <button class="resultslink_button c_b"><span>Copy Results Link </span> &nbsp;<input class="results_link" value=http://localhost:8080/quizapp/results/${data.resultsUrl}></button>
+          <button class="resultslink_button c_b"><span>Copy Results Link </span> &nbsp;<input class="results_link" value=http://localhost:8080/quizapp/quiz/results/${data.resultsUrl}></button>
         </div>
       </article>`;
 

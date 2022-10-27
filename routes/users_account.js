@@ -7,10 +7,10 @@ const { getQuizzes } = require('../db/queries/get_quizzes')
 const { getAllUserAttempts, getAttemptScore } = require('../db/queries/get_attempts')
 
 router.get('/', (req, res) => {
-  const user_id = req.session.user_id
+  const userId = req.session.userId
 
-  if (!user_id) {
-    return res.redirect('/quizapp/register');
+  if (!userId) {
+    return res.redirect('/quizapp/login');
   }
 
   let templateVars = {};
@@ -45,7 +45,7 @@ router.get('/', (req, res) => {
           }
         }
       })
-    }).then(() => getAllUserAttempts(user_id))
+    }).then(() => getAllUserAttempts(userId))
       .then((attempts) => {
         templateVars.attempts = attempts;
         let promises = [];

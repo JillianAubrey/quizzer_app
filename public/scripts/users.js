@@ -52,7 +52,7 @@
     let visibility = $(this).find('span').html();
     let qurl = $(this).attr('id');
     $.ajax({
-      url: `/api/visibility/${qurl}`,
+      url: `/api/quiz/visibility/${qurl}`,
       method: 'POST',
       data: {
         visibility

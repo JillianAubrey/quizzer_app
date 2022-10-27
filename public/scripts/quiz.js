@@ -34,7 +34,7 @@ const submitQuiz = ($quizContainer) => {
     answerIds
   };
 
-  $.post('/api/quiz', submission)
+  $.post('/api/quiz/attempt', submission)
     .then(redirect => {
       window.location.href = redirect;
     });

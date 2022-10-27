@@ -9,7 +9,7 @@ router.get('/new', (req, res) => {
   const userId = req.session.userId;
 
   if (!userId) {
-    return res.redirect('/quizapp/register');
+    return res.redirect('/quizapp/login');
   }
 
   getUserById(userId).then(user => {
