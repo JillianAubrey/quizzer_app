@@ -23,6 +23,8 @@ router.get('/:url',  (req, res) => {
     })
     .then(quiz => {
       templateVars.quiz = quiz;
+      templateVars.url = url;
+      console.log(templateVars);
       res.render('quiz_attempt', templateVars);
     });
 });
