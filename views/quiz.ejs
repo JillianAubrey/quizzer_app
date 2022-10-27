@@ -36,9 +36,11 @@
   <%- include('partials/__header') %>
 
   <main>
+    <div class="quiz_details">
     <h1><%= quiz.title %></h1>
     <p class="author">By <%= quiz.author%></p>
     <p class ="description"><%= quiz.description %></p>
+    </div>
     <div class="quiz_container" data-id="<%= quiz.id %>">
       <% for (question in quiz.questions) { %>
         <article class = question_card>

@@ -29,7 +29,7 @@ main {
   }
 }
 
-form {
+#quiz_form {
     display: flex;
     flex-flow: column;
     width: 100%;
@@ -38,6 +38,19 @@ form {
     height: calc(100vh - base.$navHeight - base.$footHeight);
     padding: 1em 1em 0 1em;
 
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 0.4em;
+      color: white;
+      transition: all 0.2s ease-in-out;
+      box-shadow: 2px 2px 4px #31313b7f;
+      font-weight: 500;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
 }
 
 form::-webkit-scrollbar {
@@ -137,20 +150,6 @@ textarea::placeholder {
 .form_foot {
   display: flex;
   flex-direction: row;
-}
-
-//.add_answer, .delete_answer, .delete_question {
-  button {
-  border: none;
-  border-radius: 10px;
-  padding: 0.4em;
-  color: white;
-  transition: all 0.2s ease-in-out;
-  box-shadow: 2px 2px 4px #31313b7f;
-}
-
-button:hover {
-  transform: scale(1.1);
 }
 
 .add_answer, .add_question {
