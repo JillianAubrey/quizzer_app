@@ -104,4 +104,4 @@ const addAnswers = function(questions, content) {
   return db.query(ansQuery, queryParams);
 };
 
-module.exports = {addQuiz, addAnswers, addQuestions};
+module.exports = { addQuiz };
