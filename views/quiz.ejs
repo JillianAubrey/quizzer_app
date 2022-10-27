@@ -37,9 +37,9 @@
 
   <main>
     <div class="quiz_details">
-    <h1><%= quiz.title %></h1>
-    <p class="author">By <%= quiz.author%></p>
-    <p class ="description"><%= quiz.description %></p>
+      <h1><%= quiz.title %></h1>
+      <p class="author">By <%= quiz.author%></p>
+      <p class ="description"><%= quiz.description %></p>
     </div>
     <div class="quiz_container" data-id="<%= quiz.id %>">
       <% for (question in quiz.questions) { %>
@@ -58,8 +58,10 @@
         </article>
       <% } %>
     </div>
-    <span class="error"></span>
-    <button id="quiz_submit">Submit</button>
+    <div class="quiz_footer">
+      <span class="error"></span>
+      <button id="quiz_submit">Submit</button>
+    </div>
   </main>
 </body>
 </html>
