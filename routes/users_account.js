@@ -4,6 +4,7 @@ const router  = express.Router();
 const { getUserById } = require('../db/queries/users')
 const { getAccountQuizzes, getAccountAttempts } = require('../db/queries/account_page')
 
+// User account page
 router.get('/', (req, res) => {
   const userId = req.session.userId
 

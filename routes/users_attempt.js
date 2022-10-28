@@ -5,6 +5,7 @@ const { getUserById } = require('../db/queries/users')
 const { getQuiz } = require('../db/queries/get_quizzes')
 const { getAttempt, getAttemptScore } = require('../db/queries/get_attempts')
 
+// Single attempt page
 router.get('/:url',  (req, res) => {
   const userId = req.session.userId;
   const url = req.params.url;

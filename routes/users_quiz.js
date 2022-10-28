@@ -5,6 +5,7 @@ const { getUserById } = require('../db/queries/users')
 const { getQuizResults } = require('../db/queries/get_quiz_stats')
 const { getQuiz } = require('../db/queries/get_quizzes')
 
+// New quiz creation page
 router.get('/new', (req, res) => {
   const userId = req.session.userId;
 
@@ -18,6 +19,7 @@ router.get('/new', (req, res) => {
   });
 });
 
+// Page for aggregate results of single quiz
 router.get('/results/:url',  (req, res) => {
   const userId = req.session.userId;
   const templateVars = {};
@@ -41,6 +43,7 @@ router.get('/results/:url',  (req, res) => {
     });
 });
 
+// Page for taking a quiz
 router.get('/:url',  (req, res) => {
   const userId = req.session.userId;
 

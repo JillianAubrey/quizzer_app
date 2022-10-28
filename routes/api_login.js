@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 
 const { getUserByEmail, addUser } = require('../db/queries/users')
 
+// Log in route
 router.post('/', (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -28,6 +29,7 @@ router.post('/', (req, res) => {
     });
 });
 
+// Registration route
 router.post('/new', (req, res) => {
   const {name, email, password } = req.body;
   if (!name || !email || !password) {
