@@ -3,7 +3,7 @@
   $(() => {
 
     //adds three questions to the form on load
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < 3; i++) {
       addQuestion();
     }
 
