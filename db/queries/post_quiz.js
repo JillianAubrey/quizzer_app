@@ -59,10 +59,10 @@ const addAnswers = function(questionInfo, questions) {
     const quesIdPos = queryParams.length;
 
     for (const ansNum in question.answers) {
-      const answer = question.answers[ansNum]
+      const text = question.answers[ansNum]
       const isCorrect = (ansNum === question.correct);
       query += ` ($${quesIdPos}, `;
-      queryParams.push(answer);
+      queryParams.push(text);
       query += `$${queryParams.length}, `;
       queryParams.push(isCorrect);
       query += `$${queryParams.length}),`;
