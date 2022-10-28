@@ -50,9 +50,8 @@
 
   /**
  * Add an answer field to a question form
- * @param {jQueryEvent} event The event that triggered adding a question, default will be prevented.
  * @param {jQueryElement} $questionForm The question form element
- * @return {none}
+ * @return {none} none
  */
   const addAnswer = function($questionForm) {
     let answerId = 1;
@@ -72,22 +71,21 @@
   };
 
   /**
-   * Deletes the last element in $element that matches selector
-   * @param {jQueryElement} $element The target element, containd the element to be deleted.
+   * Deletes the last element in $parentElement that matches selector
+   * @param {jQueryElement} $parentElement The target element, contains the element to be deleted.
    * @param {String} selector jQuery compatible selector that targets element to be deleted.
-   * @return {none}
+   * @return {none} none
    */
-  const deleteLast = ($element, selector) => {
-    const $last = $element.find(selector).last() || null;
+  const deleteLast = ($parentElement, selector) => {
+    const $last = $parentElement.find(selector).last() || null;
     if ($last) {
       deleteElementAnimate($last);
     }
   };
 
   /**
-   * Add an answer field to a question form
-   * @param {jQueryEvent} event The element containing the quiz.
-   * @return {none}
+   * Add a question to the quiz_form
+   * @return {none} none
    */
   const addQuestion = function() {
     const questionNum = Number($('#quiz_form').find('.question').last().attr('id')) + 1 || 1;
@@ -120,7 +118,7 @@
   /**
    * Deletes $element with an animation
    * @param {jQueryElement} $element Element to delete.
-   * @return {none}
+   * @return {none} none
    */
   const deleteElementAnimate = function($element) {
     $element.hide(400, () => $element.remove());
@@ -129,7 +127,7 @@
   /**
    * Format $answer as the correct answer for its question, and remove correct answering formatting from other answers on the question.
    * @param {jQueryElement} $answer The element that is the correct answer.
-   * @return {none}
+   * @return {none} none
    */
   const formatCorrect = function($answer) {
     const $answerContainer = $answer.closest('.answer_container');
@@ -143,12 +141,12 @@
 
   /**
  * POST selected answers as a quiz attempt, then redirect to attempt page.
- * @param {jQueryEvent} event The element containing the quiz.
- * @return {none}
+ * @param {jQueryElement} $quizForm The form element containing the quiz
+ * @return {none} none
  */
   const submitQuiz = function($quizForm) {
     const data = $quizForm.serializeArray();
-    const quiz = formatQuiz(data);
+    const quiz = createQuizObj(data);
     if (quiz) {
       $.post('/api/quiz', JSON.stringify(quiz)).then((res) => {
         console.log(res);
@@ -158,11 +156,11 @@
   };
 
   /**
- * Validate the form data before submission
- * @param {inputsArray} array The element containing the quiz.
- * @return {boolean} true or false
+ * Format quiz_form into a quiz object and perform validation
+ * @param {array} data The array containing all of the quiz_form data.
+ * @return {quizObject} Returns the quiz object if all validation is met (if validation is flagged, returns undefined)
  */
-  const formatQuiz = function(data) {
+  const createQuizObj = function(data) {
     const quiz = {
       questions: {},
     };
@@ -245,7 +243,7 @@
   /**
    * Removes error formatting from $element
    * @param {jQueryElement} $element The element to remove error formatting from.
-   * @return {none}
+   * @return {none} none
    */
   const removeError = function($element) {
     $element.removeClass('invalid');
@@ -253,9 +251,9 @@
 
   /**
   * Renders confirmation of quiz creation
-  * @param {object} data Information from server returned from quiz POSTing.
-  * @param {object} quiz Quiz object created by formatQuiz.
-  * @return {none}
+  * @param {Object} data Information from server returned from quiz POSTing.
+  * @param {Object} quiz Quiz object created by createQuizObj.
+  * @return {none} none
   */
   const renderConfirmation = function(data, quiz) {
     let $confPage = $(`<article>
