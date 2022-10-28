@@ -2,8 +2,8 @@ const express = require('express');
 const router  = express.Router();
 
 const { postAttempt } = require('../db/queries/post_attempt');
-const { checkUserPermission, changePrivacy, deleteQuiz } = require('../db/queries/edit_quiz')
-const { addQuiz} = require('../db/queries/post_quiz')
+const { checkUserPermission, changePrivacy, deleteQuiz } = require('../db/queries/edit_quiz');
+const { addQuiz} = require('../db/queries/post_quiz');
 
 // Route for adding a new quiz to db
 router.post('/', (req, res) => {
@@ -11,15 +11,15 @@ router.post('/', (req, res) => {
 
   if (!userId) {
     res
-    .status(401)
-    .send('Must be logged in to create quiz');
+      .status(401)
+      .send('Must be logged in to create quiz');
   }
-  const quiz = JSON.parse(Object.keys(req.body)[0])
+  const quiz = JSON.parse(Object.keys(req.body)[0]);
 
   addQuiz(quiz, userId)
-  .then(urls => {
-    res.json(urls);
-  });
+    .then(urls => {
+      res.json(urls);
+    });
 });
 
 // Route for adding a new attempt to db

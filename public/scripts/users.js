@@ -56,7 +56,7 @@
    * @return {none} none
    */
   const changePrivacy = function($privacyButton) {
-    const $visibility = $privacyButton.find('span')
+    const $visibility = $privacyButton.find('span');
     let visibility = $visibility.text();
     let qurl = $privacyButton.attr('id');
     $.ajax({

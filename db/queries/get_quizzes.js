@@ -1,12 +1,11 @@
 const db = require('../connection');
 
 const getQuizzes = function(userId,
-                            options = {
-                              recent : true,
-                              untaken : false,
-                              showPrivate : false,
-                              ownQuizzes : false})
-{
+  options = {
+    recent : true,
+    untaken : false,
+    showPrivate : false,
+    ownQuizzes : false}) {
   let queryParams = [];
 
   let query = `

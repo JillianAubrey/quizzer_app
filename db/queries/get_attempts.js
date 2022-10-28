@@ -1,5 +1,11 @@
 const db = require('../connection');
 
+/**
+ * Get quiz with specific attempt info from db
+ * @param {String} url Attempt url
+ * @param {String} id  Attempt id
+ * @return {Promise}   Promise resolves to attempt object, which includes entire quiz with info on spcefic attempt.
+ * */
 const getAttempt = function({url, id}) {
   const query = `
   SELECT attempts.url,
@@ -49,7 +55,7 @@ const getAttempt = function({url, id}) {
       let question;
 
       data.rows.forEach(row => {
-        const { question_num, answer_id, answer } = row;
+        const { question_num, answer_id, answer, answered, is_correct } = row;
         if (!questions[question_num]) {
           attempt.total++;
           questions[question_num] = {
@@ -59,14 +65,11 @@ const getAttempt = function({url, id}) {
           };
           question = questions[question_num];
         }
-        question.answers.push({id: row.answer_id, text: row.answer, answered: row.answered, isCorrect: row.is_correct});
-        if (row.answered && row.is_correct) {
+        question.answers.push({id: answer_id, text: answer, answered, isCorrect: is_correct});
+        if (answered && is_correct) {
           attempt.score++;
         }
       });
-      console.log(attempt);
-      console.log(attempt.questions);
-      console.log(attempt.questions[1])
       return attempt;
     })
     .catch(error => console.log(error));;

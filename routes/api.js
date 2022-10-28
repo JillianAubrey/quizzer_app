@@ -1,6 +1,5 @@
 const express = require('express');
 const router  = express.Router();
-const bcrypt = require('bcryptjs');
 const { getQuizzes } = require('../db/queries/get_quizzes');
 
 // Separated Routes

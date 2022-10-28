@@ -19,11 +19,11 @@ const addQuiz = function(quiz, userId) {
   const queryParams = [userId, quiz_title, quiz_description, url, resultsUrl, quiz_private];
 
   return db.query(quizQuery, queryParams)
-  .then((quizData) => quizData.rows[0].id)
-  .then(quizId => addQuestions(quizId, questions))
-  .then(questionInfo => addAnswers(questionInfo, questions))
-  .then(() => urls)
-  .catch(error => console.log(error));
+    .then((quizData) => quizData.rows[0].id)
+    .then(quizId => addQuestions(quizId, questions))
+    .then(questionInfo => addAnswers(questionInfo, questions))
+    .then(() => urls)
+    .catch(error => console.log(error));
 };
 
 /**
@@ -39,7 +39,7 @@ const addQuestions = function(quizId, questions) {
     INSERT INTO questions(quiz_id, text, sequence) VALUES `;
 
   for (const seqNum in questions) {
-    text = questions[seqNum].text;
+    const text = questions[seqNum].text;
     query += ` ($1, `;
     queryParams.push(text);
     query += `$${queryParams.length}, `;
@@ -51,13 +51,13 @@ const addQuestions = function(quizId, questions) {
   query += ' RETURNING *';
 
   return db.query(query, queryParams)
-  .then(data => {
-    return data.rows.reduce((questionInfo, question) => {
-      questionInfo[question.sequence] = question.id;
-      return questionInfo;
-    }, {});
-  })
-  .catch(error => console.log(error));
+    .then(data => {
+      return data.rows.reduce((questionInfo, question) => {
+        questionInfo[question.sequence] = question.id;
+        return questionInfo;
+      }, {});
+    })
+    .catch(error => console.log(error));
 };
 
 /**
@@ -71,13 +71,13 @@ const addAnswers = function(questionInfo, questions) {
   let queryParams = [];
 
   for (const seqNum in questions) {
-    const question = questions[seqNum]
-    const quesId = questionInfo[seqNum]
+    const question = questions[seqNum];
+    const quesId = questionInfo[seqNum];
     queryParams.push(quesId);
     const quesIdPos = queryParams.length;
 
     for (const ansNum in question.answers) {
-      const text = question.answers[ansNum]
+      const text = question.answers[ansNum];
       const isCorrect = (ansNum === question.correct);
       query += ` ($${quesIdPos}, `;
       queryParams.push(text);
@@ -90,7 +90,7 @@ const addAnswers = function(questionInfo, questions) {
   query = query.slice(0, -1);
 
   return db.query(query, queryParams)
-  .catch(error => console.log(error));
+    .catch(error => console.log(error));
 };
 
 module.exports = { addQuiz };

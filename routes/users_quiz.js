@@ -1,9 +1,9 @@
 const express = require('express');
 const router  = express.Router();
 
-const { getUserById } = require('../db/queries/users')
-const { getQuizResults } = require('../db/queries/get_quiz_stats')
-const { getQuiz } = require('../db/queries/get_quizzes')
+const { getUserById } = require('../db/queries/users');
+const { getQuizResults } = require('../db/queries/get_quiz_stats');
+const { getQuiz } = require('../db/queries/get_quizzes');
 
 // New quiz creation page
 router.get('/new', (req, res) => {

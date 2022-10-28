@@ -20,7 +20,7 @@ const getQuizResults = function(results_url) {
         getQuizStatsByAttempt(quizId),
         getQuizStatsByAnswer(quizId),
       ])
-      .catch(error => console.log(error));
+        .catch(error => console.log(error));
     })
     .then(([quizId, {attempts, questions, avg_score}, byAttempt, byAnswer]) => {
       const results = {
@@ -68,10 +68,10 @@ const getQuizOverallStats = quizId => {
   `;
 
   return db.query(query, [quizId])
-  .then(data => data.rows[0])
-  .catch(error => console.log(error));
+    .then(data => data.rows[0])
+    .catch(error => console.log(error));
 
-}
+};
 
 /**
  * Gets aggregate info on how quiz attempts chose each answer
@@ -96,14 +96,14 @@ const getQuizStatsByAnswer = quizId => {
   `;
 
   return db.query(query, [quizId])
-  .then(data => {
+    .then(data => {
       return data.rows.reduce((byAnswer, row) => {
         byAnswer[row.id] = row;
         return byAnswer;
       }, {});
     })
     .catch(error => console.log(error));
-}
+};
 
 /**
  * Gets aggregate info on each attempt of a quiz
@@ -127,13 +127,13 @@ const getQuizStatsByAttempt = quizId => {
   `;
 
   return db.query(query, [quizId])
-  .then(data => {
-    data.rows.forEach((row) => {
-      row.attempted_at = new Date(row.attempted_at).toISOString();
-    });
-    return data.rows;
-  })
-  .catch(error => console.log(error));
-}
+    .then(data => {
+      data.rows.forEach((row) => {
+        row.attempted_at = new Date(row.attempted_at).toISOString();
+      });
+      return data.rows;
+    })
+    .catch(error => console.log(error));
+};
 
 module.exports = { getQuizResults };

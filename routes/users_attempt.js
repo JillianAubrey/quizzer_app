@@ -1,9 +1,8 @@
 const express = require('express');
 const router  = express.Router();
 
-const { getUserById } = require('../db/queries/users')
-const { getQuiz } = require('../db/queries/get_quizzes')
-const { getAttempt, getAttemptScore } = require('../db/queries/get_attempts')
+const { getUserById } = require('../db/queries/users');
+const { getAttempt } = require('../db/queries/get_attempts');
 
 // Single attempt page
 router.get('/:url',  (req, res) => {
@@ -14,14 +13,14 @@ router.get('/:url',  (req, res) => {
     getUserById(userId),
     getAttempt({ url }),
   ])
-  .then(([user, attempt, score]) => {
-    const templateVars = {
-      attempt,
-      userName: (!user ? '' : user.name)
-    }
-    res.render('quiz_attempt', templateVars);
-  })
-  .catch(error => console.log(error));
+    .then(([user, attempt]) => {
+      const templateVars = {
+        attempt,
+        userName: (!user ? '' : user.name)
+      };
+      res.render('quiz_attempt', templateVars);
+    })
+    .catch(error => console.log(error));
 });
 
 module.exports = router;

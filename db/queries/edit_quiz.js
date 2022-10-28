@@ -1,6 +1,6 @@
 const db = require('../connection'); //connect to DB
 
-  /**
+/**
    * Checks to see if user is owner of quiz
    * @param {String} userId Id of the user to test for ownership
    * @param {String} quizId Id of the quiz to test for ownership
@@ -13,17 +13,17 @@ const checkUserPermission = function(userId, quizId) {
     WHERE user_id = $1
     AND id = $2`;
 
-    console.log('in permission query')
+  console.log('in permission query');
   return db.query(query, [userId, quizId])
-  .then((data) => {
-    if (data.rows.length) {
-      console.log('permission granted')
-      return true;
-    }
-    console.log('permission denied')
-    return false;
-  })
-  .catch(error => console.log(error));
+    .then((data) => {
+      if (data.rows.length) {
+        console.log('permission granted');
+        return true;
+      }
+      console.log('permission denied');
+      return false;
+    })
+    .catch(error => console.log(error));
 };
 
 /**
