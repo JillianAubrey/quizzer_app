@@ -1,5 +1,10 @@
 const db = require('../connection');
 
+/**
+   * Gets all quizzes having user_id = userId, with all info require to render quiz list on account page.
+   * @param {Atring/Numer} userId
+   * @return {none}
+   */
 const getAccountQuizzes = (userId) => {
   const query = `
   SELECT quizzes.id AS quiz_id, title, quizzes.url,quizzes.results_url, created_at, is_private,
@@ -29,7 +34,6 @@ const getAccountQuizzes = (userId) => {
 
   return db.query(query, [userId])
     .then(data => {
-      // console.log(data.rows);
       data.rows.forEach(row => row.created_at = new Date(row.created_at).toISOString());
       return data.rows;
     })
@@ -58,7 +62,6 @@ const getAccountAttempts = userId => {
 
   return db.query(query, [userId])
     .then(data => {
-    // console.log(data.rows);
       data.rows.forEach(row => row.attempted_at = new Date(row.attempted_at).toISOString());
       return data.rows;
     })

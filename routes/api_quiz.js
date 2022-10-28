@@ -59,7 +59,6 @@ router.post('/delete/:id', (req, res) => {
 
   checkUserPermission(userId, quizId).then((permission) => {
     if (permission) {
-      console.log(permission);
       deleteQuiz(quizId).then(() => {
         res.send('quiz deleted');
       });

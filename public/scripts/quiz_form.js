@@ -206,8 +206,7 @@
     }
 
     if (!quiz.quiz_private) {
-      validationError(`#quiz_private`,`Please choose whether your question will be public or private`);
-      return;
+      return validationError(`#quiz_private`,`Please choose whether your question will be public or private`);
     }
 
     if (Object.keys(questions).length < 1) {
