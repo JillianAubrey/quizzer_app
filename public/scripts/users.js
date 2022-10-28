@@ -9,7 +9,7 @@
 
     $(`.results_btn`).on('click', showMyAttempts);
 
-    $(`.c_b`).on('click', copyMessage);
+    // $(`.c_b`).on('click', copyMessage);
 
     $(`.public`).on('click', changePrivacy);
 
@@ -33,18 +33,6 @@
     $(`h1`).html('My Quiz Attempts');
     $(this).addClass("selected");
     $(`.quizzes_btn`).removeClass("selected");
-  };
-
-  const copyMessage = function() {
-    $(this).find('input').select();
-    document.execCommand('copy');
-
-    let $text = $(this).find('span').text();
-
-    $(this).find('span').text('Link Copied!');
-    setTimeout(() => {
-      $(this).find('span').text($text);
-    }, 2000);
   };
 
   const changePrivacy = function(event) {

@@ -4,6 +4,10 @@ $(() => {
   $(document).on('click', `.c_b`, copyMessage);
 });
 
+  /**
+ * Code to copy strings from the copy buttons
+ * @return {none} none
+ */
 const copyMessage = function() {
     $(this).find('input').select();
     document.execCommand('copy');
