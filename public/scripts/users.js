@@ -76,7 +76,7 @@
    * @return {none} none
    */
   const confirmDelete = function($deleteButton) {
-    let $text = $(this).text();
+    const text = $deleteButton.text();
     $deleteButton.text('Are you sure? Click again to confirm');
 
     setTimeout(() => {
@@ -84,10 +84,9 @@
     }, 100);
 
     setTimeout(() => {
-      $deleteButton.text($text);
+      $deleteButton.text(text);
       $deleteButton.removeClass('confirm_delete');
     }, 3000);
-
   };
 
   /**
