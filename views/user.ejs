@@ -86,8 +86,8 @@
                 </div>
               </div>
               <footer>
-                  <button class="public" id="<%= quiz.url %>">Make Quiz <span><%= quiz.is_private ? 'Public' : 'Private' %></span></button>
-                <form action="/api/quiz/delete/<%= quiz.url %>" method="POST">
+                  <button class="public" id="<%= quiz.quiz_id %>">Make Quiz <span><%= quiz.is_private ? 'Public' : 'Private' %></span></button>
+                <form action="/api/quiz/delete/<%= quiz.quiz_id %>" method="POST">
                   <button class="delete">Delete Quiz</button></a>
                 </form>
               </footer>

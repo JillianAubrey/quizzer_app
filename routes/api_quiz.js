@@ -34,11 +34,11 @@ router.post('/attempt',  (req, res) => {
 router.post('/visibility/:id', (req, res) => {
   const userId = req.session.userId;
   const request = req.body.visibility;
-  const quizUrl = req.params.id;
+  const quizId = req.params.id;
 
-  checkUserPermission(userId, quizUrl).then((permission) => {
+  checkUserPermission(userId, quizId).then((permission) => {
     if (permission) {
-      changePrivacy(quizUrl, request).then(() => {
+      changePrivacy(quizId, request).then(() => {
         res.send('privacy changed');
       });
     } else {
@@ -51,11 +51,12 @@ router.post('/visibility/:id', (req, res) => {
 
 router.post('/delete/:id', (req, res) => {
   const userId = req.session.userId;
-  const quizUrl = req.params.id;
+  const quizId = req.params.id;
 
-  checkUserPermission(userId, quizUrl).then((permission) => {
+  checkUserPermission(userId, quizId).then((permission) => {
     if (permission) {
-      deleteQuiz(quizUrl).then(() => {
+      console.log(permission);
+      deleteQuiz(quizId).then(() => {
         res.send('quiz deleted');
       });
     } else {
