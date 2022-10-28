@@ -1,12 +1,10 @@
 const db = require('../connection');
 
-const getUsers = () => {
-  return db.query('SELECT * FROM users;')
-    .then(data => {
-      return data.rows;
-    });
-};
-
+/**
+ * Gets a specific user based on their id
+ * @param {String} id Id of the user to return
+ * @return {Promise} Promise resolves to an object representing the user if the user exists, and null otherwise.
+ * */
 const getUserById = id => {
   return db.query(`
   SELECT * FROM users
@@ -18,6 +16,11 @@ const getUserById = id => {
     .catch(error => console.log(error));
 };
 
+/**
+ * Gets a specific user based on their email, for log in and registration.
+ * @param {String} email Email of the user to return
+ * @return {Promise} Promise resolves to an object representing the user if the user exists, and null otherwise.
+ * */
 const getUserByEmail = email => {
   return db.query(`
   SELECT * FROM users
@@ -29,6 +32,13 @@ const getUserByEmail = email => {
     .catch(error => console.log(error));
 };
 
+/**
+ * Adds a new user to the db
+ * @param {String} name Name of the new user
+ * @param {String} email Email of the new user
+ * @param {String} password Hashed password of the new user
+ * @return {Promise} Promise resolves to an object representing the new user
+ * */
 const addUser = (name, email, password) => {
   return db.query(`
   INSERT INTO users (name, email, password)
@@ -41,4 +51,4 @@ const addUser = (name, email, password) => {
     .catch(error => console.log(error));
 };
 
-module.exports = { getUsers, getUserById, getUserByEmail, addUser };
+module.exports = { getUserById, getUserByEmail, addUser };

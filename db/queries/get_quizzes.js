@@ -67,7 +67,7 @@ const getQuiz = function({url, id}) {
     JOIN answers
       ON questions.id = question_id
     WHERE ${url ? 'url' : 'quizzes.id'} = $1
-    ORDER BY question_num;
+    ORDER BY question_num, answer_id;
   `;
   return db.query(query, [url || id])
     .then(data => {

@@ -1,6 +1,12 @@
 const db = require('../connection'); //connect to DB
 const { generateRandomString } = require('./helpers');
 
+/**
+ * Inserts a quiz into the db
+ * @param {Object} quiz An object representing the quiz
+ * @param {String} userId The id of the user who created th quiz
+ * @return {Promise} Promise resolves to an object containing the quiz's url and results_url.
+ * */
 const addQuiz = function(quiz, userId) {
   const {quiz_title, quiz_description, quiz_private, questions} = quiz;
   const url = generateRandomString(10);
@@ -20,6 +26,12 @@ const addQuiz = function(quiz, userId) {
   .catch(error => console.log(error));
 };
 
+/**
+ * Inserts questions for a new quiz into the db
+ * @param {String} quizId The id of the quiz that the questions belong to
+ * @param {Object} questions An object representing the questions to insert, keyed with their sequence numbers
+ * @return {Promise} Promise resolves to questionInfo object which has key value pairs of question sequence num: question id. Used to insert answers to db.
+ * */
 const addQuestions = function(quizId, questions) {
   let queryParams = [quizId];
 
@@ -48,6 +60,12 @@ const addQuestions = function(quizId, questions) {
   .catch(error => console.log(error));
 };
 
+/**
+ * Inserts answers for a new quiz into the db
+ * @param {Object} questionInfo Object which has key value pairs of question sequence num: question id
+ * @param {Object} questions An object representing the questions to insert, asnwers are a parameter of each question.
+ * @return {Promise}
+ * */
 const addAnswers = function(questionInfo, questions) {
   let query = `INSERT INTO answers(question_id, text, is_correct) VALUES `;
   let queryParams = [];

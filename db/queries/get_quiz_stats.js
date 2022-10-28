@@ -1,5 +1,9 @@
 const db = require('../connection');
-
+/**
+ * Get aggrgate results of quiz attempts
+ * @param {String} results_url The results_url for the quiz
+ * @return {Promise}   Promise resolves to results object
+ * */
 const getQuizResults = function(results_url) {
   const queryQuizId = `
     SELECT id
@@ -27,12 +31,16 @@ const getQuizResults = function(results_url) {
         byAttempt,
         byAnswer,
       };
-      console.log(results);
       return results;
     })
     .catch(error => console.log(error));
 };
 
+/**
+ * Gets high-level stats about attempts on a quiz
+ * @param {String} quizId The id of the quiz
+ * @return {Promise} Promise resolves to object with parameters for quiz attempts, questions, and avg_score
+ * */
 const getQuizOverallStats = quizId => {
   const query = `
   SELECT
@@ -65,6 +73,11 @@ const getQuizOverallStats = quizId => {
 
 }
 
+/**
+ * Gets aggregate info on how quiz attempts chose each answer
+ * @param {String} quizId The id of the quiz
+ * @return {Promise} Promise resolves to byAnswer object whose keys are answers.id and whose values are the count of attempts where that answer was selected
+ * */
 const getQuizStatsByAnswer = quizId => {
   const query = `
   SELECT answers.id, is_correct,
@@ -92,6 +105,11 @@ const getQuizStatsByAnswer = quizId => {
     .catch(error => console.log(error));
 }
 
+/**
+ * Gets aggregate info on each attempt of a quiz
+ * @param {String} quizId The id of the quiz
+ * @return {Promise} Promise resolves to array on objects. Each element represents one attempt.
+ * */
 const getQuizStatsByAttempt = quizId => {
   const query = `
   SELECT users.name, attempts.url, attempted_at,

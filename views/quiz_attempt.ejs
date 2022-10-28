@@ -37,23 +37,23 @@
 
   <main>
     <div class="attempt_header">
-    <h1><%= quiz.title %></h1>
-      <p class="author">By <%= quiz.author%></p>
-      <p class ="description"><%= quiz.description %></p>
+    <h1><%= attempt.title %></h1>
+      <p class="author">By <%= attempt.author%></p>
+      <p class ="description"><%= attempt.description %></p>
       <div class="attempt_results">
         <p class="attempter">Attempt by <%= attempt.attempter || 'anonymous' %></p>
-        <p class="score">Score: <%= score.correct %> / <%= score.total %></p>
+        <p class="score">Score: <%= attempt.score %> / <%= attempt.total %></p>
       </div>
     </div>
     <div class="quiz_container">
-      <% for (question in quiz.questions) { %>
+      <% for (question in attempt.questions) { %>
         <article class = question_card>
           <header>
-            <p><%= question %>. <%= quiz.questions[question].text %></p>
+            <p><%= question %>. <%= attempt.questions[question].text %></p>
           </header>
           <ul>
-            <% for (answer of quiz.questions[question].answers) { %>
-              <li class="<%= attempt.answers[answer.id] ? (attempt.answers[answer.id].is_correct ? 'correct' : 'incorrect') : '' %>" >
+            <% for (answer of attempt.questions[question].answers) { %>
+              <li class="<%= (answer.answered ? (answer.isCorrect ? 'correct' : 'incorrect') : '') %>" >
                 <%= answer.text %>
               </li>
             <% } %>
@@ -62,8 +62,8 @@
       <% } %>
     </div>
     <div class="attempt_foot">
-     <a href="/quizapp/quiz/<%= quiz.url %>"><button id="quiz_try">Try this quiz!</button></a>
-     <button class="c_b"><span>Copy Attempt Link</span>&nbsp; &nbsp;<input class="copy_input" value=http://localhost:8080/quizapp/attempt/<%= url %>></button>
+     <a href="/quizapp/quiz/<%= attempt.quiz_url %>"><button id="quiz_try">Try this quiz!</button></a>
+     <button class="c_b"><span>Copy Attempt Link</span>&nbsp; &nbsp;<input class="copy_input" value="http://localhost:8080/quizapp/attempt/<%= attempt.url %>"></button>
     </div>
   </main>
   <%- include('partials/__footer') %>
