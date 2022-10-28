@@ -175,7 +175,7 @@ textarea::placeholder {
 }
 
 #submit {
-  background: linear-gradient(50deg, base.$mainThemeColour 60%, base.$secondaryThemeColour 80%, base.$mainThemeColour 90%);
+  @include base.primary-gradient;
 }
 
 .correct {

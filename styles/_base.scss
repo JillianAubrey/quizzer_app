@@ -13,4 +13,30 @@ $errorColour: rgba(240, 58, 17, 0.824);
 $navHeight: 10rem;
 $footHeight: 6rem;
 
+//fonts
+$contentFont: 'Quicksand', sans-serif;
+$headerFont: 'Cormorant Unicase', serif;
 
+//mixins
+@mixin button-base-style {
+  border: none;
+  border-radius: 10px;
+  margin: 0.7em auto;
+  padding: 1em;
+  color: white;
+  transition: all 0.2s ease-in-out;
+  font-weight: bold;
+  box-shadow: 2px 2px 4px #31313b7f;
+}
+
+@mixin primary-gradient {
+  background: linear-gradient(50deg, $mainThemeColour 60%, $secondaryThemeColour 80%, $mainThemeColour 90%);
+}
+
+@mixin copy-text-styling {
+  border: none;
+  border-radius: 4px;
+  box-shadow: 2px 2px 4px #31313b7f inset;
+  margin-left: 5px;
+  cursor: copy;
+}

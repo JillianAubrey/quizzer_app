@@ -2,7 +2,7 @@
 
 main {
   width: 80%;
-  margin: base.$navHeight auto 0;
+  margin: 9.5rem auto 0;
   height: calc(100vh - base.$navHeight - base.$footHeight);
   padding: 1em;
   font-weight: normal;
@@ -25,24 +25,16 @@ h1 {
   padding: 0.1em 1.5em;
   color: base.$mainThemeColour;
   border-radius: 10px;
-  // border-bottom: solid black 2px;
   box-shadow: 3px 3px 8px #c9cae2 inset;
 
 }
 
 #quiz_try, .c_b {
-  border: none;
-  border-radius: 10px;
-  margin: 0.7em auto;
-  padding: 1em;
-  color: white;
-  transition: all 0.2s ease-in-out;
-  font-weight: bold;
-  box-shadow: 2px 2px 4px #31313b7f;
+  @include base.button-base-style;
 }
 
 #quiz_try {
-  background: linear-gradient(50deg, base.$mainThemeColour 60%, base.$secondaryThemeColour 80%, base.$mainThemeColour 90%);
+  @include base.primary-gradient;
 }
 
 #quiz_try:hover, .c_b:hover {
@@ -56,10 +48,7 @@ h1 {
 }
 
 .copy_input {
-  border: none;
-  border-radius: 5px;
-  font-weight: 400;
-  box-shadow: 2px 2px 5px #52525e inset;
+  @include base.copy-text-styling;
 }
 
 .attempt_foot {
@@ -94,6 +83,7 @@ h1 {
   li.correct {
     background-color: base.$correctColour;
     color: white;
+    text-shadow: none;
   }
 
   li.incorrect {

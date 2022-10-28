@@ -34,7 +34,6 @@ h1 {
   padding: 0.1em 1.5em;
   color: base.$mainThemeColour;
   border-radius: 10px;
-  // border-bottom: solid black 2px;
   box-shadow: 3px 3px 8px #c9cae2 inset;
 
 }
@@ -44,14 +43,8 @@ h1 {
 }
 
 .quiz_submit {
-  border: none;
-  border-radius: 10px;
+  @include base.button-base-style;
   background: linear-gradient(50deg, base.$mainThemeColour 60%, base.$secondaryThemeColour 80%, base.$mainThemeColour 90%);
-  margin: 1em auto;
-  padding: 1em;
-  color: white;
-  transition: all 0.2s ease-in-out;
-  font-weight: bold;
 }
 
 #quiz_submit:hover {

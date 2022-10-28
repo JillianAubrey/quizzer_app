@@ -62,15 +62,10 @@ header {
 }
 
 button {
-  border: none;
-  border-radius: 10px;
-  padding: 0.4em;
-  color: white;
-  transition: all 0.2s ease-in-out;
-  box-shadow: 2px 2px 4px #31313b7f;
-  padding: 0.5em;
   background-color: base.$mainThemeColour;
-  transition: all 0.2s ease-in-out;
+  @include base.button-base-style;
+  padding: 0.5em;
+  margin: 0;
 }
 
 .footer_left {
@@ -101,13 +96,13 @@ button {
     background-color: base.$complThemeColour;
     display: flex;
     align-items: center;
-    padding: 0.5em;
+    padding: 0.3em;
   }
 
 }
 
 .results {
-  background: linear-gradient(50deg, base.$mainThemeColour 60%, base.$secondaryThemeColour 80%, base.$mainThemeColour 90%);
+  @include base.primary-gradient;
 }
 
 .delete {
@@ -128,11 +123,7 @@ button {
 }
 
 .copy_input {
-  border: none;
-  border-radius: 4px;
-  box-shadow: 1px 1px 4px #31313b7f;
-  margin-left: 5px;
-
+  @include base.copy-text-styling;
 }
 
 footer {

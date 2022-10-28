@@ -4,12 +4,8 @@ body,
 html {
   margin: 0;
   background: base.$bgColour;
+  font-family: base.$contentFont;
 }
-
-// Debug borders, uncomment to see a border on all elements
-// * {
-//   border: 1px solid black;
-// }
 
 h2, p {
   margin: 0;
@@ -17,8 +13,4 @@ h2, p {
 
 button:hover {
   cursor: pointer;
-}
-
-body {
-  font-family: 'Quicksand', sans-serif;
 }

@@ -2,7 +2,7 @@
 
 main {
   width: 80%;
-  margin: base.$navHeight auto 0;
+  margin: 9.5rem auto 0;
   height: calc(100vh - base.$navHeight - base.$footHeight);
   padding: 1em;
   padding-top: 0.5em;
@@ -35,14 +35,8 @@ h1 {
 }
 
 #quiz_try, .view_attempt, .c_b {
-  border: none;
-  border-radius: 10px;
-  color: white;
+  @include base.button-base-style;
   background-color: base.$mainThemeColour;
-  margin: 0.8em auto;
-  padding: 1em;
-  transition: all 0.2s ease-in-out;
-  box-shadow: 2px 2px 4px #31313b7f;
 }
 
 #quiz_try:hover, .view_attempt:hover, .c_b:hover {
@@ -51,20 +45,19 @@ h1 {
 
 .c_b {
   margin: 0;
+  margin-bottom: 0.5em;
   padding: 0.9em;
   background-color: base.$complThemeColour;
   font-weight: 600;
 }
 
 .copy_input {
-  border: none;
-  border-radius: 5px;
+  @include base.copy-text-styling;
   font-weight: 400;
-  box-shadow: 2px 2px 5px #52525e inset;
 }
 
 #quiz_try {
-  background: linear-gradient(50deg, base.$mainThemeColour 60%, base.$secondaryThemeColour 80%, base.$mainThemeColour 90%);
+  @include base.primary-gradient;
   margin-top: 0.3em;
   font-weight: 600;
 }
