@@ -17,8 +17,9 @@ router.post('/', (req, res) => {
   const quiz = JSON.parse(Object.keys(req.body)[0])
 
   addQuiz(quiz, userId)
-  .then(() => {
-    res.json({test: 'test'});
+  .then(urls => {
+    console.log(urls);
+    res.json(urls);
   });
 });
 

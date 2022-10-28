@@ -149,9 +149,9 @@
   const submitQuiz = function($quizForm) {
     const data = $quizForm.serializeArray();
     const quiz = formatQuiz(data);
-
     if (quiz) {
       $.post('/api/quiz', JSON.stringify(quiz)).then((res) => {
+        console.log(res);
         renderConfirmation(res, quiz.quiz_title);
       });
     }

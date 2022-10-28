@@ -5,6 +5,7 @@ const addQuiz = function(quiz, userId) {
   const {quiz_title, quiz_description, quiz_private, questions} = quiz;
   const url = generateRandomString(10);
   const resultsUrl = generateRandomString(10);
+  const urls = { url, resultsUrl };
 
   const quizQuery = `
     INSERT INTO quizzes(user_id, title, description, url, results_url, is_private)
@@ -15,8 +16,8 @@ const addQuiz = function(quiz, userId) {
   .then((quizData) => quizData.rows[0].id)
   .then(quizId => addQuestions(quizId, questions))
   .then(questionInfo => addAnswers(questionInfo, questions))
-  .then(() => {quiz_title, quiz_description, url, resultsUrl, quiz_private})
-  .catch(error => console.log(error));
+  .then(() => urls)
+  // .catch(error => console.log(error));
 };
 
 const addQuestions = function(quizId, questions) {
@@ -50,7 +51,6 @@ const addQuestions = function(quizId, questions) {
 const addAnswers = function(questionInfo, questions) {
   let query = `INSERT INTO answers(question_id, text, is_correct) VALUES `;
   let queryParams = [];
-  console.log(questionInfo);
 
   for (const seqNum in questions) {
     const question = questions[seqNum]
