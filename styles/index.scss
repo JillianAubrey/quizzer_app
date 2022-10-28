@@ -1,7 +1,38 @@
 @use 'base';
 
 main {
-  margin: calc(base.$navHeight + 2rem) auto 0;
+  margin: calc(base.$navHeight + 3rem) auto 0;
   height: calc(100vh - base.$navHeight - base.$footHeight);
   padding: 1em;
+}
+
+#quiz_sort {
+  appearance: none;
+  cursor: pointer;
+  position: fixed;
+  margin: base.$navHeight auto 0 auto;
+  left: 0;
+  right: 0;
+  width: 30%;
+  top: 0;
+  padding: 5px;
+  border-radius: 8px;
+  border: none;
+  background-color: base.$secondaryThemeColour;
+  text-align: center;
+  color: white;
+  box-shadow: 2px 2px 4px #9c9db0;
+  transition: all 0.2s ease-in-out;
+}
+
+#quiz_sort:hover {
+  transform: scale(1.1);
+}
+
+
+select {
+  background-image: url("../docs/circle-arrow-down-solid.svg");
+  background-repeat: no-repeat;
+  background-size: 6%;
+  background-position: 98%;
 }

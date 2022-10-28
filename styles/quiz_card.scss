@@ -73,6 +73,12 @@ button {
   transition: all 0.2s ease-in-out;
 }
 
+.footer_left {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: flex-end;
+}
+
 .quiz_stats {
   width: 100%;
   display: flex;

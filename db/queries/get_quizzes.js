@@ -5,41 +5,72 @@ const getQuizzes = function(userId,
                               recent : true,
                               untaken : false,
                               showPrivate : false,
-                              ownQuizzes : false})
+                              ownQuizzes : false,
+                              popular: false},
+                            request)
 {
-  let queryParams = [];
 
+  if (Object.keys(request).length) {
+
+    switch(request.request) {
+      case 'popular':
+        options.popular = true;
+        break;
+      case 'recent':
+        options.recent = true;
+        break;
+      case 'oldest':
+        options.recent = false;
+        break;
+      case 'untaken':
+        options.untaken = true;
+        break;
+    }
+  }
+
+  let queryParams = [];
   let query = `
   SELECT
     quizzes.*,
-    COUNT(questions.*) AS question_count,
-    users.name AS author
+    COUNT(DISTINCT questions.*) AS question_count,
+    users.name AS author,
+    COUNT (DISTINCT attempts) AS attempts_count
   FROM quizzes
   LEFT JOIN questions
     ON quizzes.id = quiz_id
-  JOIN users
+  LEFT JOIN users
     ON users.id = user_id
-  WHERE TRUE
+  LEFT JOIN attempts
+    ON attempts.quiz_id = quizzes.id
+    WHERE TRUE
   `; // WHERE TRUE initiates the WHERE so the filter options can be added with AND
 
   if (options.untaken) {
-    query += 'AND quizzes.id NOT IN (SELECT attempts.quiz_id FROM attempts WHERE user_id = $1) ';
+    query += 'AND quizzes.id NOT IN (SELECT DISTINCT attempts.quiz_id FROM attempts WHERE user_id = $1)';
     queryParams.push(userId);
   }
 
   if (!options.showPrivate) {
-    query += ' AND NOT is_private';
+    query += ' AND NOT is_private ';
   }
 
   if (options.ownQuizzes) {
-    query += ` AND users.id = $1`;
+    query += ` AND users.id = $1 `;
     queryParams.push(userId);
   }
 
-  query += ' GROUP BY quizzes.id, users.id';
+  query += ' GROUP BY attempts.quiz_id, quizzes.id, users.id ';
 
-  if (options.recent) {
-    query += ' ORDER BY quizzes.created_at;';
+  if (!options.popular) {
+    query += ' ORDER BY quizzes.created_at ';
+  }
+
+  if (!options.recent && !options.popular) {
+    query += `DESC `
+  }
+
+  if (options.popular) {
+    query += ' ORDER BY attempts_count '
   }
 
   return db.query(query, queryParams)
