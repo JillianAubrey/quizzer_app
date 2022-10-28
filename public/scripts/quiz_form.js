@@ -152,7 +152,7 @@
     if (quiz) {
       $.post('/api/quiz', JSON.stringify(quiz)).then((res) => {
         console.log(res);
-        renderConfirmation(res, quiz.quiz_title);
+        renderConfirmation(res, quiz);
       });
     }
   };
@@ -254,18 +254,10 @@
   /**
   * Renders confirmation of quiz creation
   * @param {object} data Information from server returned from quiz POSTing.
+  * @param {object} quiz Quiz object created by formatQuiz.
   * @return {none}
   */
-  const renderConfirmation = function(data, quizTitle) {
-    let visibility;
-    if (data.quizPrivate === 'FALSE') {
-      visibility = 'public';
-    } else {
-      visibility = 'private';
-    }
-
-    const userName = $('#user_name').text();
-
+  const renderConfirmation = function(data, quiz) {
     let $confPage = $(`<article>
         <h3>Congratulations <span class="conf_user"></span>! Your new <span class="conf_private"></span> quiz "<span class="conf_title"></span>" was successfully created. 🥳</h3>
         <div class="copy_buttons">
@@ -275,9 +267,9 @@
       </article>`);
 
     const $header = $($confPage.children('h3'));
-    $header.children(`.conf_user`).text(userName);
-    $header.children('.conf_title').text(quizTitle);
-    $header.children('.conf_private').text(visibility);
+    $header.children(`.conf_user`).text($('#user_name').text());
+    $header.children('.conf_title').text(quiz.quiz_title);
+    $header.children('.conf_private').text(quiz.quiz_private === 'TRUE' ? 'private' : 'public');
 
     $('h1').html('Quiz Created');
     $('#quiz_form').remove();

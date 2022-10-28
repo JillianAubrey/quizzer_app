@@ -17,7 +17,7 @@ const addQuiz = function(quiz, userId) {
   .then(quizId => addQuestions(quizId, questions))
   .then(questionInfo => addAnswers(questionInfo, questions))
   .then(() => urls)
-  // .catch(error => console.log(error));
+  .catch(error => console.log(error));
 };
 
 const addQuestions = function(quizId, questions) {

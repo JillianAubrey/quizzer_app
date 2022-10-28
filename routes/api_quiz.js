@@ -1,7 +1,6 @@
 const express = require('express');
 const router  = express.Router();
 
-const { getUserById } = require('../db/queries/users')
 const { postAttempt } = require('../db/queries/post_attempt');
 const { checkUserPermission, changePrivacy, deleteQuiz } = require('../db/queries/edit_quiz')
 const { addQuiz} = require('../db/queries/post_quiz')
@@ -18,7 +17,6 @@ router.post('/', (req, res) => {
 
   addQuiz(quiz, userId)
   .then(urls => {
-    console.log(urls);
     res.json(urls);
   });
 });
