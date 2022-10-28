@@ -43,8 +43,8 @@ const getQuizzes = function(userId, request)
     ON users.id = user_id
   LEFT JOIN attempts
     ON attempts.quiz_id = quizzes.id
-    WHERE TRUE
-  `; // WHERE TRUE initiates the WHERE so the filter options can be added with AND
+  WHERE NOT is_private
+  `;
 
   if (options.untaken) {
     query += 'AND quizzes.id NOT IN (SELECT DISTINCT attempts.quiz_id FROM attempts WHERE user_id = $1)';
