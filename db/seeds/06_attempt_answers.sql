@@ -78,3 +78,21 @@ INSERT INTO attempt_answers (attempt_id, answer_id)
 VALUES (7, 40);
 INSERT INTO attempt_answers (attempt_id, answer_id)
 VALUES (7, 41);
+INSERT INTO attempt_answers (attempt_id, answer_id)
+VALUES (8, 3);
+INSERT INTO attempt_answers (attempt_id, answer_id)
+VALUES (8, 6);
+INSERT INTO attempt_answers (attempt_id, answer_id)
+VALUES (8, 8);
+INSERT INTO attempt_answers (attempt_id, answer_id)
+VALUES (8, 13);
+INSERT INTO attempt_answers (attempt_id, answer_id)
+VALUES (8, 16);
+INSERT INTO attempt_answers (attempt_id, answer_id)
+VALUES (8, 21);
+INSERT INTO attempt_answers (attempt_id, answer_id)
+VALUES (8, 23);
+INSERT INTO attempt_answers (attempt_id, answer_id)
+VALUES (8, 25);
+INSERT INTO attempt_answers (attempt_id, answer_id)
+VALUES (8, 28);
