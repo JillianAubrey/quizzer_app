@@ -19,7 +19,7 @@ const getAttempt = function({url, id}) {
     answers.is_correct,
     (attempt_answers.id > 0) AS answered
   FROM attempts
-  JOIN users
+  LEFT JOIN users
     ON users.id = attempts.user_id
   JOIN quizzes
     ON quizzes.id = attempts.quiz_id

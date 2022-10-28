@@ -2,14 +2,11 @@ const db = require('../connection');
 
 const getQuizzes = function(userId,
                             options = {
-                              recent : true,
-                              untaken : false,
                               showPrivate : false,
-                              ownQuizzes : false,
-                              popular: false},
+                              ownQuizzes : false},
                             request)
 {
-
+  options.recent = true;
   if (Object.keys(request).length) {
 
     switch(request.request) {
