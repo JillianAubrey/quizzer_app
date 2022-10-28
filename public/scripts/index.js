@@ -12,16 +12,16 @@ $(() => {
     refreshIndexQuizzes(request);
   });
 
-
 });
 
 /**
  * Refresh the quizzes on the index page
+ * @param {string} request the request from the filter dropdown (if present)
  * @return {none} none
  */
 const refreshIndexQuizzes = (request) => {
 
-  return $.ajax({
+  $.ajax({
     url: '/api',
     type: "get",
     data: { request }

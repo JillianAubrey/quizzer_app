@@ -1,14 +1,18 @@
 const db = require('../connection');
 
-const getQuizzes = function(userId,
-                            options = {
-                              showPrivate : false,
-                              ownQuizzes : false},
-                            request)
+/**
+ * Gets a filtered/sorted list of all quizzes in the db
+ * @param {String} userId The logged in user, used for filtering
+ * @param {Object} request Client request, includes filter/sorting options
+ * @return {Promise} Promise resolves to an array where each element is an object representing a quiz.
+ * */
+const getQuizzes = function(userId, request)
 {
-  options.recent = true;
-  if (Object.keys(request).length) {
+  const options = {
+    recent: true,
+  }
 
+  if (Object.keys(request).length) {
     switch(request.request) {
       case 'popular':
         options.popular = true;
@@ -47,15 +51,6 @@ const getQuizzes = function(userId,
     queryParams.push(userId);
   }
 
-  if (!options.showPrivate) {
-    query += ' AND NOT is_private ';
-  }
-
-  if (options.ownQuizzes) {
-    query += ` AND users.id = $1 `;
-    queryParams.push(userId);
-  }
-
   query += ' GROUP BY attempts.quiz_id, quizzes.id, users.id ';
 
   if (!options.popular) {
@@ -79,6 +74,12 @@ const getQuizzes = function(userId,
     });
 };
 
+/**
+ * Gets a single quiz from the db including all questions and answers.
+ * @param {String} url Quiz url (main url, not results_url)
+ * @param {String} id  Quiz id
+ * @return {Promise} Promise resolves to a quiz object.
+ * */
 const getQuiz = function({url, id}) {
   const query = `
     SELECT quizzes.id, url, title, description,

@@ -39,9 +39,11 @@ router.post('/visibility/:id', (req, res) => {
   const request = req.body.visibility;
   const quizId = req.params.id;
 
-  checkUserPermission(userId, quizId).then((permission) => {
+  checkUserPermission(userId, quizId)
+  .then((permission) => {
     if (permission) {
-      changePrivacy(quizId, request).then(() => {
+      changePrivacy(quizId, request)
+      .then(() => {
         res.send('privacy changed');
       });
     } else {
