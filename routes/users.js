@@ -14,6 +14,7 @@ router.use('/account', accountRoute);
 router.use('/attempt', attemptRoute);
 router.use('/login', loginRoutes);
 
+//Home page
 router.get('/', (req, res) => {
   const userId = req.session.userId;
 

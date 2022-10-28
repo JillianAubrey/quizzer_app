@@ -2,8 +2,9 @@ const express = require('express');
 const router  = express.Router();
 const bcrypt = require('bcryptjs');
 
-const { getUserByEmail, addUser } = require('../db/queries/users')
+const { getUserByEmail, addUser } = require('../db/queries/users');
 
+// Log in route
 router.post('/', (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -28,6 +29,7 @@ router.post('/', (req, res) => {
     });
 });
 
+// Registration route
 router.post('/new', (req, res) => {
   const {name, email, password } = req.body;
   if (!name || !email || !password) {
@@ -50,7 +52,6 @@ router.post('/new', (req, res) => {
 
       addUser(name, email, bcrypt.hashSync(password))
         .then(user => {
-          console.log(user);
           req.session.userId = user.id;
           res.redirect('/quizapp');
         });

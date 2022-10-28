@@ -1,8 +1,7 @@
 $(() => {
-
-
+  //quizzes are refreshed on page load
   refreshIndexQuizzes();
-
+  //clicking the logo will also refresh quizzes
   $('.logo').on('click', (event) => {
     event.preventDefault();
     refreshIndexQuizzes();
@@ -16,6 +15,10 @@ $(() => {
 
 });
 
+/**
+ * Refresh the quizzes on the index page
+ * @return {none} none
+ */
 const refreshIndexQuizzes = (request) => {
 
   return $.ajax({
@@ -29,6 +32,12 @@ const refreshIndexQuizzes = (request) => {
     .catch(error => console.log(error));
 };
 
+/**
+ * Render quiz cards into the $quizContainer
+ * @param {sqlArray} quizzes Array of quizzes to be rendered
+ * @param {jQueryElemnt} $quizContainer Element that the quizzes are to be rendered into
+ * @return {none} none
+ */
 const renderQuizContainer = (quizzes, $quizContainer) => {
   $quizContainer.empty();
   quizzes.forEach(quiz => {
@@ -40,6 +49,11 @@ const renderQuizContainer = (quizzes, $quizContainer) => {
   $('time.timeago').timeago();
 };
 
+/**
+ * Create quiz card for a single quiz
+ * @param {Object} quiz Quiz object to be made into card
+ * @return {$quiz} jQuery object representing the quiz card
+ */
 const createQuizCard = quiz => {
   const isoDate = new Date(quiz.created_at).toISOString();
   console.log(quiz)

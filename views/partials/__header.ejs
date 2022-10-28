@@ -4,7 +4,7 @@
   <ul>
     <div class="left_nav">
       <% if (userName) { %>
-    <a href="/quizapp/account"><li class="user left"><%= userName %>'s Account</li></a>
+    <a href="/quizapp/account"><li class="user left"><span id="user_name"><%= userName %></span>'s Account</li></a>
     <form action="/api/logout" method="POST">
       <button type="submit"><li class="logout left">Logout</li></button>
     </form>

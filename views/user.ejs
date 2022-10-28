@@ -30,8 +30,9 @@
 
   <script src="/vendor/jquery-3.0.0.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timeago/1.6.7/jquery.timeago.min.js"></script>
-  <script defer src="/scripts/timeago_init.js"></script>
   <script defer src="/scripts/users.js"></script>
+  <script defer src="/scripts/timeago_init.js"></script>
+  <script defer src="/scripts/copy_link.js"></script>
 
 
 
@@ -85,8 +86,8 @@
                 </div>
               </div>
               <footer>
-                  <button class="public" id="<%= quiz.url %>">Make Quiz <span><%= quiz.is_private ? 'Public' : 'Private' %></span></button>
-                <form action="/api/quiz/delete/<%= quiz.url %>" method="POST">
+                  <button class="public" id="<%= quiz.quiz_id %>">Make Quiz <span><%= quiz.is_private ? 'Public' : 'Private' %></span></button>
+                <form action="/api/quiz/delete/<%= quiz.quiz_id %>" method="POST">
                   <button class="delete">Delete Quiz</button></a>
                 </form>
               </footer>

@@ -1,10 +1,14 @@
 (($) => {
 
-$(() => {
-  $(document).on('click', `.c_b`, copyMessage);
-});
+  $(() => {
+    $(document).on('click', `.c_b`, copyMessage);
+  });
 
-const copyMessage = function() {
+  /**
+ * Code to copy strings from the copy buttons
+ * @return {none} none
+ */
+  const copyMessage = function() {
     $(this).find('input').select();
     document.execCommand('copy');
 
@@ -16,4 +20,4 @@ const copyMessage = function() {
     }, 2000);
   };
 
-})(jQuery)
+})(jQuery);

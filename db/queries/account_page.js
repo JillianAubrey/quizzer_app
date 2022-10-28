@@ -1,5 +1,10 @@
 const db = require('../connection');
 
+/**
+   * Gets all quizzes having user_id = userId, with all info require to render quiz list on account page.
+   * @param {Atring/Numer} userId
+   * @return {none}
+   */
 const getAccountQuizzes = (userId) => {
   const query = `
   SELECT quizzes.id AS quiz_id, title, quizzes.url,quizzes.results_url, created_at, is_private,
@@ -25,16 +30,15 @@ const getAccountQuizzes = (userId) => {
   WHERE quizzes.user_id = $1
   GROUP BY quizzes.id
   ORDER BY created_at DESC
-  `
+  `;
 
-return db.query(query, [userId])
-.then(data => {
-  // console.log(data.rows);
-  data.rows.forEach(row => row.created_at = new Date(row.created_at).toISOString());
-  return data.rows;
-})
-.catch(error => console.log(error));
-}
+  return db.query(query, [userId])
+    .then(data => {
+      data.rows.forEach(row => row.created_at = new Date(row.created_at).toISOString());
+      return data.rows;
+    })
+    .catch(error => console.log(error));
+};
 
 const getAccountAttempts = userId => {
   const query = `
@@ -54,17 +58,16 @@ const getAccountAttempts = userId => {
     WHERE attempts.user_id = $1
     GROUP BY attempts.id, quizzes.id
     ORDER BY attempted_at DESC
-  `
+  `;
 
   return db.query(query, [userId])
-  .then(data => {
-    // console.log(data.rows);
-    data.rows.forEach(row => row.attempted_at = new Date(row.attempted_at).toISOString());
-    return data.rows;
-  })
-  .catch(error => console.log(error));
-}
+    .then(data => {
+      data.rows.forEach(row => row.attempted_at = new Date(row.attempted_at).toISOString());
+      return data.rows;
+    })
+    .catch(error => console.log(error));
+};
 
-module.exports =  { getAccountQuizzes, getAccountAttempts }
+module.exports =  { getAccountQuizzes, getAccountAttempts };
 
 

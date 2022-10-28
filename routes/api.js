@@ -1,6 +1,5 @@
 const express = require('express');
 const router  = express.Router();
-const bcrypt = require('bcryptjs');
 const { getQuizzes } = require('../db/queries/get_quizzes');
 
 // Separated Routes
@@ -13,6 +12,7 @@ router.use('/quiz', quizRoutes);
 router.use('/login', loginRoutes);
 router.use('/logout', logoutRoute);
 
+// Gets the quizzes for the home page
 router.get('/', (req, res) => {
   const userId = req.session.userId;
   const query = req.query;

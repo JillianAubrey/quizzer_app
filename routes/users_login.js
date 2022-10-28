@@ -1,6 +1,7 @@
 const express = require('express');
 const router  = express.Router();
 
+//login page
 router.get('/', (req, res) => {
   const userId = req.session.userId;
   if (userId) {
@@ -14,6 +15,7 @@ router.get('/', (req, res) => {
   res.render('login', templateVars);
 });
 
+//registration page
 router.get('/new', (req, res) => {
   const userId = req.session.userId;
   if (userId) {

@@ -1,56 +1,55 @@
 const db = require('../connection'); //connect to DB
 
-const checkUserPermission = function(userId, quizUrl) {
+/**
+   * Checks to see if user is owner of quiz
+   * @param {String} userId Id of the user to test for ownership
+   * @param {String} quizId Id of the quiz to test for ownership
+   * @return {Promise} Promise that resolves to true or false. True means the user owns the quiz, and false means that they don't
+   */
+const checkUserPermission = function(userId, quizId) {
   let query = `
     SELECT quizzes.id
     FROM quizzes
-    JOIN users
-    ON quizzes.user_id = users.id
-    WHERE users.id = $1
-    AND quizzes.url = $2`;
+    WHERE user_id = $1
+    AND id = $2`;
 
-  return db.query(query, [userId, quizUrl])
-  .then((data) => {
-    if (data.rows.length) {
-      return true;
-    }
-    return false;
-  })
-  .catch(error => console.log(error));
-};
-
-const changePrivacy = function(quizUrl, request) {
-  let private;
-
-  if (request === 'Private') {
-    private = true;
-  }
-  if (request === 'Public') {
-    private = false;
-  }
-
-  const query = `
-    UPDATE quizzes
-    SET is_private = $1
-    WHERE url = $2`;
-
-  return db.query(query, [private, quizUrl])
-    .then(() => {
-      return true;
+  return db.query(query, [userId, quizId])
+    .then((data) => {
+      if (data.rows.length) {
+        return true;
+      }
+      return false;
     })
     .catch(error => console.log(error));
 };
 
-const deleteQuiz = function(quizUrl) {
-
+/**
+ * Changes privacy of quiz
+ * @param {String} quizId Id of the quiz to change privacy of
+ * @param {String} request If 'Private' will make quiz private, otherwise will make it public
+ * @return {Promise}
+ * */
+const changePrivacy = function(quizId, request) {
   const query = `
-    DELETE FROM quizzes WHERE url = $1;
+    UPDATE quizzes
+    SET is_private = $1
+    WHERE id = $2`;
+
+  return db.query(query, [(request === 'Private'), quizId])
+    .catch(error => console.log(error));
+};
+
+/**
+ * Deletes quiz
+ * @param {String} quizId Id of the quiz to delete
+ * @return {Promise}
+ * */
+const deleteQuiz = function(quizId) {
+  const query = `
+    DELETE FROM quizzes WHERE id = $1;
     `;
 
-  return db.query(query, [quizUrl])
-    .then(() => {
-      return true;
-    })
+  return db.query(query, [quizId])
     .catch(error => console.log(error));
 };
 
