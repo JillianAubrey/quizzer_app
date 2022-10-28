@@ -44,7 +44,9 @@
   <select name="quiz_sort" id="quiz_sort">
     <option value="" disable selected>Sort Quizzes</option>
     <option value="recent">Recent</option>
-    <option value="untaken">Untaken</option>
+    <% if (userName) { %>
+    <option value="untaken">Untaken by me</option>
+    <% } %>
     <option value="popular">Popular</option>
     <option value="oldest">Oldest</option>
   </select>
