@@ -7,9 +7,9 @@ This was a group project completed by Jeremy Buist and Jillian Aubrey as a part 
 
 ## Final Product
 
-!["Screenshot of home page"](https://github.com/JillianAubrey/quizz_app/tree/master/docs/HomPage.png?raw=true)
+!["Screenshot of home page"](https://github.com/JillianAubrey/quizz_app/blob/master/docs/HomePage.png)
 
-!["Screenshot of quiz page"](https://github.com/JillianAubrey/quizz_app/tree/master/docs/QuizPage.png?raw=true)
+!["Screenshot of quiz page"](https://github.com/JillianAubrey/quizz_app/blob/master/docs/QuizPage.png
 
 
 ## Dependencies
